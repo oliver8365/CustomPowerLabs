@@ -1,26 +1,28 @@
-// Initialize website functionality
-function init() {
-    console.log("Website loaded successfully!");
-    
-    // Explore Now button
-    const exploreButton = document.querySelector('#home button');
-    if (exploreButton) {
-        exploreButton.addEventListener('click', () => {
-            console.log("Explore Now clicked");
-            // Future enhancement: Add navigation or modal
-        });
-    }
-    
-    // Book Now buttons
-    const bookButtons = document.querySelectorAll('.service-box button');
-    bookButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const service = button.parentElement.querySelector('h3').textContent;
-            console.log(`Book Now clicked for ${service}`);
-            // Future enhancement: Add booking form or link
-        });
-    });
+// script.js (optimized)
+function toggleMenu() {
+    const nav = document.querySelector('.nav-links');
+    nav.classList.toggle('open');
 }
 
-// Run on page load
-window.onload = init;
+// Close menu on click outside
+document.addEventListener('click', (e) => {
+    const nav = document.querySelector('.nav-links');
+    if (!nav.contains(e.target) && !e.target.matches('.menu-toggle')) {
+        nav.classList.remove('open');
+    }
+});
+
+// Smooth scroll for navigation
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(anchor.getAttribute('href'));
+        target.scrollIntoView({ behavior: 'smooth' });
+    });
+});
+
+// Initialize
+window.addEventListener('DOMContentLoaded', () => {
+    console.log('Site loaded');
+    // Add any additional initialization code
+});
