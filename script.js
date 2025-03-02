@@ -1,28 +1,17 @@
-// script.js (optimized)
-function toggleMenu() {
-    const nav = document.querySelector('.nav-links');
-    nav.classList.toggle('open');
-}
+// Burger menu toggle functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
 
-// Close menu on click outside
-document.addEventListener('click', (e) => {
-    const nav = document.querySelector('.nav-links');
-    if (!nav.contains(e.target) && !e.target.matches('.menu-toggle')) {
-        nav.classList.remove('open');
-    }
-});
-
-// Smooth scroll for navigation
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(anchor.getAttribute('href'));
-        target.scrollIntoView({ behavior: 'smooth' });
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
     });
-});
 
-// Initialize
-window.addEventListener('DOMContentLoaded', () => {
-    console.log('Site loaded');
-    // Add any additional initialization code
+    // Optional: Close menu when a nav link is clicked (for mobile)
+    const navLinksItems = navLinks.querySelectorAll('a');
+    navLinksItems.forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+        });
+    });
 });
