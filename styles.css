@@ -1,4 +1,4 @@
-/* Reset default margins and padding */
+/* Reset default styles */
 * {
     margin: 0;
     padding: 0;
@@ -10,38 +10,306 @@ body {
     line-height: 1.6;
 }
 
+/* Header */
 header {
-    background-color: #333;
-    color: white;
-    text-align: center;
+    background-color: #E6E6FA; /* Light purple (lavender) */
     padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Note: Grid-like background pattern omitted for simplicity; add via background-image if desired */
 }
 
-nav {
-    margin-top: 0.5rem;
+header .title {
+    font-size: 1.2rem;
+    color: black;
 }
 
-nav a {
-    color: white;
+header nav a {
+    color: black;
     text-decoration: none;
-    margin: 0 0.5rem;
+    margin-left: 1rem;
 }
 
-nav a:hover {
+header nav a:hover {
     text-decoration: underline;
 }
 
-main {
+/* Hero Section */
+/* Hero Section */
+#home {
+    /* Updated to use the custom image path provided (img/pcb.jpg) as the background */
+    background-image: url('img/pcb.jpg'); /* Updated: Changed from placeholder gradient to custom image path */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    height: 60vh;
+    /* Removed the placeholder gradient since the image is now used */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     padding: 2rem;
-    min-height: 80vh; /* Takes up some space */
+    color: black;
 }
 
-footer {
-    background-color: #333;
-    color: white;
+#home .hero-content {
+    color: black;
+    /* Updated: Added text box styling for better visibility against the PCB background */
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    padding: 2rem; /* Space inside the box */
+    border: 2px solid black; /* Black border for the text box */
+    border-radius: 8px; /* Optional: Rounded corners for a softer look */
+    color: black; /* Keeping text black as requested */
+}
+
+#home h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+#home p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+#home button {
+    background-color: white;
+    color: gray;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50%; /* Circular button */
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Services Section */
+#services {
+    background-color: #E6E6FA; /* Light purple */
+    padding: 2rem;
     text-align: center;
+}
+
+#services h2 {
+    font-size: 2.5rem;
+    color: #333; /* Dark gray */
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+.services-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.service-box {
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 1.5rem;
+    width: 30%;
+    text-align: center;
+}
+
+.service-box h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.service-box p {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.service-box button {
+    background-color: yellow;
+    color: black;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* About Section */
+#about {
+    padding: 2rem;
+    text-align: center;
+}
+
+#about h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+#about p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.about-images {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+.about-images img {
+    width: 45%;
+    height: auto;
+    /* Replace placeholder src with actual images */
+}
+
+/* Partners Section */
+#partners {
+    padding: 2rem;
+    text-align: center;
+}
+
+#partners h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+.partners-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.partner {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    /* Replace with <img> tags if logos are available */
+}
+
+/* Footer */
+footer {
+    background-color: #90EE90; /* Light green */
     padding: 1rem;
-    position: relative;
-    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Note: Wavy top edge omitted for simplicity; add via SVG or clip-path if desired */
+}
+
+.footer-left {
+    font-size: 1rem;
+    color: black;
+}
+
+.footer-right p {
+    margin: 0.2rem 0;
+    font-size: 1rem;
+    color: black;
+}
+
+/* Existing styles remain unchanged... */
+
+/* Contact Form Styles (optional addition) */
+.contact-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border: 2px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
     width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.submit-btn {
+    background-color: yellow;
+    color: black;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.submit-btn:hover {
+    background-color: #ffcc00;
+}
+
+/* About Section Styling */
+#about {
+    background-color: #f4f4f4;
+    padding: 50px 10%;
+    text-align: center;
+}
+
+#about h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+#about p {
+    font-size: 1.2rem;
+    color: #444;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto 20px;
+}
+
+.services-list {
+    list-style: none;
+    padding: 0;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.services-list li {
+    font-size: 1.1rem;
+    padding: 10px;
+    border-left: 4px solid #ff6600;
+    background: white;
+    margin: 5px 0;
+    border-radius: 5px;
+    color: #333;
+    font-weight: 500;
+}
+
+.about-images {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.about-images img {
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
