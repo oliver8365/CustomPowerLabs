@@ -576,3 +576,22 @@ footer {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* Flexbox to align logo & title in the top bar */
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+/* Logo Styling */
+.logo {
+    height: 50px; /* Adjust as needed */
+    width: auto;
+    margin-right: 10px; /* Space between logo and title */
+}
+
+/* Title Styling */
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
