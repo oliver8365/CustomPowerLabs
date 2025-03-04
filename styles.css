@@ -1011,3 +1011,28 @@ footer {
     max-width: 800px;        /* Caps the width for large screens */
 }
 
+body {
+    overflow-x: hidden;
+}
+
+.footer-left {
+    display: flex;
+    flex-direction: column;  /* Forces vertical stacking */
+    align-items: center;  /* Centers everything */
+    text-align: center;  /* Ensures the text aligns properly */
+}
+
+.footer-logo {
+    margin-top: 10px;  /* Adds spacing between text and logo */
+    width: 100px; /* Adjust size as needed */
+}
+
+@media (max-width: 400px) { /* Adjust width if needed */
+    .footer-logo {
+        width: 80px; /* Reduce size */
+    }
+}
+.menu-toggle {
+    margin-top: -10px;  /* Move it up */
+    margin-right: -10px; /* Move it right */
+}
