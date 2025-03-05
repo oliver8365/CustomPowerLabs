@@ -1036,3 +1036,18 @@ body {
     margin-top: -10px;  /* Move it up */
     margin-right: -10px; /* Move it right */
 }
+
+#home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5% 2%;
+}
+
+/* For smaller screens, ensure it takes up enough space */
+@media (max-width: 1112px) {
+    #home {
+        min-height: 100vh;
+    }
+}
+
