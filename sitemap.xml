@@ -1,62 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-
-
-<url>
-  <loc>https://custompowerlabs.com/</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://custompowerlabs.com/index</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://custompowerlabs.com/dc-dc</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://custompowerlabs.com/ldo</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://custompowerlabs.com/protection</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://custompowerlabs.com/emc</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://custompowerlabs.com/soft-start</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://custompowerlabs.com/pcb-design</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://custompowerlabs.com/voltage-rails</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://custompowerlabs.com/lcd</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://custompowerlabs.com/manufacturing</loc>
-  <lastmod>2025-03-03T21:03:02+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://custompowerlabs.com/</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://custompowerlabs.com/index</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://custompowerlabs.com/dc-dc</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://custompowerlabs.com/ldo</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://custompowerlabs.com/protection</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://custompowerlabs.com/emc</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://custompowerlabs.com/soft-start</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://custompowerlabs.com/pcb-design</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://custompowerlabs.com/voltage-rails</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://custompowerlabs.com/lcd</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://custompowerlabs.com/manufacturing</loc>
+    <lastmod>2025-03-03T21:03:02+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
 </urlset>
