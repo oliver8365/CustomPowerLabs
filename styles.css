@@ -1049,7 +1049,7 @@ footer
 		top:60px;
 		right:-100%;
 		background-color:#2066ac;
-		width:30%;
+		width:40%;
 		height:calc(100vh - 60px);
 		padding:20px 0;
 		box-shadow:0 5px 15px #0000004d;
@@ -1390,3 +1390,4 @@ a:hover {
         display: none;
     }
 }
+
