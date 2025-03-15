@@ -1384,3 +1384,9 @@ a:hover {
 .social-link:hover {
     transform: scale(1.1);
 }
+
+@media (max-width: 442px) {
+    .footer-left span {
+        display: none;
+    }
+}
