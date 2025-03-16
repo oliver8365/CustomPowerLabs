@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!DOCTYPE html>
-    <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,32 +24,42 @@
         <!-- Canonical URL -->
         <link rel="canonical" href="https://www.custompowerlabs.com">
     
-        <!-- Favicon Setup -->
-        <link rel="icon" type="image/x-icon" href="/favicon.ico"> <!-- Standard Favicon -->
-        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+        <!-- Standard Favicon (Most Browsers) -->
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+        <!-- PNG Icons (For High-Res Displays & Modern Browsers) -->
         <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+
+        <!-- Apple Touch Icon (For iOS Devices) -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+
+        <!-- Android Chrome Icons (For PWA & Mobile Users) -->
         <link rel="icon" type="image/png" sizes="192x192" href="/img/android-chrome-192x192.png">
         <link rel="icon" type="image/png" sizes="512x512" href="/img/android-chrome-512x512.png">
-        <link rel="apple-touch-icon" href="/img/apple-touch-icon.png"> <!-- iOS Home Screen Icon -->
-        <link rel="icon" type="image/svg+xml" href="/img/Logo.svg"> <!-- SVG for Google Search -->
-        
-        <!-- Web App Manifest (For Progressive Web Apps) -->
-        <link rel="manifest" href="/img/site.webmanifest">
+
+        <!-- SVG Favicon (For Google Search & Scalable Devices) -->
+        <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+
+        <!-- Web App Manifest (For Google Recognition & PWA) -->
+        <link rel="manifest" href="site.webmanifest">
+
     
         <!-- Structured Data (Schema Markup) for SEO -->
         <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "CustomPowerLabs",
-            "url": "https://www.custompowerlabs.com",
-            "logo": "https://yourwebsite.com/img/logo.png",
-            "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+44 7393 312569",
-                "contactType": "Customer Service"
-            }
-        }
+          {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "CustomPowerLabs",
+              "url": "https://www.custompowerlabs.com",
+              "logo": "https://www.custompowerlabs.com/img/logo.png",
+              "contactPoint": {
+                  "@type": "ContactPoint",
+                  "telephone": "+44 7393 312569",
+                  "contactType": "Customer Service"
+              }
+          }
+          </script> <!-- ✅ Correctly closed -->
         <!-- Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR9Z0N8S60"></script>
         <script>
