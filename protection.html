@@ -208,22 +208,90 @@
             <p>At CustomPowerLabs, we don’t just add protection—we engineer it to enhance your design’s performance, durability, and value from day one.</p>
 
             <h2 id="faqs" class="anchor-target">FAQs About Protection Features</h2>
-            <dl>
-                <dt>What’s the difference between a fuse and a circuit breaker?</dt>
-                <dd>A fuse is a one-shot deal—blows once and needs replacing. A circuit breaker trips and resets, offering reusability. Custom eFuses blend the best of both with programmable, resettable protection.</dd>
-                
-                <dt>How do ideal diode controllers improve efficiency?</dt>
-                <dd>By swapping diodes for MOSFETs, they cut voltage drop and power loss to near zero, saving energy and reducing heat in high-current systems like servers or EVs.</dd>
-                
-                <dt>When should I use overvoltage protection?</dt>
-                <dd>Use OVP wherever transients or unstable inputs are a risk—automotive, industrial, or outdoor systems. It’s a small price for avoiding big repairs.</dd>
-                
-                <dt>Can undervoltage protection prevent data loss?</dt>
-                <dd>Absolutely. UVP can trigger safe shutdowns or backups when voltage sags, protecting data integrity in devices like servers or embedded systems.</dd>
-                
-                <dt>Is reverse polarity protection necessary for all devices?</dt>
-                <dd>Not always, but it’s a must for anything prone to user error—think field-installed gear or consumer products. It’s a low-cost way to dodge high-cost failures.</dd>
-            </dl>
+            <div class="faq-container">
+            
+                <div class="faq-item">
+                    <h3>What’s the difference between a fuse and a circuit breaker?</h3>
+                    <p>A fuse is a single-use protection device that blows when excessive current flows through it, requiring replacement. A circuit breaker, on the other hand, trips and resets automatically or manually, providing reusable protection.</p>
+                    <p><strong>Key Differences:</strong></p>
+                    <ul>
+                        <li><strong>Fuses:</strong> One-time use, fast response, inexpensive.</li>
+                        <li><strong>Circuit Breakers:</strong> Reusable, adjustable trip settings, suitable for high-power applications.</li>
+                        <li><strong>eFuses:</strong> Electronic fuses that combine resettable protection with programmable features for enhanced reliability.</li>
+                    </ul>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>How do ideal diode controllers improve efficiency?</h3>
+                    <p>Ideal diode controllers replace traditional diodes with MOSFETs, significantly reducing forward voltage drop and power dissipation.</p>
+                    <p><strong>Benefits:</strong></p>
+                    <ul>
+                        <li><strong>Higher Efficiency:</strong> Minimizes heat and energy losses in power distribution.</li>
+                        <li><strong>Lower Voltage Drop:</strong> Ideal for battery-powered and high-current applications.</li>
+                        <li><strong>Improved Thermal Management:</strong> Reduces heat generation, enhancing system reliability.</li>
+                    </ul>
+                    <p>These are widely used in **data centers, electric vehicles, and industrial power systems** where efficiency is crucial.</p>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>When should I use overvoltage protection (OVP)?</h3>
+                    <p>Overvoltage protection prevents excessive input voltages from damaging sensitive circuits. It’s especially useful in applications where voltage spikes or unstable power sources are common.</p>
+                    <p><strong>Recommended Applications:</strong></p>
+                    <ul>
+                        <li><strong>Automotive Electronics:</strong> Protects against voltage spikes from alternators.</li>
+                        <li><strong>Industrial Equipment:</strong> Safeguards against power surges and transient spikes.</li>
+                        <li><strong>Outdoor & Remote Systems:</strong> Ensures resilience against lightning-induced surges.</li>
+                    </ul>
+                    <p>Implementing OVP is a small investment compared to the cost of repairing or replacing damaged equipment.</p>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>Can undervoltage protection (UVP) prevent data loss?</h3>
+                    <p>Yes, undervoltage protection is critical in systems where voltage drops can cause unexpected shutdowns or corrupted data.</p>
+                    <p><strong>How UVP Helps:</strong></p>
+                    <ul>
+                        <li><strong>Safe System Shutdown:</strong> Prevents sudden power loss that can corrupt files.</li>
+                        <li><strong>Battery Management:</strong> Ensures proper discharge limits to extend battery life.</li>
+                        <li><strong>Embedded & Server Systems:</strong> Triggers fail-safe operations to protect mission-critical data.</li>
+                    </ul>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>Is reverse polarity protection necessary for all devices?</h3>
+                    <p>While not always required, reverse polarity protection is essential for devices that may be connected incorrectly by users.</p>
+                    <p><strong>Best Use Cases:</strong></p>
+                    <ul>
+                        <li><strong>Field-Installed Equipment:</strong> Prevents damage from incorrect wiring.</li>
+                        <li><strong>Consumer Electronics:</strong> Adds an extra layer of safety in DIY setups.</li>
+                        <li><strong>Automotive & Industrial Applications:</strong> Avoids expensive failures due to accidental polarity reversal.</li>
+                    </ul>
+                    <p>Using **MOSFET-based reverse polarity protection** is a modern approach that minimizes voltage drop compared to traditional diodes.</p>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>What’s the best way to protect against transient voltage spikes?</h3>
+                    <p>Transient voltage spikes occur due to sudden power fluctuations and can severely damage sensitive electronics. The best protection methods include:</p>
+                    <ul>
+                        <li><strong>TVS Diodes (Transient Voltage Suppressors):</strong> Absorb high-voltage surges quickly.</li>
+                        <li><strong>Metal Oxide Varistors (MOVs):</strong> Commonly used in AC power lines to clamp surges.</li>
+                        <li><strong>Capacitor-Based Filtering:</strong> Helps smooth out voltage transients.</li>
+                    </ul>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>How do I choose the right overcurrent protection for my system?</h3>
+                    <p>Overcurrent protection (OCP) prevents excessive current draw that could damage components or cause overheating.</p>
+                    <p><strong>Types of Overcurrent Protection:</strong></p>
+                    <ul>
+                        <li><strong>Fuses:</strong> Simple and inexpensive, but require replacement after tripping.</li>
+                        <li><strong>Circuit Breakers:</strong> Resettable, making them ideal for high-power applications.</li>
+                        <li><strong>Current-Limiting ICs:</strong> Automatically regulate current flow for sensitive electronics.</li>
+                    </ul>
+                    <p>The right choice depends on the application and power level you need to protect.</p>
+                </div>
+            
+            </div>
+            
 
             <p>Need rock-solid protection for your next project? <a href="contact">Reach out</a> to CustomPowerLabs—let’s design a solution that keeps your electronics safe and unstoppable!</p>
         </section>

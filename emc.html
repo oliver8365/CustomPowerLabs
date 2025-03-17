@@ -208,22 +208,86 @@
             <img src="img/PCBPSU.jpg" alt="EMC Testing in Progress" class="content-image">
 
             <h2 id="faqs" class="anchor-target">FAQs About EMC Screening</h2>
-            <dl>
-                <dt>How do shielded components reduce EMI?</dt>
-                <dd>They encase noisy parts in conductive shells, trapping EMI before it radiates—like a muffler on a car engine.</dd>
-                
-                <dt>What’s the big deal with a metal shroud?</dt>
-                <dd>It’s a full PCB enclosure that blocks all EMI in and out, perfect for extreme environments or sensitive gear.</dd>
-                
-                <dt>Can’t I just use off-the-shelf parts for EMC?</dt>
-                <dd>Sure, but they’re often overkill or underpowered. Custom shielding and layouts match your needs exactly, saving space and cash.</dd>
-                
-                <dt>What’s involved in EMC testing?</dt>
-                <dd>We measure emissions (radiated and conducted) and test immunity (against RF, ESD, surges). It’s a full stress test for your design.</dd>
-                
-                <dt>Why choose CustomPowerLabs for EMC?</dt>
-                <dd>We blend custom shielding, expert design, and top-tier testing into one seamless service. Your EMC worries end here.</dd>
-            </dl>
+            <div class="faq-container">
+            
+                <div class="faq-item">
+                    <h3>How do shielded components reduce EMI?</h3>
+                    <p>Shielded components use conductive enclosures or coatings to prevent electromagnetic interference (EMI) from affecting nearby circuits. They act as a barrier, containing EMI within a specific region and preventing it from radiating outward.</p>
+                    <p><strong>How It Works:</strong></p>
+                    <ul>
+                        <li><strong>Conductive Shielding:</strong> Uses copper, aluminium, or metalized coatings to absorb and redirect EMI.</li>
+                        <li><strong>Grounding Strategies:</strong> Proper grounding ensures interference is dissipated safely instead of causing cross-talk.</li>
+                        <li><strong>Strategic Placement:</strong> Shielding is applied to <strong>high-frequency components, switching regulators, and RF-sensitive circuits</strong>.</li>
+                    </ul>
+                    <p><strong>Common Uses:</strong> RF transmitters, high-speed digital circuits, automotive electronics, and industrial controllers.</p>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>What’s the big deal with a metal shroud?</h3>
+                    <p>A metal shroud is a full PCB enclosure designed to block all EMI from entering or leaving a system. This provides complete protection for sensitive electronics operating in harsh or noisy environments.</p>
+                    <p><strong>Advantages of Metal Shrouds:</strong></p>
+                    <ul>
+                        <li><strong>Full EMI Containment:</strong> Prevents both <strong>incoming and outgoing interference</strong>, making it ideal for mission-critical systems.</li>
+                        <li><strong>Durability & Environmental Protection:</strong> Shields against <strong>physical damage, dust, and moisture</strong>, ensuring long-term reliability.</li>
+                        <li><strong>Essential for Compliance:</strong> Helps meet stringent EMI/EMC regulatory standards, reducing the risk of design failures.</li>
+                    </ul>
+                    <p><strong>Best for:</strong> Aerospace, medical devices, precision measurement instruments, and defence electronics.</p>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>Can’t I just use off-the-shelf parts for EMC?</h3>
+                    <p>While generic shielding components exist, they are often <strong>too bulky, too weak, or simply not optimized</strong> for your specific design. Custom shielding solutions ensure a <strong>perfect fit, better performance, and lower costs</strong>.</p>
+                    <p><strong>Why Custom EMC Solutions?</strong></p>
+                    <ul>
+                        <li><strong>Size Optimization:</strong> Off-the-shelf solutions may be too large, wasting PCB space and increasing weight.</li>
+                        <li><strong>Cost Efficiency:</strong> Custom designs remove unnecessary materials and only include what’s needed.</li>
+                        <li><strong>Performance Matching:</strong> Tailored solutions ensure the shielding meets <strong>exact frequency, material, and form factor requirements</strong>.</li>
+                    </ul>
+                    <p>If you want <strong>maximum efficiency without overpaying for unnecessary shielding</strong>, a custom approach is always better.</p>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>What’s involved in EMC testing?</h3>
+                    <p>EMC testing evaluates whether a device meets electromagnetic compatibility standards by measuring both <strong>emissions (interference created by the device)</strong> and <strong>immunity (how well the device resists external EMI)</strong>.</p>
+                    <p><strong>Key EMC Tests:</strong></p>
+                    <ul>
+                        <li><strong>Radiated Emissions:</strong> Measures the <strong>unintentional radiation of electromagnetic waves</strong> from a device.</li>
+                        <li><strong>Conducted Emissions:</strong> Checks for EMI travelling <strong>through power or data cables</strong>.</li>
+                        <li><strong>ESD (Electrostatic Discharge) Testing:</strong> Simulates electrostatic shocks (e.g., from human touch) to ensure device robustness.</li>
+                        <li><strong>Surge & Transient Immunity:</strong> Tests how the device handles <strong>voltage spikes and power fluctuations</strong>.</li>
+                        <li><strong>RF Immunity Testing:</strong> Ensures resistance against <strong>external radio frequency interference</strong>.</li>
+                    </ul>
+                    <p>Passing EMC testing is <strong>critical for regulatory approval</strong> and prevents unexpected performance issues in the field.</p>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>Why choose CustomPowerLabs for EMC?</h3>
+                    <p>At CustomPowerLabs, we provide <strong>end-to-end EMC solutions</strong>, from shielding design to compliance testing. Our expertise ensures that your products meet <strong>all necessary standards while maintaining peak performance</strong>.</p>
+                    <p><strong>What We Offer:</strong></p>
+                    <ul>
+                        <li><strong>Custom Shielding Solutions:</strong> Tailored enclosures, PCB-level shielding, and ferrite bead integration.</li>
+                        <li><strong>Pre-Compliance Testing:</strong> Catch EMC issues early before full certification testing.</li>
+                        <li><strong>Expert Design Support:</strong> Optimized PCB layouts for noise reduction and electromagnetic shielding.</li>
+                        <li><strong>Certified Testing Services:</strong> Ensures compliance with <strong>CE, FCC, CISPR, and MIL-STD EMC standards</strong>.</li>
+                    </ul>
+                    <p>With <strong>CustomPowerLabs</strong>, you get a seamless EMC strategy—<strong>designed, tested, and certified in one place.</strong></p>
+                </div>
+            
+                <div class="faq-item">
+                    <h3>How does PCB design influence EMC performance?</h3>
+                    <p>Proper PCB layout is one of the most <strong>critical factors</strong> in minimizing EMI. A poorly designed board can radiate unwanted noise, interfere with nearby circuits, or fail EMC testing.</p>
+                    <p><strong>PCB Design Best Practices for EMC:</strong></p>
+                    <ul>
+                        <li><strong>Ground Planes:</strong> Use <strong>solid, uninterrupted ground planes</strong> to reduce EMI and improve signal integrity.</li>
+                        <li><strong>Trace Routing:</strong> Minimize loop areas and keep high-speed traces <strong>short and well-shielded</strong>.</li>
+                        <li><strong>Decoupling Capacitors:</strong> Place <strong>low-ESR capacitors near power pins</strong> to filter high-frequency noise.</li>
+                        <li><strong>Layer Stack-Up Optimization:</strong> Multilayer PCBs with <strong>dedicated power and ground planes</strong> improve shielding.</li>
+                    </ul>
+                    <p>By applying these principles, you can <strong>greatly improve EMC performance without excessive external shielding</strong>.</p>
+                </div>
+            
+            </div>
+            
 
             <p>Ready to banish EMI for good? <a href="contact">Contact us</a>—let’s shield your project from the chaos!</p>
         </section>

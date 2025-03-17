@@ -240,56 +240,67 @@
             
 
             <h2 id="faqs" class="anchor-target">FAQs About LDO Voltage Regulators</h2>
-            <dl>
-                <dt>What’s dropout voltage, and why does it matter?</dt>
-                <dd>Dropout voltage is the minimum difference required between an LDO’s input and output to maintain proper regulation. If the input voltage falls below this threshold, the regulator can no longer sustain a stable output, potentially causing system instability.</dd>
-                <dd><strong>Example:</strong> If an LDO has a dropout voltage of 0.3V and you need a 3.3V output, your input voltage must be at least 3.6V for stable operation.</dd>
-                <dd><strong>Why it matters:</strong> A lower dropout voltage maximizes usable power, extending battery life in wearables, IoT devices, and low-power systems.</dd>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3>What’s dropout voltage, and why does it matter?</h3>
+                    <p>Dropout voltage is the minimum difference required between an LDO’s input and output to maintain proper regulation. If the input voltage falls below this threshold, the regulator can no longer sustain a stable output, potentially causing system instability.</p>
+                    <p><strong>Example:</strong> If an LDO has a dropout voltage of 0.3V and you need a 3.3V output, your input voltage must be at least 3.6V for stable operation.</p>
+                    <p><strong>Why it matters:</strong> A lower dropout voltage maximizes usable power, extending battery life in wearables, IoT devices, and low-power systems.</p>
+                </div>
             
-                <dt>How does quiescent current impact my design?</dt>
-                <dd>Quiescent current (Iq) is the power the LDO consumes when no load is connected. It plays a key role in energy efficiency, especially in battery-operated devices.</dd>
-                <dd><strong>Low Iq LDOs are ideal for:</strong></dd>
-                <ul>
-                    <li>Standby electronics like smartwatches and remote sensors.</li>
-                    <li>Always-on automotive and industrial monitoring systems.</li>
-                </ul>
-                <dd><strong>High Iq can cause:</strong></dd>
-                <ul>
-                    <li>Unnecessary battery drain, reducing device longevity.</li>
-                    <li>Increased thermal dissipation, which impacts thermal design.</li>
-                </ul>
-                <dd><strong>Tip:</strong> For devices spending most of their time in sleep mode, an ultra-low quiescent current LDO ensures power efficiency.</dd>
+                <div class="faq-item">
+                    <h3>How does quiescent current impact my design?</h3>
+                    <p>Quiescent current (Iq) is the power the LDO consumes when no load is connected. It plays a key role in energy efficiency, especially in battery-operated devices.</p>
+                    <p><strong>Low Iq LDOs are ideal for:</strong></p>
+                    <ul>
+                        <li>Standby electronics like smartwatches and remote sensors.</li>
+                        <li>Always-on automotive and industrial monitoring systems.</li>
+                    </ul>
+                    <p><strong>High Iq can cause:</strong></p>
+                    <ul>
+                        <li>Unnecessary battery drain, reducing device longevity.</li>
+                        <li>Increased thermal dissipation, which impacts thermal design.</li>
+                    </ul>
+                    <p><strong>Tip:</strong> For devices spending most of their time in sleep mode, an ultra-low quiescent current LDO ensures power efficiency.</p>
+                </div>
             
-                <dt>Can I use LDOs in parallel for more current?</dt>
-                <dd>Yes, but direct paralleling of LDOs is challenging because they do not naturally share current evenly.</dd>
-                <dd><strong>Challenges of paralleling LDOs:</strong></dd>
-                <ul>
-                    <li>Unequal current distribution—one LDO may handle most of the load, leading to thermal stress.</li>
-                    <li>Stability issues—without proper balancing, voltage regulation can become unstable.</li>
-                </ul>
-                <dd><strong>Solution:</strong> A custom LDO design with integrated load balancing ensures efficient current sharing and optimal reliability.</dd>
+                <div class="faq-item">
+                    <h3>Can I use LDOs in parallel for more current?</h3>
+                    <p>Yes, but direct paralleling of LDOs is challenging because they do not naturally share current evenly.</p>
+                    <p><strong>Challenges of paralleling LDOs:</strong></p>
+                    <ul>
+                        <li>Unequal current distribution—one LDO may handle most of the load, leading to thermal stress.</li>
+                        <li>Stability issues—without proper balancing, voltage regulation can become unstable.</li>
+                    </ul>
+                    <p><strong>Solution:</strong> A custom LDO design with integrated load balancing ensures efficient current sharing and optimal reliability.</p>
+                </div>
             
-                <dt>Why’s PSRR a big deal in LDOs?</dt>
-                <dd>Power Supply Rejection Ratio (PSRR) measures how well an LDO suppresses noise from the input power source, ensuring a clean, stable voltage output.</dd>
-                <dd><strong>Why it matters:</strong></dd>
-                <ul>
-                    <li><strong>Audio Systems:</strong> Eliminates unwanted noise for crystal-clear sound.</li>
-                    <li><strong>RF Circuits:</strong> Reduces power interference for stable signal transmission.</li>
-                    <li><strong>Precision Instruments:</strong> Ensures reliable sensor readings in medical and industrial devices.</li>
-                </ul>
-                <dd><strong>Tip:</strong> If your circuit is highly sensitive to noise, a high-PSRR LDO is essential to maintaining signal integrity.</dd>
+                <div class="faq-item">
+                    <h3>Why’s PSRR a big deal in LDOs?</h3>
+                    <p>Power Supply Rejection Ratio (PSRR) measures how well an LDO suppresses noise from the input power source, ensuring a clean, stable voltage output.</p>
+                    <p><strong>Why it matters:</strong></p>
+                    <ul>
+                        <li><strong>Audio Systems:</strong> Eliminates unwanted noise for crystal-clear sound.</li>
+                        <li><strong>RF Circuits:</strong> Reduces power interference for stable signal transmission.</li>
+                        <li><strong>Precision Instruments:</strong> Ensures reliable sensor readings in medical and industrial devices.</li>
+                    </ul>
+                    <p><strong>Tip:</strong> If your circuit is highly sensitive to noise, a high-PSRR LDO is essential to maintaining signal integrity.</p>
+                </div>
             
-                <dt>How do I choose the best LDO for my application?</dt>
-                <dd>Choosing the right LDO depends on several key factors, including input voltage, power efficiency, and thermal performance.</dd>
-                <dd><strong>Considerations:</strong></dd>
-                <ul>
-                    <li><strong>Input Voltage:</strong> Must be at least the required output voltage plus the LDO’s dropout voltage.</li>
-                    <li><strong>Load Current:</strong> The LDO should comfortably handle peak power demands.</li>
-                    <li><strong>Thermal Dissipation:</strong> If power loss is high, a thermally efficient package is recommended.</li>
-                    <li><strong>PSRR Performance:</strong> Important for noise-sensitive applications.</li>
-                </ul>
-                <dd><strong>Still unsure?</strong> We can design the ideal LDO tailored to your needs!</dd>
-            </dl>
+                <div class="faq-item">
+                    <h3>How do I choose the best LDO for my application?</h3>
+                    <p>Choosing the right LDO depends on several key factors, including input voltage, power efficiency, and thermal performance.</p>
+                    <p><strong>Considerations:</strong></p>
+                    <ul>
+                        <li><strong>Input Voltage:</strong> Must be at least the required output voltage plus the LDO’s dropout voltage.</li>
+                        <li><strong>Load Current:</strong> The LDO should comfortably handle peak power demands.</li>
+                        <li><strong>Thermal Dissipation:</strong> If power loss is high, a thermally efficient package is recommended.</li>
+                        <li><strong>PSRR Performance:</strong> Important for noise-sensitive applications.</li>
+                    </ul>
+                    <p><strong>Still unsure?</strong> We can design the ideal LDO tailored to your needs!</p>
+                </div>
+            </div>
+            
             
             <p>Ready to supercharge your project with a custom LDO? <a href="contact">Hit us up</a> for a chat—we’ve got you covered!</p>
             
