@@ -16,3 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    const services = document.querySelectorAll(".service-class");
+
+    function checkScroll() {
+        services.forEach(service => {
+            const servicePosition = service.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.3;
+
+            if (servicePosition < screenPosition) {
+                service.classList.add("show");
+            }
+        });
+    }
+
+    window.addEventListener("scroll", checkScroll);
+    checkScroll(); // Run on page load
+});

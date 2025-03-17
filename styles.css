@@ -1391,3 +1391,134 @@ a:hover {
     }
 }
 
+/* General Section Styling */
+.services {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 20px;
+}
+
+/* Service Box Styling */
+.service-class {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1000px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 20px 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    opacity: 0; /* Initially hidden for animation */
+    transform: translateY(50px); /* Slide in from bottom */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    text-align: center; /* Center text */
+    flex-direction: column; /* Default for mobile */
+}
+
+/* Alternating layout for left & right boxes (Desktop only) */
+@media (min-width: 768px) {
+    .service-class.left {
+        flex-direction: row;
+        text-align: left;
+        transform: translateX(-100px); /* Slide in from the left */
+    }
+
+    .service-class.right {
+        flex-direction: row-reverse;
+        text-align: right;
+        transform: translateX(100px); /* Slide in from the right */
+    }
+}
+
+/* Show elements when they are in view */
+.service-class.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Image Styling */
+.service-class img {
+    width: 250px;  /* Adjust size as needed */
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 15px; /* Space below image */
+}
+
+/* Text Content Styling */
+.service-class .text-content {
+    max-width: 600px;
+    text-align: center; /* Center text */
+}
+
+.service-class h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.service-class p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 15px; /* Ensures spacing before button */
+}
+
+/* "Learn More" Button (Centered) */
+.service-class .learn-more {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #007bff;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+    text-align: center; /* Ensure text is centered */
+    margin-top: 15px; /* Space above button */
+}
+
+.service-class .learn-more:hover {
+    background: #0056b3;
+}
+
+/* Responsive Design: Mobile-Friendly Adjustments */
+@media (max-width: 1200px) {
+    .service-class {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px; /* Reduce padding */
+        margin: 5px; /* Shrink margins */
+    }
+
+    .service-class img {
+        width: 100%;  /* Full width on small screens */
+        max-width: 300px;
+        margin-bottom: 15px;
+    }
+
+    .service-class.left, .service-class.right {
+        flex-direction: column; /* Ensure image is always on top */
+        text-align: center;
+        transform: translateX(0); /* Prevents slide-in from being misaligned */
+    }
+
+    .service-class .text-content {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 1200px) {
+    .service-class {
+        width: 100vw; /* Full viewport width */
+        max-width: 90vw; /* Ensure no extra margins */
+        border-radius: 5; /* Remove rounded edges to reach full width */
+        margin: 5; /* Remove any external margins */
+    }
+}
