@@ -37,31 +37,99 @@ header nav a:hover
 {
 	text-decoration:underline
 }
-
-#home
-{
-	z-index:-1;
-	position:relative;
-	width:100%;
-	height:60vh;
-	display:flex;
-	align-items:center;
-	justify-content:center;
-	text-align:center;
-	color:#000;
-	overflow:hidden
+#home {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #000;
+    overflow: hidden;
+    background: transparent;
 }
 
-#home .hero-content
-{
-	color:#000;
-	background-color:#fffc;
-	padding:2rem;
-	border:2px solid #000;
-	border-radius:8px;
-	color:#000;
-	z-index:0
+/* Container for the hero content and border effect */
+#home .hero-container {
+    position: relative;
+    padding: 5px; /* Border thickness */
+	}
+
+/* Hero content with glassmorphism */
+#home .hero-content {
+    color: #000;
+    background-color: transparent;
+    backdrop-filter: blur(5px);
+    background-image: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.487),
+        rgba(124, 106, 106, 0.465)
+    );
+    padding: 2rem;
+    border-radius: 8px;
+    position: relative;
+    z-index: 2;
+    overflow: hidden; /* Prevent content from bleeding outside */
 }
+
+/* Keyframe animation for entrance */
+@keyframes borderGlowEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.95); /* Slightly smaller to create a "pop-in" effect */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* Final size */
+    }
+}
+
+@property --angle{
+	syntax: "<angle>";
+	initial-value: 0deg;
+	inherits: false;
+}
+
+/* Gradient border with integrated glow */
+.hero-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    padding: 5px; /* Border thickness */
+    background: conic-gradient(from var(--angle), red, blue, red); /* High-contrast gradient */
+    z-index: 1;
+    /* Mask to create border effect */
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; /* For Chrome */
+    mask-composite: exclude; /* Restrict gradient to padding area */
+    /* Add subtle glow via box-shadow */
+    box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.5); /* Red glow matching the gradient */
+    /* Apply animation */
+    animation: borderGlowEntrance 1s ease-in-out forwards;
+	animation: 3s spin linear infinite; 
+}
+
+#home hero.hero-container{
+	animation:slideUp 1s ease-out
+}
+
+
+@keyframes spin{
+	from{
+		--angle: -0deg;
+	}
+	to{
+		--angle: 360deg;
+	}
+}
+
 
 #home h1
 {
@@ -420,7 +488,7 @@ body
 
 #home
 {
-	background:linear-gradient(#00000080,#00000080),;
+	background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
 	background-size:cover;
 	background-position:center;
 	min-height:60vh;
@@ -437,7 +505,9 @@ body
 	width:100%;
 	height:100%;
 	object-fit:cover;
-	z-index:-1
+	z-index:-1;	
+	filter: brightness(0.4);
+ /* Darkens the image */
 }
 
 .hero-content
@@ -558,7 +628,7 @@ footer
 	padding:20px;
 	border:1px solid #ccc;
 	border-radius:8px;
-	background-color:#f9f9f9;
+	background-color:#f9f9f930;
 	width:300px
 }
 
@@ -1521,4 +1591,248 @@ a:hover {
         border-radius: 5; /* Remove rounded edges to reach full width */
         margin: 5; /* Remove any external margins */
     }
+}
+
+
+/* Target sections below hero (excluding #home) with gradient */
+section:not(#home) {
+    background: linear-gradient(180deg, #17223B, #1E2A44) !important; /* Same gradient as body */
+    color: #E0E0E0 !important; /* Light gray text */
+}
+
+/* Adjust headings for better contrast */
+section:not(#home) h1,
+section:not(#home) h2,
+section:not(#home) h3 {
+    color: #000000 !important; /* White headings for contrast */
+}
+
+/* Style the service boxes with high-tech gradient */
+#about .services .service-class {
+    background: conic-gradient(from 0deg, #FF0000, #800080, #0000FF, #FF0000) !important; /* High-tech red-blue-purple gradient */
+    padding: 15px !important; /* Add padding to define the box */
+    border-radius: 10px !important; /* Slight rounding for sleekness */
+    color: #FFFFFF !important; /* White text for contrast at the box level */
+    position: relative !important; /* Needed for pseudo-element positioning */
+    overflow: hidden !important; /* Contain the border effect */
+    margin-bottom: 20px !important; /* Space between boxes */
+}
+
+/* Define custom property for spinning animation */
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* Border animation for service boxes */
+#about .services .service-class::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    padding: 5px; /* Border thickness */
+    background: conic-gradient(from var(--angle), #FF0000, #800080, #0000FF, #FF0000); /* Match the box gradient */
+    z-index: 1; /* Ensure border is above content but below links */
+    /* Mask to create border effect */
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; /* For Chrome */
+    mask-composite: exclude; /* Restrict gradient to padding area */
+    /* Add subtle glow */
+    box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0.5); /* Red glow */
+    /* Initial state */
+    opacity: 0;
+    transform: scale(0.95);
+    /* Animation */
+    animation: borderGlowEntrance 1s ease-in-out forwards, spin 3s linear infinite;
+}
+
+/* Keyframe animation for entrance */
+@keyframes borderGlowEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.95); /* Slightly smaller to create a "pop-in" effect */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* Final size */
+    }
+}
+
+/* Keyframe animation for spinning gradient */
+@keyframes spin {
+    from {
+        --angle: 0deg;
+    }
+    to {
+        --angle: 360deg;
+    }
+}
+
+/* Style text content with updated text color */
+#about .services .service-class .text-content {
+    background-color: rgba(0, 0, 0, 0.6) !important; /* Semi-transparent dark overlay */
+    padding: 10px !important;
+    border-radius: 5px !important;
+    color: #FFFFFF !important; /* Option 1: Pure white text */
+    /* color: #F5F5F5 !important; */ /* Option 2: Much lighter gray - comment out to use */
+    position: relative !important; /* Ensure content is above border */
+    z-index: 2 !important; /* Place text content above the border's z-index */
+}
+
+/* Ensure all child elements inherit the text color */
+#about .services .service-class .text-content h3,
+#about .services .service-class .text-content p {
+    color: inherit !important; /* Inherit the white or light gray from .text-content */
+}
+
+/* Style links for better visibility */
+#about .services .service-class .learn-more {
+    color: #FFD700 !important; /* Yellow for contrast */
+    text-decoration: none !important;
+    position: relative !important; /* Ensure link is above overlay */
+    z-index: 3 !important; /* Place links above text content */
+    display: inline-block !important; /* Ensure proper click area */
+    padding: 5px 10px !important; /* Add padding for clickability */
+}
+
+#about .services .service-class .learn-more:hover {
+    color: #E6C200 !important; /* Darker yellow on hover */
+}
+
+#about > p {
+    color: #FFFFFF !important; /* White text to match other sections */
+}
+
+/* Style the "Book Now" button */
+#services .services-container.pricing-box .service-box button {
+    background-color: #FFD700 !important; /* Yellow background */
+    color: #1E2A44 !important; /* Dark blue text */
+    border: none !important;
+    padding: 10px 20px !important;
+    border-radius: 5px !important;
+    font-weight: bold !important;
+    transition: background-color 0.3s ease !important; /* Smooth transition for hover */
+}
+
+/* Hover effect for the "Book Now" button */
+#services .services-container.pricing-box .service-box button:hover {
+    background-color: #E6C200 !important; /* Darker yellow on hover */
+}
+
+/* Match background to earlier dark blue gradient */
+body {
+    background: linear-gradient(180deg, #17223B, #1E2A44) !important;
+}
+
+/* Style FAQ section with dark blue gradient */
+#faq {
+    background: linear-gradient(180deg, #17223B, #1E2A44) !important;
+    color: #E0E0E0 !important; /* Light gray for section text if needed */
+    padding: 20px 0 !important;
+}
+
+/* Style FAQ boxes with light blue gradient */
+#faq .faq-item {
+    background: linear-gradient(135deg, #87CEEB, #ADD8E6) !important; /* Light blue gradient */
+    padding: 15px !important;
+    margin-bottom: 15px !important;
+    border-radius: 10px !important;
+    color: #000000 !important; /* Black text for contrast */
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important; /* Subtle shadow */
+}
+
+/* Define custom property for spinning border gradient */
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+/* Border animation with spinning blue glow for FAQ boxes */
+#faq .faq-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    padding: 5px; /* Border thickness */
+    background: conic-gradient(from var(--angle), blue, rgb(66, 119, 212), blue ); /* Blue gradient */
+    z-index: 1; /* Above content but below text/links */
+    /* Mask to create border effect */
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; /* For Chrome */
+    mask-composite: exclude; /* Restrict gradient to padding area */
+    /* Add blue glow */
+    box-shadow: 0 0 10px 5px rgba(0, 0, 255, 0.5); /* Blue glow */
+    /* Initial state */
+    opacity: 0;
+    transform: scale(0.95);
+    /* Animation */
+    animation: borderGlowEntrance 1s ease-in-out forwards, spin 3s linear infinite;
+}
+
+/* Keyframe animation for entrance */
+@keyframes borderGlowEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.95); /* Slightly smaller to create a "pop-in" effect */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1); /* Final size */
+    }
+}
+
+/* Keyframe animation for spinning gradient */
+@keyframes spin {
+    from {
+        --angle: 0deg;
+    }
+    to {
+        --angle: 360deg;
+    }
+}
+
+/* Ensure text and child elements inherit black color */
+#faq .faq-item h3,
+#faq .faq-item p {
+    color: #000000 !important; /* Black text */
+}
+
+/* Ensure FAQ bullets are fully visible */
+.faq-item ul {
+    list-style-type: disc; /* Ensures proper bullet points */
+    padding-left: 20px; /* Adjust indentation */
+}
+
+.faq-item li {
+    color: #333; /* Darker text for visibility */
+    font-weight: 500; /* Slightly bolder for readability */
+    line-height: 1.6; /* Improves spacing */
+}
+
+/* If the bullets are still too faint, force stronger contrast */
+.faq-item li strong {
+    color: #000; /* Make strong elements pop */
+}
+
+/* Force all h2, h3, and h4 elements to be pure white */
+h2, h3, h4 {
+    color: #ffffff !important; /* Absolute white */
+    text-shadow: none !important; /* Remove any shadows */
+    opacity: 1 !important; /* Ensure it's fully visible */
+    background: transparent !important; /* Remove any background color that might affect visibility */
+    filter: none !important; /* Reset any weird filters */
 }
