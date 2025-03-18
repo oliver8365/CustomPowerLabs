@@ -58,7 +58,7 @@ header nav a:hover
 
 /* Hero content with glassmorphism */
 #home .hero-content {
-    color: #000;
+    color: #e2dfdf;
     background-color: transparent;
     backdrop-filter: blur(5px);
     background-image: linear-gradient(
@@ -1604,7 +1604,7 @@ section:not(#home) {
 section:not(#home) h1,
 section:not(#home) h2,
 section:not(#home) h3 {
-    color: #000000 !important; /* White headings for contrast */
+    color: #707070 !important; /* White headings for contrast */
 }
 
 /* Style the service boxes with high-tech gradient */
@@ -1835,4 +1835,15 @@ h2, h3, h4 {
     opacity: 1 !important; /* Ensure it's fully visible */
     background: transparent !important; /* Remove any background color that might affect visibility */
     filter: none !important; /* Reset any weird filters */
+}
+#services .service-box h3,
+#services .service-box p,
+#services .service-box button {
+    color: #ffffff !important; /* Force white text */
+}
+
+#services .service-box {
+    background: rgba(255, 255, 255, 0.1) !important; /* Ensure light background */
+    color: #ffffff !important; /* Ensure all text is white */
+    border: 1px solid rgba(255, 255, 255, 0.3) !important; /* Add border for contrast */
 }
