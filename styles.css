@@ -1847,3 +1847,14 @@ h2, h3, h4 {
     color: #ffffff !important; /* Ensure all text is white */
     border: 1px solid rgba(255, 255, 255, 0.3) !important; /* Add border for contrast */
 }
+
+.hero-title {
+	will-change: transform, opacity;
+  }
+  
+  .lcp-element {
+	opacity: 1 !important;
+	transform: none !important;
+	animation: none !important;
+  }
+  

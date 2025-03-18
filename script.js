@@ -34,4 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
     checkScroll(); // Run on page load
 });
 
-
+setTimeout(() => {
+    document.querySelector(".lcp-element").classList.add("animate");
+  }, 3000);
+  
