@@ -3,8 +3,8 @@
     "short_name": "CPL",
     "start_url": "/",
     "display": "standalone",
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#07080a",
+    "background_color": "#07080a",
     "icons": [
       {
         "src": "/img/android-chrome-192x192.png",

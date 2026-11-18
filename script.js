@@ -1,40 +1,68 @@
-// Burger menu toggle functionality
-document.addEventListener('DOMContentLoaded', () => {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
+(() => {
+  'use strict';
 
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('open');
+  const header = document.querySelector('.site-header');
+  const toggle = document.querySelector('.nav-toggle');
+  const nav = document.getElementById('site-nav');
+
+  // Header: transparent at the very top of the page, solid once scrolled.
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-top', window.scrollY < 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // Mobile navigation.
+  if (header && toggle && nav) {
+    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+    const setOpen = (open) => {
+      header.classList.toggle('nav-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+
+    toggle.addEventListener('click', () => setOpen(!isOpen()));
+    nav.addEventListener('click', (event) => {
+      if (event.target.closest('a')) setOpen(false);
     });
-
-    // Optional: Close menu when a nav link is clicked (for mobile)
-    const navLinksItems = navLinks.querySelectorAll('a');
-    navLinksItems.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('open');
-        });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && isOpen()) {
+        setOpen(false);
+        toggle.focus();
+      }
     });
-});
+  }
 
-document.addEventListener("DOMContentLoaded", function() {
-    const services = document.querySelectorAll(".service-class");
+  // Scroll reveal. Only elements below the fold are hidden, so content stays
+  // visible if this script never runs or the user prefers reduced motion.
+  const reveals = document.querySelectorAll('.reveal');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function checkScroll() {
-        services.forEach(service => {
-            const servicePosition = service.getBoundingClientRect().top;
-            const screenPosition = window.innerHeight / 1.3;
+  if (reveals.length && 'IntersectionObserver' in window && !reducedMotion) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.replace('is-pending', 'is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
 
-            if (servicePosition < screenPosition) {
-                service.classList.add("show");
-            }
-        });
-    }
+    reveals.forEach((el) => {
+      if (el.getBoundingClientRect().top < window.innerHeight) return;
+      el.classList.add('is-pending');
+      observer.observe(el);
+    });
+  }
 
-    window.addEventListener("scroll", checkScroll);
-    checkScroll(); // Run on page load
-});
+  // Footer year.
+  document.querySelectorAll('[data-year]').forEach((el) => {
+    el.textContent = new Date().getFullYear();
+  });
 
-setTimeout(() => {
-    document.querySelector(".lcp-element").classList.add("animate");
-  }, 3000);
-  
+  // Contact form: preselect the enquiry type from ?enquiry=...
+  const enquiry = document.getElementById('enquiry');
+  const wanted = new URLSearchParams(window.location.search).get('enquiry');
+  if (enquiry && wanted && Array.from(enquiry.options).some((option) => option.value === wanted)) {
+    enquiry.value = wanted;
+  }
+})();

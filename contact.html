@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start a Project | CustomPowerLabs</title>
+  <meta name="description" content="Tell us about your prototype. The first conversation with CustomPowerLabs is free and there is no obligation.">
+  <meta name="theme-color" content="#07080a">
+  <link rel="canonical" href="https://custompowerlabs.com/contact">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR9Z0N8S60"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-LR9Z0N8S60');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="page-contact">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CustomPowerLabs home">
+        <img src="/img/Logo96.png" alt="" width="28" height="28">
+        <span>CustomPowerLabs</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="/#services">Services</a>
+        <a href="/#work">Work</a>
+        <a href="/#process">Process</a>
+        <a href="/contact" class="btn btn-small" aria-current="page">Start a project</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section contact-section">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="container contact-grid">
+        <div class="contact-intro reveal">
+          <p class="eyebrow">Contact</p>
+          <h1 class="display display-sm">Start a project.</h1>
+          <p class="lede">Tell us what you want to build and where you are up to. The first conversation is free, with no obligation.</p>
+          <dl class="contact-details">
+            <div><dt>Email</dt><dd><a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a></dd></div>
+            <div><dt>Phone</dt><dd><a href="tel:+447393312569">+44 7393 312569</a></dd></div>
+            <div><dt>Location</dt><dd>Hampshire, England</dd></div>
+          </dl>
+        </div>
+
+        <form class="contact-form reveal" action="https://formsubmit.co/enquiries@custompowerlabs.com" method="POST">
+          <input type="hidden" name="_next" value="https://custompowerlabs.com/thank-you">
+          <input type="hidden" name="_subject" value="New enquiry from custompowerlabs.com">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="company">Company <span class="optional">(optional)</span></label>
+            <input type="text" id="company" name="company" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="enquiry">Enquiry</label>
+            <select id="enquiry" name="enquiry">
+              <option value="prototype">A prototype project</option>
+              <option value="talos-5">TALOS-5 interest</option>
+              <option value="other">Something else</option>
+            </select>
+          </div>
+          <div class="field field-full">
+            <label for="message">Tell us about it</label>
+            <textarea id="message" name="message" rows="6" placeholder="What are you building, and where are you up to?" required></textarea>
+          </div>
+          <div class="field-full">
+            <button type="submit" class="btn">Send enquiry</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/img/Logo96.png" alt="" width="28" height="28"><span>CustomPowerLabs</span></a>
+        <p>Prototype engineering consultancy.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="/#services">Services</a>
+        <a href="/#work">Work</a>
+        <a href="/#process">Process</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
+        <span>Hampshire, England</span>
+      </div>
+    </div>
+    <div class="container footer-base">
+      <span>© <span data-year>2026</span> CustomPowerLabs. All rights reserved.</span>
+      <span class="footer-social">
+        <a href="https://twitter.com/CustomPowerLabs" target="_blank" rel="noopener">X</a>
+        <a href="https://www.instagram.com/CustomPowerLabs/" target="_blank" rel="noopener">Instagram</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="/script.js" defer></script>
+</body>
+</html>
