@@ -65,7 +65,8 @@
 
     const total = Number(section.dataset.frames) || 0;
     if (!total) return;
-    const smallScreen = Math.min(screen.width, screen.height) * (window.devicePixelRatio || 1) < 1100;
+    // Phone layout gets the lighter 720p set; everything wider gets 1080p.
+    const smallScreen = window.matchMedia('(max-width: 760px)').matches;
     const dir = section.dataset.path + (smallScreen ? '720/' : '1080/');
     const src = (i) => `${dir}frame_${String(i).padStart(3, '0')}.webp`;
 
