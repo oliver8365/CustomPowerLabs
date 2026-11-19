@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TALOS-5 Five-Axis CNC Mill | CustomPowerLabs</title>
   <meta name="description" content="TALOS-5 is a compact five-axis CNC mill designed and simulated in-house by CustomPowerLabs. In development.">
-  <meta name="theme-color" content="#07080a">
+  <meta name="theme-color" content="#0a0b12">
   <link rel="canonical" href="https://custompowerlabs.com/work/talos-5">
 
   <meta property="og:title" content="TALOS-5 | Five-axis CNC mill">
@@ -58,6 +58,9 @@
 
     <section class="project-hero">
       <div class="hero-grid" aria-hidden="true"></div>
+      <img class="project-blueprint" src="/img/talos-5/hero-blueprint-1500.webp"
+           srcset="/img/talos-5/hero-blueprint-900.webp 900w, /img/talos-5/hero-blueprint-1500.webp 1500w"
+           sizes="(max-width: 760px) 128vw, 60vw" alt="" width="1500" height="1060" aria-hidden="true">
       <div class="container">
         <a class="back-link reveal" href="/#work"><span aria-hidden="true">←</span> All work</a>
         <span class="tag reveal">In development</span>
@@ -66,23 +69,24 @@
       </div>
     </section>
 
-    <section class="section section-tight">
-      <!-- Scroll-driven assembly: script.js draws frames to the canvas as you scroll.
+    <section class="section section-tight section-feature">
+      <!-- Scroll-driven assembly: script.js draws frames to the canvas as you scroll
+           and builds the stage list and readouts from these captions.
            Without JS, or with reduced motion, the poster image shows instead. -->
-      <div class="build" data-frames="120" data-path="/img/talos-5/build/">
+      <div class="build" data-frames="120" data-path="/img/talos-5/build/" data-title="TALOS&#8209;5 · Assembly sequence">
         <div class="build-stage">
           <img class="build-poster" src="/img/talos-5/build/1080/frame_119.webp" alt="TALOS-5 five-axis CNC mill, fully assembled with its door open" width="1920" height="1080">
           <canvas class="build-canvas" aria-hidden="true"></canvas>
+          <div class="build-area" aria-hidden="true"></div>
           <div class="build-captions" aria-hidden="true">
-            <div class="build-caption" data-from="0" data-to="17"><p class="eyebrow">01 · Structure</p><h3>A rigid foundation.</h3><p>Everything is built on a stiff, precise frame.</p></div>
-            <div class="build-caption" data-from="18" data-to="35"><p class="eyebrow">02 · Motion</p><h3>Three linear axes.</h3><p>Smooth, accurate travel in X, Y and Z.</p></div>
-            <div class="build-caption" data-from="36" data-to="44"><p class="eyebrow">03 · Spindle</p><h3>The cutting head.</h3><p>Mounted, aligned and ready to cut.</p></div>
-            <div class="build-caption" data-from="45" data-to="53"><p class="eyebrow">04 · Rotary axes</p><h3>Tilt and turn.</h3><p>Two rotary axes reach five faces of a part in one setup.</p></div>
-            <div class="build-caption" data-from="54" data-to="80"><p class="eyebrow">05 · Systems</p><h3>Everything built in.</h3><p>Workholding, cabling and services, designed as one.</p></div>
-            <div class="build-caption" data-from="81" data-to="103"><p class="eyebrow">06 · Enclosure</p><h3>Closed in.</h3><p>A sealed enclosure with an integrated control panel.</p></div>
-            <div class="build-caption" data-from="104" data-to="119"><p class="eyebrow">TALOS&#8209;5</p><h3>Five axes. One compact machine.</h3><p>Designed and simulated entirely in&#8209;house.</p></div>
+            <div class="build-caption" data-from="0" data-to="17" data-label="Structure"><p class="eyebrow">01 · Structure</p><h3>A rigid foundation.</h3><p>Everything is built on a stiff, precise frame.</p></div>
+            <div class="build-caption" data-from="18" data-to="35" data-label="Motion"><p class="eyebrow">02 · Motion</p><h3>Three linear axes.</h3><p>Smooth, accurate travel in X, Y and Z.</p></div>
+            <div class="build-caption" data-from="36" data-to="44" data-label="Spindle"><p class="eyebrow">03 · Spindle</p><h3>The cutting head.</h3><p>Mounted, aligned and ready to cut.</p></div>
+            <div class="build-caption" data-from="45" data-to="53" data-label="Rotary axes"><p class="eyebrow">04 · Rotary axes</p><h3>Tilt and turn.</h3><p>Two rotary axes reach five faces of a part in one setup.</p></div>
+            <div class="build-caption" data-from="54" data-to="80" data-label="Systems"><p class="eyebrow">05 · Systems</p><h3>Everything built in.</h3><p>Workholding, cabling and services, designed as one.</p></div>
+            <div class="build-caption" data-from="81" data-to="103" data-label="Enclosure"><p class="eyebrow">06 · Enclosure</p><h3>Closed in.</h3><p>A sealed enclosure with an integrated control panel.</p></div>
+            <div class="build-caption" data-from="104" data-to="119" data-label="Complete"><p class="eyebrow">TALOS&#8209;5</p><h3>Five axes. One compact machine.</h3><p>Designed and simulated entirely in&#8209;house.</p></div>
           </div>
-          <div class="build-progress" aria-hidden="true"><span></span></div>
         </div>
       </div>
 
@@ -133,9 +137,10 @@
 
     <section class="section cta">
       <div class="container cta-inner reveal">
+        <div class="cta-dial" aria-hidden="true"></div>
         <h2>Interested in TALOS&#8209;5?</h2>
         <p class="lede">Register your interest and we will keep you updated as development continues.</p>
-        <a href="/contact?enquiry=talos-5" class="btn">Register interest</a>
+        <a href="/contact?enquiry=talos-5" class="btn btn-large">Register interest <span aria-hidden="true">→</span></a>
       </div>
     </section>
 
@@ -157,6 +162,9 @@
         <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
         <span>Hampshire, England</span>
       </div>
+    </div>
+    <div class="container footer-mark" aria-hidden="true">
+      <svg viewBox="0 0 1200 150"><text x="2" y="118" textLength="1196" lengthAdjust="spacing">CustomPowerLabs</text></svg>
     </div>
     <div class="container footer-base">
       <span>© <span data-year>2026</span> CustomPowerLabs. All rights reserved.</span>
