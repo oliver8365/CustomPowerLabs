@@ -237,7 +237,7 @@
     [side, hud, segments, hint].forEach((el) => el.setAttribute('aria-hidden', 'true'));
 
     const jump = (frame) => {
-      const span = section.offsetHeight - window.innerHeight;
+      const span = section.offsetHeight - stage.offsetHeight;
       const top = section.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({ top: top + span * (LEAD + RUN * (frame / last)) + 2, behavior: 'smooth' });
     };
@@ -391,7 +391,9 @@
     };
 
     const scrollTarget = () => {
-      const span = section.offsetHeight - window.innerHeight;
+      // Travel is measured from the stage, not the window: on phones the window
+      // grows as the browser toolbars slide away, the pinned stage does not.
+      const span = section.offsetHeight - stage.offsetHeight;
       const p = span > 0 ? clamp(-section.getBoundingClientRect().top / span) : 0;
       return Math.round(clamp((p - LEAD) / RUN) * last);
     };
@@ -436,8 +438,12 @@
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const box = stage.getBoundingClientRect();
       const inner = areaEl.getBoundingClientRect();
-      canvas.width = Math.round(box.width * dpr);
-      canvas.height = Math.round(box.height * dpr);
+      const width = Math.round(box.width * dpr);
+      const height = Math.round(box.height * dpr);
+      // Setting a canvas size clears it, so only do that when the size changed
+      // (phones fire resize every time the toolbars slide).
+      if (canvas.width !== width) canvas.width = width;
+      if (canvas.height !== height) canvas.height = height;
       area = {
         x: (inner.left - box.left) * dpr,
         y: (inner.top - box.top) * dpr,
@@ -452,14 +458,11 @@
         c.el.style.top = `${((end.y + c.y * end.h) / dpr).toFixed(1)}px`;
         c.el.style.setProperty('--len', `${((c.len * end.h) / dpr).toFixed(1)}px`);
       });
-      target = scrollTarget();
-      f = target;
       redraw();
+      request();
     };
 
-    const load = () => {
-      if (started) return;
-      started = true;
+    const fetchFrames = () => {
       for (let i = 0; i < total; i++) {
         const img = new Image();
         img.decoding = 'async';
@@ -467,6 +470,14 @@
         img.src = src(i, baseSet);
         frames[i] = img;
       }
+    };
+    // Wait for the page itself to finish loading first, so the frames never
+    // compete with the hero for bandwidth.
+    const load = () => {
+      if (started) return;
+      started = true;
+      if (document.readyState === 'complete') fetchFrames();
+      else window.addEventListener('load', fetchFrames, { once: true });
     };
 
     // Start downloading about two screens before the section arrives.

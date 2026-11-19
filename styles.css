@@ -471,10 +471,10 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
 .scan.is-live .scan-render {
   -webkit-mask-image:
     linear-gradient(to top, #000 calc(var(--scan, 0) * 1% - 1.2%), transparent calc(var(--scan, 0) * 1%)),
-    radial-gradient(circle var(--lens, 0.1px) at var(--mx, 50%) var(--my, 50%), transparent 58%, #000 100%);
+    radial-gradient(circle var(--lens, 0.1px) at var(--mx, -200px) var(--my, -200px), transparent 58%, #000 100%);
   mask-image:
     linear-gradient(to top, #000 calc(var(--scan, 0) * 1% - 1.2%), transparent calc(var(--scan, 0) * 1%)),
-    radial-gradient(circle var(--lens, 0.1px) at var(--mx, 50%) var(--my, 50%), transparent 58%, #000 100%);
+    radial-gradient(circle var(--lens, 0.1px) at var(--mx, -200px) var(--my, -200px), transparent 58%, #000 100%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
 }
@@ -1280,6 +1280,7 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
   fill: rgba(255, 255, 255, 0.025);
   stroke: rgba(255, 255, 255, 0.26);
   stroke-width: 1;
+  vector-effect: non-scaling-stroke; /* stay a hairline however small the name is drawn */
   font: 600 136px/1 var(--font-display);
 }
 
