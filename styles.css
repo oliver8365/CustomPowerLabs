@@ -365,7 +365,7 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
   .hero-inner {
     grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
     align-items: center;
-    min-height: calc(100svh - var(--header-h) - clamp(64px, 10vh, 120px));
+    min-height: min(calc(100svh - var(--header-h) - clamp(64px, 10vh, 120px)), 800px);
   }
   .hero-copy { grid-area: 1 / 1; }
   .hero-copy .display { font-size: clamp(3rem, 5.6vw, 5.125rem); }
@@ -757,7 +757,7 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
   mask-image: radial-gradient(ellipse 72% 76% at 50% 50%, #000 62%, transparent 100%);
 }
 
-.build-canvas, .build-area, .build-captions { display: none; }
+.build-canvas, .build-area, .build-captions, .build-callouts { display: none; }
 
 .build.is-live { height: var(--build-length, 620vh); margin-block: 0 clamp(40px, 6vw, 88px); }
 .build.is-live .build-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--bg-stage); }
@@ -907,6 +907,59 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
 @keyframes hint { 0% { transform: scaleY(0); } 60% { transform: scaleY(1); opacity: 1; } 100% { transform: scaleY(1); opacity: 0; } }
 .build.at-start .build-hint { opacity: 1; }
 
+/* Callouts on the finished machine. script.js pins each one to its point on
+   the last frame and sets --len, the length of its leader line. */
+.build.is-live .build-callouts { display: block; position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+
+.build-callout {
+  position: absolute;
+  width: 0;
+  height: 0;
+  color: var(--text);
+  font: 500 0.6875rem/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+.build-callout::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 5px rgba(var(--accent-rgb), 0.25);
+}
+
+.build-callout::after {
+  content: "";
+  position: absolute;
+  left: -0.5px;
+  width: 1px;
+  height: var(--len, 60px);
+  background: var(--accent);
+  transform: scaleY(0);
+  transition: transform 0.7s var(--ease-out);
+}
+
+.build-callout b { position: absolute; left: 0; font-weight: 500; translate: -50% 0; opacity: 0; transition: opacity 0.5s var(--ease); }
+.build-callout[data-align="start"] b { translate: -1px 0; }
+.build-callout[data-align="end"] b { right: -1px; left: auto; translate: none; }
+.build-callout[data-dir="up"]::after { bottom: 5px; transform-origin: bottom; }
+.build-callout[data-dir="up"] b { bottom: calc(var(--len, 60px) + 14px); }
+.build-callout[data-dir="down"]::after { top: 5px; transform-origin: top; }
+.build-callout[data-dir="down"] b { top: calc(var(--len, 60px) + 14px); }
+
+.build.is-complete .build-callout { opacity: 1; transition-delay: calc(var(--n, 0) * 0.14s + 0.15s); }
+.build.is-complete .build-callout::after { transform: none; transition-delay: calc(var(--n, 0) * 0.14s + 0.25s); }
+.build.is-complete .build-callout b { opacity: 1; transition-delay: calc(var(--n, 0) * 0.14s + 0.6s); }
+
 /* Short landscape screens: no room for the stage list */
 @media (max-height: 620px) and (min-width: 901px) {
   .build-rail { display: none; }
@@ -928,12 +981,16 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
   .build-caption h3 + p { margin-top: 10px; font-size: 1rem; }
   .build-segments { display: flex; }
   .build-hint { bottom: 40px; }
+  .build-callout { font-size: 0.5625rem; letter-spacing: 0.12em; }
+  .build-callout::before { top: -3px; left: -3px; width: 6px; height: 6px; box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.25); }
+  .build-callout[data-dir="up"] b { bottom: calc(var(--len, 60px) + 9px); }
+  .build-callout[data-dir="down"] b { top: calc(var(--len, 60px) + 9px); }
 }
 
 /* Phones on their side: the machine beside the caption */
 @media (max-height: 520px) and (orientation: landscape) {
   .build.is-live .build-area { inset: calc(var(--header-h) + 10px) 4% 30px 44%; }
-  .build-hud, .build-rail { display: none; }
+  .build-hud, .build-rail, .build.is-live .build-callouts { display: none; }
   .build-side { top: 50%; right: auto; bottom: auto; left: var(--gutter); width: 38vw; translate: 0 -30%; }
   .build-captions { height: auto; min-height: 150px; }
   .build-caption .eyebrow { display: block; margin-bottom: 10px; }
@@ -974,7 +1031,7 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
   z-index: -1;
   width: min(1100px, 150%);
   aspect-ratio: 1;
-  translate: -50% -42%;
+  translate: -50% -37%;
   background: var(--dial) center / contain no-repeat;
   animation: spin 200s linear infinite;
   pointer-events: none;

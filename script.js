@@ -211,7 +211,7 @@
     // The first and last slices of the track hold still, so the sequence has a
     // beat to land before the page moves on.
     const LEAD = 0.02;
-    const RUN = 0.9;
+    const RUN = 0.86;
 
     // Stage furniture, built from the captions in the markup.
     const captionsEl = section.querySelector('.build-captions');
@@ -258,6 +258,11 @@
     if (captionsEl) side.appendChild(captionsEl);
     stage.append(side, hud, segments, hint);
     section.classList.add('is-live', 'at-start');
+
+    const callouts = Array.from(section.querySelectorAll('.build-callout')).map((el, n) => {
+      el.style.setProperty('--n', String(n));
+      return { el, x: Number(el.dataset.x), y: Number(el.dataset.y), len: Number(el.dataset.len) || 0.1 };
+    });
 
     const frames = new Array(total);
     const crisp = new Map(); // 1080p stills fetched at rest on the phone layout
@@ -374,6 +379,7 @@
           caption.rail.classList.toggle('is-done', i > caption.to);
         });
         section.classList.toggle('at-start', i < 2);
+        section.classList.toggle('is-complete', i >= last);
       }
       captions.forEach((caption) => {
         const fill = clamp((f - caption.from) / Math.max(1, caption.to - caption.from));
@@ -439,6 +445,13 @@
         h: Math.max(1, inner.height * dpr),
       };
       maxWidth = 1920 * 1.35 * dpr; // never enlarge the renders much past their own pixels
+      // Pin the callouts to their points on the finished machine.
+      const end = camera(last);
+      callouts.forEach((c) => {
+        c.el.style.left = `${((end.x + c.x * end.w) / dpr).toFixed(1)}px`;
+        c.el.style.top = `${((end.y + c.y * end.h) / dpr).toFixed(1)}px`;
+        c.el.style.setProperty('--len', `${((c.len * end.h) / dpr).toFixed(1)}px`);
+      });
       target = scrollTarget();
       f = target;
       redraw();

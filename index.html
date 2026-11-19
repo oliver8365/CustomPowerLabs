@@ -46,7 +46,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="/styles.css?v=20261119b">
+  <link rel="stylesheet" href="/styles.css?v=20261119c">
+  <link rel="preload" as="image" type="image/webp" href="/img/talos-5/hero-render-1500.webp"
+        imagesrcset="/img/talos-5/hero-render-900.webp 900w, /img/talos-5/hero-render-1500.webp 1500w" imagesizes="(max-width: 900px) 100vw, 60vw">
 </head>
 <body class="page-home">
 
@@ -200,6 +202,13 @@
           <img class="build-poster" src="/img/talos-5/build/1080/frame_119.webp" alt="TALOS-5 five-axis CNC mill, fully assembled with its door open" width="1920" height="1080" loading="lazy">
           <canvas class="build-canvas" aria-hidden="true"></canvas>
           <div class="build-area" aria-hidden="true"></div>
+          <!-- Callouts for the finished machine: x, y and len are fractions of the last frame -->
+          <div class="build-callouts" aria-hidden="true">
+            <span class="build-callout" data-x="0.19" data-y="0.19" data-len="0.135" data-dir="up"><b>Enclosure door</b></span>
+            <span class="build-callout" data-x="0.535" data-y="0.27" data-len="0.29" data-dir="up"><b>Spindle</b></span>
+            <span class="build-callout" data-x="0.5" data-y="0.61" data-len="0.36" data-dir="down" data-align="end"><b>Rotary axes</b></span>
+            <span class="build-callout" data-x="0.613" data-y="0.745" data-len="0.225" data-dir="down" data-align="start"><b>Control panel</b></span>
+          </div>
           <div class="build-captions" aria-hidden="true">
             <div class="build-caption" data-from="0" data-to="17" data-label="Structure"><p class="eyebrow">01 · Structure</p><h3>A rigid foundation.</h3><p>Everything is built on a stiff, precise frame.</p></div>
             <div class="build-caption" data-from="18" data-to="35" data-label="Motion"><p class="eyebrow">02 · Motion</p><h3>Three linear axes.</h3><p>Smooth, accurate travel in X, Y and Z.</p></div>
@@ -301,6 +310,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=20261119b" defer></script>
+  <script src="/script.js?v=20261119c" defer></script>
 </body>
 </html>
