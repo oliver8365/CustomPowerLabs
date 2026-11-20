@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,20 +21,14 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR9Z0N8S60"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LR9Z0N8S60');
-  </script>
+  <script>document.documentElement.classList.add('js');</script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="/styles.css?v=20261119e">
+  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=20261120a">
 </head>
 <body class="page-project">
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
     <div class="container header-inner">
@@ -54,11 +48,11 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
 
     <section class="project-hero">
       <div class="hero-grid" aria-hidden="true"></div>
-      <img class="project-blueprint" src="/img/talos-5/hero-blueprint-1500.webp"
+      <img class="project-blueprint" fetchpriority="high" src="/img/talos-5/hero-blueprint-1500.webp"
            srcset="/img/talos-5/hero-blueprint-900.webp 900w, /img/talos-5/hero-blueprint-1500.webp 1500w"
            sizes="(max-width: 760px) 128vw, 60vw" alt="" width="1500" height="1060" aria-hidden="true">
       <div class="container">
@@ -164,6 +158,7 @@
         <a href="/#work">Work</a>
         <a href="/#process">Process</a>
         <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
       </nav>
       <div class="footer-contact">
         <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
@@ -182,6 +177,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=20261119e" defer></script>
+  <script src="/script.js?v=20261120a" defer onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

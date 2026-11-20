@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,22 +35,17 @@
   </script>
 
   <script>document.documentElement.classList.add('js');</script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LR9Z0N8S60"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LR9Z0N8S60');
-  </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="/styles.css?v=20261119e">
+  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=20261120a">
+  <link rel="preload" as="image" type="image/webp" href="/img/talos-5/hero-blueprint-1500.webp" fetchpriority="high"
+        imagesrcset="/img/talos-5/hero-blueprint-900.webp 900w, /img/talos-5/hero-blueprint-1500.webp 1500w" imagesizes="(max-width: 900px) 100vw, 60vw">
   <link rel="preload" as="image" type="image/webp" href="/img/talos-5/hero-render-1500.webp"
         imagesrcset="/img/talos-5/hero-render-900.webp 900w, /img/talos-5/hero-render-1500.webp 1500w" imagesizes="(max-width: 900px) 100vw, 60vw">
 </head>
 <body class="page-home">
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="site-header">
     <div class="container header-inner">
@@ -70,7 +65,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
 
     <!-- Hero -->
     <section class="hero">
@@ -91,7 +86,7 @@
         <figure class="scan" data-scan>
           <div class="scan-dial" aria-hidden="true"></div>
           <div class="scan-art">
-            <img class="scan-blueprint" src="/img/talos-5/hero-blueprint-1500.webp"
+            <img class="scan-blueprint" fetchpriority="high" src="/img/talos-5/hero-blueprint-1500.webp"
                  srcset="/img/talos-5/hero-blueprint-900.webp 900w, /img/talos-5/hero-blueprint-1500.webp 1500w"
                  sizes="(max-width: 900px) 100vw, 60vw" alt="" width="1500" height="1060" aria-hidden="true">
             <img class="scan-render" src="/img/talos-5/hero-render-1500.webp"
@@ -292,6 +287,7 @@
         <a href="/#work">Work</a>
         <a href="/#process">Process</a>
         <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
       </nav>
       <div class="footer-contact">
         <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
@@ -310,6 +306,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=20261119e" defer></script>
+  <script src="/script.js?v=20261120a" defer onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

@@ -3,8 +3,8 @@
    01 Tokens      06 Hero            11 CTA              16 Reveal and motion
    02 Base        07 Sections        12 Project page
    03 Typography  08 Cards, process  13 Contact
-   04 Buttons     09 Feature         14 Message pages
-   05 Header      10 Assembly stage  15 Footer
+   04 Buttons     09 Feature         14 Message and text pages
+   05 Header      10 Assembly stage  15 Footer           17 Cookie choice
    Short rules sit on one line; breakpoints live beside the component they change.
    ========================================================================== */
 
@@ -49,6 +49,31 @@
 /* Cross-fade between pages where the browser supports it */
 @view-transition { navigation: auto; }
 
+/* Fonts are served from this site: no third party is contacted to draw a page. */
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter Tight";
+  src: url("/fonts/inter-tight.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/jetbrains-mono.woff2") format("woff2");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* 02 Base ----------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -84,6 +109,23 @@ button, input, select, textarea { font: inherit; color: inherit; }
 ::selection { background: rgba(var(--accent-rgb), 0.34); color: #fff; }
 
 .container { width: min(100% - var(--gutter) * 2, var(--max)); margin-inline: auto; }
+
+/* First stop for keyboard users: hidden until it takes focus */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 70;
+  padding: 12px 16px;
+  border-radius: var(--r-sm);
+  background: var(--text);
+  color: var(--bg);
+  font-size: 0.875rem;
+  font-weight: 500;
+  translate: 0 -200%;
+}
+
+.skip-link:focus { translate: none; }
 
 .visually-hidden {
   position: absolute !important;
@@ -649,7 +691,8 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
   transform-origin: 0 0;
 }
 
-.step { position: relative; padding: 32px 32px 0 0; transition: opacity 0.7s var(--ease); }
+.step { position: relative; padding: 32px 32px 0 0; }
+.step h3, .step p, .step .step-num { transition: color 0.7s var(--ease); }
 
 .step::before {
   content: "";
@@ -668,7 +711,9 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
 .step .step-num { color: var(--accent); }
 .step h3 { margin-top: clamp(28px, 4vw, 56px); }
 
-.steps.is-tracking .step:not(.is-on) { opacity: 0.4; }
+/* Steps still to come are dimmed by colour, not opacity, so they stay readable */
+.steps.is-tracking .step:not(.is-on) h3 { color: var(--text-2); }
+.steps.is-tracking .step:not(.is-on) p { color: var(--text-3); }
 .steps.is-tracking .step:not(.is-on)::before { border-color: var(--line-strong); background: var(--bg); }
 .steps.is-tracking .step:not(.is-on) .step-num { color: var(--text-3); }
 .steps.is-tracking .step.is-on::before { box-shadow: 0 0 0 5px rgba(var(--accent-rgb), 0.16); }
@@ -761,6 +806,14 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
 
 .build.is-live { height: var(--build-length, 620vh); margin-block: 0 clamp(40px, 6vw, 88px); }
 .build.is-live .build-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--bg-stage); }
+
+/* The same track is reserved before script.js runs (the page sets .js in its
+   head), so nothing below jumps when the stage goes live. The script marks the
+   section .is-static if it is going to leave the poster in place instead. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .build:not(.is-live, .is-static) { height: var(--build-length, 620vh); margin-block: 0 clamp(40px, 6vw, 88px); }
+  .js .build:not(.is-live, .is-static) .build-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+}
 .build.is-live .build-poster { display: none; }
 .build.is-live .build-canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
 .build.is-live .build-captions { display: block; }
@@ -968,7 +1021,7 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
 
 /* Phones and portrait tablets: the machine on top, the caption beneath it */
 @media (max-width: 900px) {
-  .build.is-live { --build-length: 520vh; }
+  .build { --build-length: 520vh; }
   .build.is-live .build-area { inset: calc(var(--header-h) + 48px) 4% 236px; }
   .build.is-live .build-stage::after { inset: calc(var(--header-h) + 12px) 10px 10px; }
   .build-hud { top: calc(var(--header-h) + 24px); right: var(--gutter); left: var(--gutter); font-size: 0.625rem; letter-spacing: 0.1em; }
@@ -1212,6 +1265,9 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
 }
 
 .field select option { background: var(--bg-panel); color: var(--text); }
+.form-note { margin-top: 16px; color: var(--text-3); font-size: 0.8125rem; }
+.form-note a, .legal a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+.form-note a:hover, .legal a:hover { text-decoration-color: var(--accent); }
 .field ::placeholder { color: var(--text-3); opacity: 1; }
 .field :is(input, select, textarea):hover { border-color: #7d848f; }
 
@@ -1238,10 +1294,22 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
   .contact-details > div { grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 16px 0; }
 }
 
-/* 14 Message pages --------------------------------------------------------- */
+/* 14 Message and text pages ------------------------------------------------ */
 /* One section per page: let it fill the space above the footer */
 .page-contact main, .page-message main { display: grid; }
 .message-section { display: grid; align-items: center; min-height: min(76vh, 760px); }
+
+/* Long-form text (the privacy page) */
+.text-section { position: relative; }
+.text-inner { position: relative; z-index: 1; }
+.text-inner .lede { margin-top: 24px; }
+.legal { max-width: 68ch; margin-top: clamp(40px, 6vw, 72px); color: var(--text-2); }
+.legal h2 { margin-top: 48px; color: var(--text); font-size: 1.5rem; line-height: 1.2; letter-spacing: -0.015em; }
+.legal h2:first-child { margin-top: 0; }
+.legal p { margin-top: 14px; }
+.legal .mono { color: var(--text); font-size: 0.875em; }
+.legal .btn { margin-top: 6px; }
+.legal .legal-date { margin-top: 56px; color: var(--text-3); font-size: 0.75rem; letter-spacing: 0.04em; }
 
 /* 15 Footer ---------------------------------------------------------------- */
 .site-footer { border-top: 1px solid var(--line); font-size: 0.9375rem; }
@@ -1296,7 +1364,10 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
   letter-spacing: 0.04em;
 }
 
-.footer-social { display: flex; gap: 24px; }
+.footer-social { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.footer-social button { padding: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; color: inherit; cursor: pointer; transition: color 0.2s var(--ease); }
+.footer-social button:hover { color: var(--text); }
+.footer-nav [aria-current="page"] { color: var(--text); }
 
 @media (max-width: 760px) {
   .footer-inner { grid-template-columns: 1fr 1fr; }
@@ -1319,7 +1390,7 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
 .reveal.is-pending { opacity: 0; }
 
 .reveal.is-visible,
-:is(.hero, .project-hero, .contact-section, .message-section) .reveal:not(.is-pending) {
+:is(.hero, .project-hero, .contact-section, .message-section, .text-section) .reveal:not(.is-pending) {
   animation-name: reveal;
   animation-duration: 1s;
   animation-timing-function: var(--ease-out);
@@ -1340,4 +1411,47 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
   .reveal.is-pending { opacity: 1; }
   .reveal.is-pending .card-icon > * { stroke-dashoffset: 0; }
   @view-transition { navigation: none; }
+}
+
+/* 17 Cookie choice --------------------------------------------------------- */
+/* A small card in the corner, built by script.js. Analytics stay off until the
+   visitor accepts; declining is as easy as accepting. */
+.consent {
+  position: fixed;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  left: 16px;
+  z-index: 60;
+  width: min(380px, calc(100vw - 32px));
+  padding: 18px 20px 20px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-lg);
+  background: rgba(16, 18, 27, 0.92);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.9);
+  color: var(--text-2);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 14px;
+  transition: opacity 0.5s var(--ease), translate 0.6s var(--ease-out), visibility 0s 0.6s;
+}
+
+.consent.is-open { opacity: 1; visibility: visible; translate: none; transition-delay: 0s; }
+.consent:focus { outline: none; }
+.consent-title { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; color: var(--text); font: 500 0.6875rem/1.4 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; }
+.consent-title::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.consent a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+.consent a:hover { text-decoration-color: var(--accent); }
+.consent-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.consent-actions .btn { width: 100%; }
+.consent-state { margin-top: 10px; color: var(--text-3); font-size: 0.75rem; }
+.consent-state:empty { display: none; }
+
+@media (max-width: 480px) {
+  .consent { left: 10px; width: calc(100vw - 20px); padding: 14px 16px 16px; font-size: 0.8125rem; line-height: 1.5; }
+  .consent-title { margin-bottom: 6px; }
+  .consent-actions { margin-top: 12px; }
+  .consent-actions .btn { min-height: 40px; }
 }

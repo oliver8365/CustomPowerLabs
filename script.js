@@ -9,6 +9,121 @@
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const pad3 = (n) => String(n).padStart(3, '0');
 
+  // Analytics and the cookie choice. Google Analytics is fetched only after the
+  // visitor accepts; until then the site sets no cookies and contacts no third
+  // party. The choice is kept in localStorage, a small card asks for it once,
+  // and the footer's "Cookie settings" brings the card back.
+  (() => {
+    const GA_ID = 'G-LR9Z0N8S60';
+    const KEY = 'cpl-analytics';
+    const read = () => { try { return localStorage.getItem(KEY); } catch (e) { return null; } };
+    const save = (value) => { try { localStorage.setItem(KEY, value); } catch (e) { /* private mode: ask again next time */ } };
+    let fetched = false;
+
+    const start = () => {
+      window[`ga-disable-${GA_ID}`] = false;
+      if (fetched) return;
+      fetched = true;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag() { window.dataLayer.push(arguments); };
+      window.gtag('consent', 'default', {
+        analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied',
+      });
+      window.gtag('js', new Date());
+      window.gtag('config', GA_ID);
+      if (/^\/thank-you/.test(window.location.pathname)) window.gtag('event', 'generate_lead');
+      const tag = document.createElement('script');
+      tag.async = true;
+      tag.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+      document.head.appendChild(tag);
+    };
+
+    const stop = () => {
+      window[`ga-disable-${GA_ID}`] = true;
+      const host = window.location.hostname;
+      const domains = ['', host, `.${host.replace(/^www\./, '')}`];
+      document.cookie.split(';').forEach((pair) => {
+        const name = pair.split('=')[0].trim();
+        if (!/^_ga/.test(name)) return;
+        domains.forEach((domain) => {
+          document.cookie = `${name}=; Max-Age=0; path=/${domain ? `; domain=${domain}` : ''}`;
+        });
+      });
+    };
+
+    const make = (tag, className, text) => {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      if (text) el.textContent = text;
+      return el;
+    };
+    let card = null;
+    let state = null;
+    let opener = null;
+    const describe = () => {
+      const choice = read();
+      state.textContent = choice === 'yes' ? 'Analytics are on.' : choice === 'no' ? 'Analytics are off.' : '';
+    };
+    const close = () => {
+      if (!card) return;
+      card.classList.remove('is-open');
+      if (opener) { opener.focus(); opener = null; }
+    };
+    const choose = (value) => {
+      save(value);
+      if (value === 'yes') start(); else stop();
+      close();
+    };
+    const build = () => {
+      card = make('section', 'consent');
+      card.setAttribute('aria-label', 'Cookie choice');
+      card.tabIndex = -1;
+      const text = make('p', '', 'We would like to count visits with Google Analytics. No cookies are set unless you accept. ');
+      const link = make('a', '', 'Privacy');
+      link.href = '/privacy';
+      text.appendChild(link);
+      const actions = make('div', 'consent-actions');
+      const no = make('button', 'btn btn-small btn-ghost', 'Decline');
+      const yes = make('button', 'btn btn-small', 'Accept');
+      no.type = yes.type = 'button';
+      no.addEventListener('click', () => choose('no'));
+      yes.addEventListener('click', () => choose('yes'));
+      actions.append(no, yes);
+      state = make('p', 'consent-state');
+      card.append(make('p', 'consent-title', 'Cookies'), text, actions, state);
+      card.addEventListener('keydown', (event) => { if (event.key === 'Escape' && read()) close(); });
+      document.body.appendChild(card);
+    };
+    const open = (from) => {
+      if (!card) build();
+      describe();
+      opener = from || null;
+      // Two frames, so the card's starting position is painted before it moves.
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        card.classList.add('is-open');
+        if (from) card.focus();
+      }));
+    };
+
+    const choice = read();
+    if (choice === 'yes') start();
+    // No answer yet: ask, a moment after the page has settled. A browser that
+    // sends the Global Privacy Control signal has already answered no.
+    else if (choice === null && !navigator.globalPrivacyControl) setTimeout(() => open(), 1800);
+
+    const social = document.querySelector('.footer-social');
+    if (social) {
+      const button = make('button', '', 'Cookie settings');
+      button.type = 'button';
+      button.dataset.cookieSettings = '';
+      social.prepend(button);
+    }
+    document.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-cookie-settings]');
+      if (button) open(button);
+    });
+  })();
+
   // Header: transparent at the very top of the page, solid once scrolled.
   if (header) {
     const onScroll = () => header.classList.toggle('is-top', window.scrollY < 8);
@@ -197,15 +312,18 @@
     const canvas = section.querySelector('.build-canvas');
     const areaEl = section.querySelector('.build-area');
     const ctx = canvas && canvas.getContext('2d', { alpha: false });
-    if (!stage || !ctx || !areaEl || reducedMotion || !('IntersectionObserver' in window)) return;
-
     const total = Number(section.dataset.frames) || 0;
-    if (!total) return;
+    if (!stage || !ctx || !areaEl || !total || reducedMotion || !('IntersectionObserver' in window)) {
+      section.classList.add('is-static'); // the stylesheet keeps the poster and drops the reserved track
+      return;
+    }
     const last = total - 1;
     const boxes = FRAMING[section.dataset.path] || null;
     // Phone layout gets the lighter 720p set while moving and sharpens to
     // 1080p when it comes to rest; everything wider gets 1080p throughout.
-    const baseSet = window.matchMedia('(max-width: 760px)').matches ? '720' : '1080';
+    // A visitor who has asked their browser to save data gets 720p only.
+    const saveData = Boolean(navigator.connection && navigator.connection.saveData);
+    const baseSet = saveData || window.matchMedia('(max-width: 760px)').matches ? '720' : '1080';
     const src = (i, set) => `${section.dataset.path}${set}/frame_${pad3(i)}.webp`;
     const BG = '10, 11, 18'; // the renders' backdrop; matches --bg-stage
     // The first and last slices of the track hold still, so the sequence has a
@@ -401,7 +519,7 @@
     // At rest on the phone layout, swap in the 1080p version of the frame.
     const sharpen = () => {
       clearTimeout(crispTimer);
-      if (baseSet === '1080') return;
+      if (baseSet === '1080' || saveData) return;
       crispTimer = setTimeout(() => {
         const i = target;
         if (f !== i || crisp.has(i)) return;
@@ -462,14 +580,24 @@
       request();
     };
 
+    // Frames are requested coarse to fine: every eighth, then the ones between,
+    // and so on. On a slow connection the whole sequence is scrubbable early
+    // (in bigger steps) instead of stalling wherever the downloads have got to.
     const fetchFrames = () => {
-      for (let i = 0; i < total; i++) {
+      const order = [];
+      const seen = new Set();
+      for (let stride = 8; stride >= 1; stride /= 2) {
+        for (let i = 0; i < total; i += stride) {
+          if (!seen.has(i)) { seen.add(i); order.push(i); }
+        }
+      }
+      order.forEach((i) => {
         const img = new Image();
         img.decoding = 'async';
         img.onload = () => { if (i <= Math.ceil(f) + 1) redraw(); };
         img.src = src(i, baseSet);
         frames[i] = img;
-      }
+      });
     };
     // Wait for the page itself to finish loading first, so the frames never
     // compete with the hero for bandwidth.
