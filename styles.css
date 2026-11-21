@@ -366,7 +366,8 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
 }
 
 /* 06 Hero ------------------------------------------------------------------ */
-.hero { position: relative; padding-block: clamp(40px, 8vh, 96px) clamp(40px, 5vw, 64px); }
+/* overflow-x: clip keeps the dial from widening the page on phones (see .project-hero) */
+.hero { position: relative; overflow-x: clip; padding-block: clamp(40px, 8vh, 96px) clamp(40px, 5vw, 64px); }
 .hero-inner, .hero-grid ~ .container { position: relative; z-index: 1; }
 .hero-inner { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: clamp(28px, 6vw, 56px); }
 .hero-copy { position: relative; z-index: 2; }
@@ -1119,7 +1120,9 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
 }
 
 /* 12 Project page ---------------------------------------------------------- */
-.project-hero { position: relative; padding-block: clamp(32px, 6vh, 72px) clamp(32px, 4vw, 56px); }
+/* Clip sideways here: phones size the page to its widest content and ignore
+   the clip on body, so the bleeding drawing made the page scroll sideways. */
+.project-hero { position: relative; overflow-x: clip; padding-block: clamp(32px, 6vh, 72px) clamp(32px, 4vw, 56px); }
 
 /* the line drawing of the machine, behind the title like a drawing sheet */
 .project-blueprint {
