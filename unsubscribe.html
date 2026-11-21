@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unsubscribe | CustomPowerLabs</title>
+  <meta name="description" content="Stop getting project updates from CustomPowerLabs.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0a0b12">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=20261121a">
+</head>
+<body class="page-message">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CustomPowerLabs home">
+        <img src="/img/Logo96.png" alt="" width="28" height="28">
+        <span>CustomPowerLabs</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="/#services">Services</a>
+        <a href="/#work">Work</a>
+        <a href="/#process">Process</a>
+        <a href="/contact" class="btn btn-small">Start a project</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section message-section">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="container message-inner">
+        <p class="eyebrow reveal">Updates</p>
+        <h1 class="display display-sm reveal">Unsubscribe.</h1>
+        <p class="lede reveal">Stop getting project updates from CustomPowerLabs. We will not email you again unless you sign up again.</p>
+
+        <!-- script.js copies the token from the address bar and sends this in place -->
+        <form class="unsubscribe-form reveal" action="https://api.custompowerlabs.com/v1/unsubscribe" method="POST" data-form="unsubscribe">
+          <input type="hidden" name="token" value="">
+          <div><button type="submit" class="btn">Unsubscribe me</button></div>
+          <p class="form-alert" role="alert" hidden></p>
+          <div class="form-done" tabindex="-1" hidden>
+            <svg class="form-tick" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" pathLength="1"/><path d="M20 33.500 28.500 42 45 23" pathLength="1"/></svg>
+            <h2 class="form-done-title">Done.</h2>
+            <p class="form-done-text">You will not get any more updates from us.</p>
+          </div>
+        </form>
+        <noscript><p class="form-note">If the button does not work, email <a href="mailto:enquiries@custompowerlabs.com">enquiries@custompowerlabs.com</a> and we will take you off the list.</p></noscript>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/img/Logo96.png" alt="" width="28" height="28"><span>CustomPowerLabs</span></a>
+        <p>Prototype engineering consultancy.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="/#services">Services</a>
+        <a href="/#work">Work</a>
+        <a href="/#process">Process</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
+        <span>Hampshire, England</span>
+      </div>
+    </div>
+    <div class="container footer-mark" aria-hidden="true">
+      <svg viewBox="0 0 1200 150"><text x="2" y="118" textLength="1196" lengthAdjust="spacing">CustomPowerLabs</text></svg>
+    </div>
+    <div class="container footer-base">
+      <span>© <span data-year>2026</span> CustomPowerLabs. All rights reserved.</span>
+      <span class="footer-social">
+        <a href="https://twitter.com/CustomPowerLabs" target="_blank" rel="noopener">X</a>
+        <a href="https://www.instagram.com/CustomPowerLabs/" target="_blank" rel="noopener">Instagram</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="/script.js?v=20261121a" defer onerror="document.documentElement.classList.remove('js')"></script>
+</body>
+</html>

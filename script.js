@@ -675,4 +675,137 @@
   if (enquiry && wanted && Array.from(enquiry.options).some((option) => option.value === wanted)) {
     enquiry.value = wanted;
   }
+
+  // Forms. Each one posts to our own API (its action). Here they send in place:
+  // errors appear under their fields, and on success the form gives way to its
+  // .form-done panel. Without this script they post normally and the API
+  // redirects to a page on the site, so nothing depends on it.
+  document.querySelectorAll('form[data-form]').forEach((form) => {
+    const button = form.querySelector('button[type="submit"]');
+    const alertEl = form.querySelector('.form-alert');
+    const doneEl = form.querySelector('.form-done');
+    const fields = Array.from(form.querySelectorAll('.field :is(input, select, textarea)'));
+    const label = button.innerHTML;
+    let tried = false;
+    let busy = false;
+
+    // When the form became usable; the API drops anything sent implausibly fast.
+    const stamp = () => { if (form.elements.t) form.elements.t.value = String(Date.now()); };
+    stamp();
+    form.noValidate = true;
+
+    // A token from the address bar (the unsubscribe page).
+    if (form.elements.token && !form.elements.token.value) {
+      form.elements.token.value = new URLSearchParams(window.location.search).get('token') || '';
+    }
+
+    const errorFor = (field) => {
+      const id = `${field.id}-error`;
+      let el = document.getElementById(id);
+      if (!el) {
+        el = document.createElement('p');
+        el.className = 'field-error';
+        el.id = id;
+        field.closest('.field').appendChild(el);
+        field.setAttribute('aria-describedby', id);
+      }
+      return el;
+    };
+    const setError = (field, message) => {
+      errorFor(field).textContent = message || '';
+      if (message) field.setAttribute('aria-invalid', 'true');
+      else field.removeAttribute('aria-invalid');
+    };
+    const problemWith = (field) => {
+      const { validity } = field;
+      if (validity.valueMissing) return field.dataset.missing || 'Please fill this in.';
+      if (validity.typeMismatch) return 'That email address does not look right.';
+      if (validity.tooLong) return 'That is a little too long.';
+      return '';
+    };
+    const check = () => {
+      let first = null;
+      fields.forEach((field) => {
+        const message = problemWith(field);
+        setError(field, message);
+        if (message && !first) first = field;
+      });
+      return first;
+    };
+    fields.forEach((field) => field.addEventListener('input', () => { if (tried) setError(field, problemWith(field)); }));
+
+    const showAlert = (message) => {
+      const mail = document.createElement('a');
+      mail.href = 'mailto:enquiries@custompowerlabs.com';
+      mail.textContent = 'enquiries@custompowerlabs.com';
+      alertEl.replaceChildren(`${message} You can also email us at `, mail, '.');
+      alertEl.hidden = false;
+    };
+
+    const setBusy = (on) => {
+      busy = on;
+      button.disabled = on;
+      form.classList.toggle('is-busy', on);
+      form.setAttribute('aria-busy', String(on));
+      if (on) button.textContent = 'Sending…'; else button.innerHTML = label;
+    };
+
+    const finish = (data) => {
+      const first = String(data.name || '').trim().split(/\s+/)[0];
+      doneEl.querySelectorAll('[data-done-email]').forEach((el) => { el.textContent = data.email || ''; });
+      doneEl.querySelectorAll('[data-done-name]').forEach((el) => { el.textContent = first ? `Thank you, ${first}.` : 'Thank you.'; });
+      form.classList.add('is-sent');
+      doneEl.hidden = false;
+      doneEl.focus({ preventScroll: true });
+      doneEl.scrollIntoView({ block: 'nearest', behavior: reducedMotion ? 'auto' : 'smooth' });
+      if (window.gtag && form.dataset.form !== 'unsubscribe') window.gtag('event', 'generate_lead', { form_name: form.dataset.form });
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (busy) return;
+      tried = true;
+      alertEl.hidden = true;
+      const invalid = check();
+      if (invalid) { invalid.focus(); return; }
+
+      const data = Object.fromEntries(new FormData(form));
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 20000);
+      setBusy(true);
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data),
+          signal: controller.signal,
+        });
+        const body = await res.json().catch(() => ({}));
+        if (res.ok && body.ok) { finish(data); return; }
+        if (res.status === 400 && body.errors) {
+          const named = Object.keys(body.errors).map((name) => form.elements[name]).filter((field) => fields.includes(field));
+          named.forEach((field) => setError(field, body.errors[field.name]));
+          if (named.length) { named[0].focus(); return; }
+        }
+        if (res.status === 429) showAlert('That is a lot of messages in a short time. Please wait a few minutes and try again.');
+        else if (body.error === 'token') showAlert('That link does not work any more.');
+        else showAlert('Sorry, that did not send. Please try again in a moment.');
+      } catch (error) {
+        showAlert('Sorry, that did not send. Please check your connection and try again.');
+      } finally {
+        clearTimeout(timer);
+        setBusy(false);
+      }
+    });
+
+    form.querySelectorAll('[data-form-reset]').forEach((reset) => reset.addEventListener('click', () => {
+      form.reset();
+      form.classList.remove('is-sent');
+      doneEl.hidden = true;
+      tried = false;
+      fields.forEach((field) => setError(field, ''));
+      stamp();
+      if (fields[0]) fields[0].focus();
+    }));
+  });
 })();

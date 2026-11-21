@@ -25,7 +25,7 @@
 
   <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=20261120a">
+  <link rel="stylesheet" href="/styles.css?v=20261121a">
 </head>
 <body class="page-project">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -140,8 +140,34 @@
       <div class="container cta-inner reveal">
         <div class="cta-dial" aria-hidden="true"></div>
         <h2>Interested in TALOS&#8209;5?</h2>
-        <p class="lede">Register your interest and we will keep you updated as development continues.</p>
-        <a href="/contact?enquiry=talos-5" class="btn btn-large">Register interest <span aria-hidden="true">→</span></a>
+        <p class="lede">Leave your email and we will send you occasional updates as development continues.</p>
+
+        <!-- Sent to our own API. Without script.js it posts normally and the API
+             redirects to /check-email. -->
+        <form class="interest-form" action="https://api.custompowerlabs.com/v1/interest" method="POST" data-form="interest">
+          <input type="hidden" name="product" value="talos-5">
+          <input type="hidden" name="t" value="">
+          <div class="visually-hidden" aria-hidden="true">
+            <label for="website">Leave this empty</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="interest-row">
+            <div class="field">
+              <label class="visually-hidden" for="interest-email">Email address</label>
+              <input type="email" id="interest-email" name="email" autocomplete="email" maxlength="254" placeholder="you@company.com" required data-missing="Please add your email address.">
+            </div>
+            <button type="submit" class="btn btn-large">Register interest <span aria-hidden="true">→</span></button>
+          </div>
+          <p class="form-note">We will email you a link to confirm. TALOS&#8209;5 updates only, and you can unsubscribe at any time. <a href="/privacy">Privacy</a></p>
+          <p class="form-alert" role="alert" hidden></p>
+
+          <div class="form-done" tabindex="-1" hidden>
+            <svg class="form-tick" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="27" pathLength="1"/><path d="M20 33.500 28.500 42 45 23" pathLength="1"/></svg>
+            <h3 class="form-done-title">Nearly there.</h3>
+            <p class="form-done-text">We have sent a link to <strong data-done-email></strong>. Tap it to confirm, and you are on the list.</p>
+          </div>
+        </form>
+        <p class="cta-aside">Want to talk about it instead? <a href="/contact?enquiry=talos-5">Get in touch</a></p>
       </div>
     </section>
 
@@ -177,6 +203,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=20261120a" defer onerror="document.documentElement.classList.remove('js')"></script>
+  <script src="/script.js?v=20261121a" defer onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>
