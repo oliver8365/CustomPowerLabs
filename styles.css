@@ -739,6 +739,53 @@ h3 { font-size: 1.3125rem; line-height: 1.25; letter-spacing: -0.012em; }
   .card h3, .card-top + h3 { margin-top: 28px; }
 }
 
+/* Team: a photo beside each founder's details. Both portraits are cut out onto one backdrop
+   built from the tokens above; their colour is held back a little and comes up on hover. */
+.team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 2vw, 24px); }
+
+.person {
+  display: grid;
+  grid-template-columns: minmax(150px, 5fr) 6fr;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--bg-raised);
+  box-shadow: var(--shadow-panel);
+}
+
+/* The figure is at least 4:5 and otherwise as tall as its card, so a long bio never leaves a strip under the photo */
+.person-photo { position: relative; overflow: hidden; background: var(--bg-raised); }
+.person-photo::before { content: ""; display: block; padding-top: 125%; }
+.person-photo img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  filter: saturate(0.6);
+  transition: filter 0.7s var(--ease), transform 1.2s var(--ease-out);
+}
+.person:hover .person-photo img { filter: none; transform: scale(1.025); }
+
+.person-body { display: flex; flex-direction: column; padding: clamp(22px, 2.2vw, 32px); }
+.person-body h3 { margin-top: clamp(20px, 2.5vw, 36px); }
+.person-role { margin-top: 8px; color: var(--accent); font: 500 0.6875rem/1.4 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }
+.person-body p:not(.person-role) { margin-top: 16px; color: var(--text-2); font-size: 0.9375rem; line-height: 1.6; }
+.person-mail { margin-top: auto; padding-top: 24px; color: var(--text-2); font-size: 0.875rem; transition: color 0.3s var(--ease); }
+.person-mail:hover { color: var(--accent); }
+
+@media (max-width: 1000px) {
+  .team-grid { grid-template-columns: 1fr; }
+  .person { grid-template-columns: minmax(150px, 260px) 1fr; }
+}
+
+@media (max-width: 560px) {
+  .person { grid-template-columns: 1fr; }
+  .person-photo::before { padding-top: 100%; }
+}
+
 /* 09 Feature --------------------------------------------------------------- */
 .feature {
   display: grid;
