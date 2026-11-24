@@ -1,0 +1,35 @@
+# CustomPowerLabs
+
+> CustomPowerLabs is a prototype engineering consultancy based in Hampshire, England, working with start-ups and established companies across the UK. One team designs the electronics, RF, power electronics, firmware and mechanics of a product and builds the working prototype.
+
+- Founders: Oliver Saunders-Smith (co-founder, engineering) and Joe Grindley (co-founder, projects and business).
+- Contact: info@custompowerlabs.com, +44 7393 312569, or the form at https://custompowerlabs.com/contact. The first conversation is free.
+- How projects run: a free discovery call, then a proposal with a fixed scope, timeline and price, regular design reviews, and hand-over of a working prototype with its design files.
+
+## Services
+
+- [PCB and electronics design](https://custompowerlabs.com/pcb-design): multilayer, high-speed boards in Altium Designer, including DDR3/DDR4 memory, MIPI camera and display links, RGB888 displays, Ethernet and controlled impedance, with manufacturing files ready to build.
+- [RF and wireless design](https://custompowerlabs.com/rf-design): radio front ends, link budgets, matching networks, antenna integration and RF PCB layout for sub-gigahertz ISM, 2.4 GHz (Bluetooth LE, Wi-Fi) and wideband software-defined radio, designed for UKCA and CE approval.
+- [Power electronics and motor drives](https://custompowerlabs.com/power-electronics): AC/DC, DC/DC and DC/AC conversion, and three-phase brushless motor drives with field-oriented control, sensorless operation and CAN bus.
+- [Embedded firmware and FPGA](https://custompowerlabs.com/firmware): firmware in C++, C and Rust, FPGA design in VHDL and Verilog, and Python and TypeScript test tools.
+- [Mechanical design and simulation](https://custompowerlabs.com/mechanical-design): SolidWorks design backed by structural (FEA), CFD and electromagnetic simulation.
+- [Prototype development](https://custompowerlabs.com/prototyping): from concept and feasibility to a tested working prototype, with in-house 3D printing and UK suppliers for machining and assembly.
+
+## Work
+
+- [TALOS-5](https://custompowerlabs.com/work/talos-5): our own compact five-axis CNC mill, designed and simulated entirely in-house. In development.
+
+## Free engineering calculators
+
+Each runs in the browser and explains its equations, a worked example and its limits.
+
+- [RF link budget calculator](https://custompowerlabs.com/tools/link-budget): free-space path loss, link margin, range and Fresnel zone clearance.
+- [PCB trace impedance calculator](https://custompowerlabs.com/tools/trace-impedance): microstrip, stripline, differential pairs and grounded coplanar waveguide, using a 2D field solver with closed-form cross-checks.
+- [Impedance matching network designer](https://custompowerlabs.com/tools/matching-network): L, Pi and T networks with component values and a Smith chart.
+- [VSWR and return loss converter](https://custompowerlabs.com/tools/vswr): VSWR, return loss, reflection coefficient and mismatch loss.
+- [Buck converter calculator](https://custompowerlabs.com/tools/buck-converter): inductor, capacitors, ripple and peak and RMS currents.
+- [LDO power and thermal calculator](https://custompowerlabs.com/tools/ldo-thermal): dissipation, junction temperature and maximum load current.
+
+## Optional
+
+- [Privacy](https://custompowerlabs.com/privacy)
