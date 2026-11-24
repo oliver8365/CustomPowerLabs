@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RF Link Budget Calculator: Path Loss, Margin and Range | CustomPowerLabs</title>
+  <meta name="description" content="Free RF link budget calculator. Work out free-space path loss, received power, link margin, range and Fresnel zone clearance for any frequency, from 868 MHz to 5.8 GHz.">
+  <meta name="theme-color" content="#0a0b12">
+  <link rel="canonical" href="https://custompowerlabs.com/tools/link-budget">
+
+  <meta property="og:title" content="RF link budget calculator">
+  <meta property="og:description" content="Free RF link budget calculator. Work out free-space path loss, received power, link margin, range and Fresnel zone clearance for any frequency, from 868 MHz to 5.8 GHz.">
+  <meta property="og:image" content="https://custompowerlabs.com/img/talos-5/og.jpg">
+  <meta property="og:url" content="https://custompowerlabs.com/tools/link-budget">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://custompowerlabs.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tools",
+            "item": "https://custompowerlabs.com/tools/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "RF link budget",
+            "item": "https://custompowerlabs.com/tools/link-budget"
+          }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "name": "RF link budget calculator",
+        "url": "https://custompowerlabs.com/tools/link-budget",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CustomPowerLabs",
+          "url": "https://custompowerlabs.com"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=20261124a">
+</head>
+<body class="page-tool">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CustomPowerLabs home">
+        <img src="/img/Logo96.png" alt="" width="28" height="28">
+        <span>CustomPowerLabs</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="/#services">Services</a>
+        <a href="/#work">Work</a>
+        <a href="/tools/" aria-current="page">Tools</a>
+        <a href="/#team">Team</a>
+        <a href="/contact" class="btn btn-small">Start a project</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="crumbs reveal"><li><a href="/tools/">Tools</a></li><li>RF</li></ol>
+        <h1 class="display display-sm reveal">RF link budget calculator.</h1>
+        <p class="lede reveal">Free-space path loss, received power, link margin and range for a radio link. Change any value and the results update.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="tool" data-tool="link-budget">
+          <form class="tool-inputs" novalidate>
+            <div>
+              <p class="tool-label" id="presets-label">Start from</p>
+              <div class="presets" role="group" aria-labelledby="presets-label">
+                <button type="button" data-preset="lora">868 MHz LoRa</button>
+                <button type="button" data-preset="ble">2.4 GHz Bluetooth LE</button>
+                <button type="button" data-preset="wifi">2.4 GHz Wi-Fi</button>
+              </div>
+            </div>
+
+            <fieldset>
+              <legend>Path</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="f">Frequency</label>
+                  <div class="unit-input">
+                    <input id="f" name="f" type="text" inputmode="decimal" value="2440" data-gt="0" autocomplete="off">
+                    <select name="f_u" aria-label="Frequency unit"><option value="1e6" selected>MHz</option><option value="1e9">GHz</option></select>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="d">Distance</label>
+                  <div class="unit-input">
+                    <input id="d" name="d" type="text" inputmode="decimal" value="200" data-gt="0" autocomplete="off">
+                    <select name="d_u" aria-label="Distance unit"><option value="1" selected>m</option><option value="1e3">km</option></select>
+                  </div>
+                </div>
+                <div class="field field-full">
+                  <label for="lother">Other losses: walls, foliage, body, polarisation</label>
+                  <div class="unit-input"><input id="lother" name="lother" type="text" inputmode="decimal" value="0" data-min="0" autocomplete="off"><span>dB</span></div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Transmitter</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="ptx">Output power</label>
+                  <div class="unit-input"><input id="ptx" name="ptx" type="text" inputmode="decimal" value="10" autocomplete="off"><span>dBm</span></div>
+                </div>
+                <div class="field">
+                  <label for="gtx">Antenna gain</label>
+                  <div class="unit-input"><input id="gtx" name="gtx" type="text" inputmode="decimal" value="2" autocomplete="off"><span>dBi</span></div>
+                </div>
+                <div class="field field-full">
+                  <label for="ltx">Cable, connector and matching loss</label>
+                  <div class="unit-input"><input id="ltx" name="ltx" type="text" inputmode="decimal" value="0.5" data-min="0" autocomplete="off"><span>dB</span></div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Receiver</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="sens">Sensitivity</label>
+                  <div class="unit-input"><input id="sens" name="sens" type="text" inputmode="decimal" value="-95" autocomplete="off"><span>dBm</span></div>
+                </div>
+                <div class="field">
+                  <label for="grx">Antenna gain</label>
+                  <div class="unit-input"><input id="grx" name="grx" type="text" inputmode="decimal" value="2" autocomplete="off"><span>dBi</span></div>
+                </div>
+                <div class="field">
+                  <label for="lrx">Cable and matching loss</label>
+                  <div class="unit-input"><input id="lrx" name="lrx" type="text" inputmode="decimal" value="0.5" data-min="0" autocomplete="off"><span>dB</span></div>
+                </div>
+                <div class="field">
+                  <label for="fade">Fade margin wanted</label>
+                  <div class="unit-input"><input id="fade" name="fade" type="text" inputmode="decimal" value="15" data-min="0" autocomplete="off"><span>dB</span></div>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="tool-actions">
+              <button type="button" class="btn btn-ghost btn-small" data-tool-share>Copy link to these values</button>
+              <button type="button" class="btn btn-ghost btn-small" data-tool-reset>Reset</button>
+            </div>
+          </form>
+
+          <div class="tool-results">
+            <noscript><p class="tool-nojs">This calculator needs JavaScript. The equations it uses are written out below.</p></noscript>
+            <dl class="readouts">
+              <div class="readout readout-main"><dt>Link margin</dt><dd><span data-out="margin">—</span><small>dB</small></dd></div>
+            </dl>
+            <p class="tool-note" data-out="verdict" aria-live="polite"></p>
+            <dl class="readouts">
+              <div class="readout"><dt>Free-space path loss</dt><dd><span data-out="path">—</span><small>dB</small></dd></div>
+              <div class="readout"><dt>Received power</dt><dd><span data-out="prx">—</span><small>dBm</small></dd></div>
+              <div class="readout"><dt>EIRP</dt><dd><span data-out="eirp">—</span><small>dBm</small></dd></div>
+              <div class="readout"><dt>Range with fade margin</dt><dd data-out="range">—</dd></div>
+              <div class="readout"><dt>Range at 0 dB margin</dt><dd data-out="rangeZero">—</dd></div>
+              <div class="readout"><dt>Wavelength</dt><dd data-out="lambda">—</dd></div>
+              <div class="readout"><dt>Fresnel zone radius, midpoint</dt><dd data-out="fresnel">—</dd></div>
+              <div class="readout"><dt>Clearance to keep (60%)</dt><dd data-out="fresnel60">—</dd></div>
+            </dl>
+            <figure class="tool-figure">
+              <svg viewBox="0 0 640 280" role="img" aria-label="Received power against distance, with the receiver sensitivity and fade margin marked" data-chart></svg>
+              <figcaption>Received power against distance in free space. It falls by 20 dB for every tenfold increase in distance.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="article">
+          <h2>How the link budget works</h2>
+          <p>A link budget adds up every gain and loss between the transmitter's output and the receiver's input. If the power arriving at the receiver is above its sensitivity, the link closes. The amount left over is the link margin, and it is what protects the link against fading, interference and the losses nobody planned for.</p>
+          <div class="formula">EIRP = P<sub>TX</sub> − L<sub>TX</sub> + G<sub>TX</sub>
+P<sub>RX</sub> = EIRP − FSPL − L<sub>other</sub> + G<sub>RX</sub> − L<sub>RX</sub>
+Margin = P<sub>RX</sub> − Sensitivity</div>
+          <p>Powers are in dBm, gains in dBi and losses in dB, so everything adds and subtracts. Cable and connector losses include anything between the radio and the antenna: matching networks, filters, switches and the feed line itself.</p>
+
+          <h2>Free-space path loss</h2>
+          <p>Free-space path loss (FSPL) is the spreading loss between two isotropic antennas with nothing in the way. It comes from the Friis transmission equation, and in decibels it is:</p>
+          <div class="formula">FSPL = 20·log<sub>10</sub>(4π·d·f / c)
+     = 20·log<sub>10</sub>(d) + 20·log<sub>10</sub>(f) − 147.55     (d in metres, f in hertz)</div>
+          <p>Doubling the distance adds 6 dB of loss, and so does doubling the frequency. The frequency term is not the air absorbing more at higher frequencies. It is the receiving antenna: an antenna of the same gain is physically smaller at a higher frequency, so it captures less of the passing wave.</p>
+          <p><strong>Worked example.</strong> A 2.44 GHz link over 200 m: 20·log<sub>10</sub>(200) = 46.02 dB, 20·log<sub>10</sub>(2.44 × 10<sup>9</sup>) = 187.75 dB, so FSPL = 46.02 + 187.75 − 147.55 = 86.22 dB. With 10 dBm out, 0.5 dB of feed loss and 2 dBi antennas at both ends, the receiver sees 10 − 0.5 + 2 − 86.22 + 2 − 0.5 = −73.2 dBm. Against a −95 dBm sensitivity that is a 21.8 dB margin. These are the calculator's default values.</p>
+
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Frequency</th><th>Wavelength</th><th class="num">FSPL at 100 m</th><th class="num">FSPL at 1 km</th><th class="num">Fresnel radius, 1 km link</th></tr></thead>
+              <tbody>
+                <tr><td>433.92 MHz</td><td class="num">69.1 cm</td><td class="num">65.2 dB</td><td class="num">85.2 dB</td><td class="num">13.1 m</td></tr>
+                <tr><td>868 MHz</td><td class="num">34.5 cm</td><td class="num">71.2 dB</td><td class="num">91.2 dB</td><td class="num">9.3 m</td></tr>
+                <tr><td>1575.42 MHz (GPS L1)</td><td class="num">19.0 cm</td><td class="num">76.4 dB</td><td class="num">96.4 dB</td><td class="num">6.9 m</td></tr>
+                <tr><td>2.44 GHz</td><td class="num">12.3 cm</td><td class="num">80.2 dB</td><td class="num">100.2 dB</td><td class="num">5.5 m</td></tr>
+                <tr><td>3.6 GHz</td><td class="num">8.3 cm</td><td class="num">83.6 dB</td><td class="num">103.6 dB</td><td class="num">4.6 m</td></tr>
+                <tr><td>5.5 GHz</td><td class="num">5.5 cm</td><td class="num">87.3 dB</td><td class="num">107.3 dB</td><td class="num">3.7 m</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>How much fade margin is enough</h2>
+          <p>Free space is the best case. Real links lose more to reflections, obstructions and people, and the received signal moves around as things change. A fade margin sets aside headroom for that:</p>
+          <ul>
+            <li><strong>Clear line of sight, fixed antennas:</strong> around 10 dB is a common starting point.</li>
+            <li><strong>Indoors, or with people and things moving:</strong> multipath fading can cause deep nulls, so 15 to 20 dB or more is safer.</li>
+            <li><strong>Wearables and handheld devices:</strong> the body can absorb several dB at 2.4 GHz, and more when the antenna is pressed against it. Put that in the other-losses field.</li>
+          </ul>
+          <p>Walls and floors are hard to generalise. Plasterboard costs a few dB, while brick, concrete and foil-backed insulation can each cost well over 10 dB at 2.4 GHz. If the link matters, measure it on site.</p>
+
+          <h2>Fresnel zone clearance</h2>
+          <p>A radio link needs more than a clear line of sight. The first Fresnel zone is an ellipsoid around the direct path, and obstacles inside it cause extra loss even when the far antenna is visible. A common rule is to keep at least 60% of the first zone clear of the ground, buildings and trees.</p>
+          <div class="formula">r<sub>1</sub> = √(λ·d<sub>1</sub>·d<sub>2</sub> / (d<sub>1</sub> + d<sub>2</sub>))     at the midpoint: r<sub>1</sub> = ½·√(λ·d)</div>
+          <p>At 868 MHz over 1 km the zone is 9.3 m in radius at the midpoint, so two antennas at head height across a flat field are already well inside it. That is one reason long-range sub-gigahertz links usually need mast-mounted antennas to get anywhere near their free-space range.</p>
+
+          <h2>EIRP and UK power limits</h2>
+          <p>Licence-exempt bands limit radiated power, not the radio's output, so antenna gain counts against the limit. In the UK, Ofcom's IR 2030 sets the limits. Two common examples are 25 mW ERP (14 dBm ERP, about 16.15 dBm EIRP) in the 868.0 to 868.6 MHz sub-band, and 100 mW EIRP (20 dBm) for wideband data at 2.4 GHz. ERP is referenced to a dipole, so EIRP = ERP + 2.15 dB. Check the current interface requirement for your exact sub-band, duty cycle and modulation before you fix a design.</p>
+
+          <h2>What this calculator does not model</h2>
+          <ul>
+            <li>Ground reflection. Over a flat surface, the reflected wave makes loss rise at 40 dB per decade beyond a breakpoint distance, rather than 20 dB.</li>
+            <li>Diffraction over terrain and buildings, rain fade at microwave frequencies, and atmospheric absorption.</li>
+            <li>Interference and noise rising above the receiver's own noise floor, which reduces its real sensitivity.</li>
+          </ul>
+          <p>For those, use a propagation model suited to the environment, and measure. The presets use typical published figures for common radios and are a starting point only. Check the datasheet for your part, data rate and modulation.</p>
+
+          <h3>References</h3>
+          <ol class="refs">
+            <li>H. T. Friis, "A Note on a Simple Transmission Formula", <i>Proceedings of the IRE</i>, vol. 34, no. 5, pp. 254–256, 1946.</li>
+            <li>ITU-R Recommendation P.525, <i>Calculation of free-space attenuation</i>.</li>
+            <li>ITU-R Recommendation P.526, <i>Propagation by diffraction</i> (Fresnel zones and obstacle loss).</li>
+            <li>Ofcom, IR 2030, <i>UK Interface Requirements for Licence Exempt Short Range Devices</i>.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container prose-grid">
+        <div class="section-head reveal">
+          <p class="eyebrow">Related</p>
+          <h2>More RF tools.</h2>
+        </div>
+        <div class="link-list reveal">
+          <a href="/tools/matching-network"><b>Impedance matching network designer</b><small>L, Pi and T networks on a Smith chart</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/trace-impedance"><b>PCB trace impedance calculator</b><small>Microstrip, stripline, differential pairs and coplanar waveguide</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/vswr"><b>VSWR and return loss converter</b><small>VSWR, return loss, reflection coefficient and mismatch loss</small><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="container cta-inner reveal">
+        <div class="cta-dial" aria-hidden="true"></div>
+        <h2>Need the radio to actually work?</h2>
+        <p class="lede">We design RF hardware from 868 MHz to 3.6 GHz, from the matching network to the antenna feed. Tell us about your link.</p>
+        <a href="/rf-design" class="btn btn-large">RF design services <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/img/Logo96.png" alt="" width="28" height="28"><span>CustomPowerLabs</span></a>
+        <p>Prototype engineering consultancy.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Services">
+        <p class="footer-title">Services</p>
+        <a href="/pcb-design">PCB design</a>
+        <a href="/rf-design">RF &amp; wireless</a>
+        <a href="/power-electronics">Power electronics</a>
+        <a href="/firmware">Firmware &amp; FPGA</a>
+        <a href="/mechanical-design">Mechanical &amp; simulation</a>
+        <a href="/prototyping">Prototype build</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Company">
+        <p class="footer-title">Company</p>
+        <a href="/#work">Work</a>
+        <a href="/tools/">Engineering tools</a>
+        <a href="/#process">Process</a>
+        <a href="/#team">Team</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
+        <span>Hampshire, England</span>
+        <span>Working with clients across the UK</span>
+      </div>
+    </div>
+    <div class="container footer-mark" aria-hidden="true">
+      <svg viewBox="0 0 1200 150"><text x="2" y="118" textLength="1196" lengthAdjust="spacing">CustomPowerLabs</text></svg>
+    </div>
+    <div class="container footer-base">
+      <span>© <span data-year>2026</span> CustomPowerLabs. All rights reserved.</span>
+      <span class="footer-social">
+        <a href="https://twitter.com/CustomPowerLabs" target="_blank" rel="noopener">X</a>
+        <a href="https://www.instagram.com/CustomPowerLabs/" target="_blank" rel="noopener">Instagram</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="/script.js?v=20261124a" defer onerror="document.documentElement.classList.remove('js')"></script>
+  <script src="/tools/tools.js?v=20261124a" defer></script>
+  <script src="/tools/link-budget.js?v=20261124a" defer></script>
+</body>
+</html>

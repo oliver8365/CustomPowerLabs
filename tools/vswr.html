@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VSWR to Return Loss Calculator: Reflection and Mismatch Loss | CustomPowerLabs</title>
+  <meta name="description" content="Free VSWR calculator. Convert between VSWR, return loss, reflection coefficient, mismatch loss and reflected power, or start from a complex load impedance.">
+  <meta name="theme-color" content="#0a0b12">
+  <link rel="canonical" href="https://custompowerlabs.com/tools/vswr">
+
+  <meta property="og:title" content="VSWR and return loss calculator">
+  <meta property="og:description" content="Free VSWR calculator. Convert between VSWR, return loss, reflection coefficient, mismatch loss and reflected power, or start from a complex load impedance.">
+  <meta property="og:image" content="https://custompowerlabs.com/img/talos-5/og.jpg">
+  <meta property="og:url" content="https://custompowerlabs.com/tools/vswr">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://custompowerlabs.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tools",
+            "item": "https://custompowerlabs.com/tools/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "VSWR and return loss",
+            "item": "https://custompowerlabs.com/tools/vswr"
+          }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "name": "VSWR and return loss calculator",
+        "url": "https://custompowerlabs.com/tools/vswr",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CustomPowerLabs",
+          "url": "https://custompowerlabs.com"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=20261124a">
+  <style>
+    .vs-stack { display: grid; gap: clamp(24px, 3vw, 40px); }
+    .vs-summary { color: var(--text); font-size: 1.0625rem; line-height: 1.55; }
+    .vs-summary:empty { display: none; }
+    .tool-figure svg.vs-smith { display: block; max-width: 340px; margin: 18px auto 0; }
+    .vs-circle { fill: rgba(var(--accent-rgb), 0.08); stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .vs-centre { fill: var(--text-3); }
+    .vs-bar-trans { fill: var(--accent); }
+    .vs-bar-refl { fill: var(--error); opacity: 0.75; }
+    .vs-bar-none { fill: var(--line-strong); }
+    .tool-figure svg.vs-bar { display: block; height: 12px; border-radius: 3px; overflow: hidden; }
+    .vs-bar-labels { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; margin-bottom: 8px; color: var(--text-2); font: 0.75rem/1.4 var(--font-mono); }
+  </style>
+</head>
+<body class="page-tool">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CustomPowerLabs home">
+        <img src="/img/Logo96.png" alt="" width="28" height="28">
+        <span>CustomPowerLabs</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="/#services">Services</a>
+        <a href="/#work">Work</a>
+        <a href="/tools/" aria-current="page">Tools</a>
+        <a href="/#team">Team</a>
+        <a href="/contact" class="btn btn-small">Start a project</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="crumbs reveal"><li><a href="/tools/">Tools</a></li><li>RF</li></ol>
+        <h1 class="display display-sm reveal">VSWR and return loss calculator.</h1>
+        <p class="lede reveal">Convert between VSWR, return loss, reflection coefficient, mismatch loss and reflected power, or start from a complex load impedance.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container vs-stack">
+        <div class="tool" data-tool="vswr">
+          <form class="tool-inputs" novalidate>
+            <div>
+              <p class="tool-label" id="presets-label">Start from</p>
+              <div class="presets" role="group" aria-labelledby="presets-label">
+                <button type="button" data-preset="1.5">1.5:1</button>
+                <button type="button" data-preset="2">2:1</button>
+                <button type="button" data-preset="3">3:1</button>
+                <button type="button" data-preset="1">Perfect match</button>
+                <button type="button" data-preset="∞">Total reflection</button>
+              </div>
+            </div>
+
+            <fieldset>
+              <legend>Edit any one value</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="vswr">VSWR</label>
+                  <div class="unit-input"><input id="vswr" name="vswr" type="text" inputmode="decimal" value="1.5" autocomplete="off"><span>:1</span></div>
+                </div>
+                <div class="field">
+                  <label for="rl">Return loss</label>
+                  <div class="unit-input"><input id="rl" name="rl" type="text" inputmode="decimal" value="13.98" autocomplete="off"><span>dB</span></div>
+                </div>
+                <div class="field">
+                  <label for="gamma">Reflection coefficient |Γ|</label>
+                  <div class="unit-input"><input id="gamma" name="gamma" type="text" inputmode="decimal" value="0.2000" autocomplete="off"><span>0 to 1</span></div>
+                </div>
+                <div class="field">
+                  <label for="ml">Mismatch loss</label>
+                  <div class="unit-input"><input id="ml" name="ml" type="text" inputmode="decimal" value="0.177" autocomplete="off"><span>dB</span></div>
+                </div>
+                <div class="field">
+                  <label for="refl">Reflected power</label>
+                  <div class="unit-input"><input id="refl" name="refl" type="text" inputmode="decimal" value="4.000" autocomplete="off"><span>%</span></div>
+                </div>
+                <div class="field">
+                  <label for="trans">Delivered power</label>
+                  <div class="unit-input"><input id="trans" name="trans" type="text" inputmode="decimal" value="96.00" autocomplete="off"><span>%</span></div>
+                </div>
+              </div>
+            </fieldset>
+            <p class="tool-note">Type ∞ (or inf) for an infinite VSWR, return loss or mismatch loss.</p>
+
+            <div class="tool-actions">
+              <button type="button" class="btn btn-ghost btn-small" data-vswr-share>Copy link to these values</button>
+              <button type="button" class="btn btn-ghost btn-small" data-tool-reset>Reset</button>
+            </div>
+          </form>
+
+          <div class="tool-results">
+            <noscript><p class="tool-nojs">This calculator needs JavaScript. The equations it uses are written out below.</p></noscript>
+            <p class="vs-summary" data-out="summary" aria-live="polite"></p>
+            <p class="tool-warn" data-warn hidden></p>
+            <dl class="readouts">
+              <div class="readout"><dt>S11</dt><dd><span data-out="s11">—</span><small>dB</small></dd></div>
+              <div class="readout"><dt>Resistive load, below 50 Ω</dt><dd data-out="rmin">—</dd></div>
+              <div class="readout"><dt>Resistive load, above 50 Ω</dt><dd data-out="rmax">—</dd></div>
+            </dl>
+            <figure class="tool-figure">
+              <p class="vs-bar-labels"><span data-out="delivered"></span><span data-out="reflected"></span></p>
+              <svg class="vs-bar" viewBox="0 0 600 12" preserveAspectRatio="none" role="img" aria-label="Bar showing the share of incident power delivered to the load and the share reflected" data-bar></svg>
+              <svg class="vs-smith" viewBox="0 0 300 300" role="img" aria-label="Smith chart with the circle of all impedances that have this VSWR, and the two resistive loads on it" data-smith></svg>
+              <figcaption>Every impedance on the dashed circle has this VSWR. The dots are the two purely resistive loads, Z<sub>0</sub>/VSWR and Z<sub>0</sub>·VSWR, shown above for a 50 Ω system.</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="tool" data-tool="vswr-load">
+          <form class="tool-inputs" novalidate>
+            <fieldset>
+              <legend>Load impedance</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="r">Resistance R</label>
+                  <div class="unit-input"><input id="r" name="r" type="text" inputmode="decimal" value="32" data-min="0" autocomplete="off"><span>Ω</span></div>
+                </div>
+                <div class="field">
+                  <label for="x">Reactance jX</label>
+                  <div class="unit-input"><input id="x" name="x" type="text" inputmode="decimal" value="-18" autocomplete="off"><span>Ω</span></div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Reference</legend>
+              <div class="tool-group">
+                <div class="field field-full">
+                  <label for="z0">Characteristic impedance Z<sub>0</sub></label>
+                  <div class="unit-input"><input id="z0" name="z0" type="text" inputmode="decimal" value="50" data-gt="0" autocomplete="off"><span>Ω</span></div>
+                </div>
+              </div>
+            </fieldset>
+            <p class="tool-note">A negative reactance is capacitive, a positive one inductive.</p>
+            <div class="tool-actions">
+              <button type="button" class="btn btn-ghost btn-small" data-vswr-share>Copy link to these values</button>
+              <button type="button" class="btn btn-ghost btn-small" data-tool-reset>Reset</button>
+            </div>
+          </form>
+
+          <div class="tool-results">
+            <dl class="readouts">
+              <div class="readout readout-main"><dt>VSWR</dt><dd><span data-out="vswr">—</span><small>:1</small></dd></div>
+            </dl>
+            <p class="tool-warn" data-warn hidden></p>
+            <dl class="readouts">
+              <div class="readout"><dt>|Γ|</dt><dd data-out="gamma">—</dd></div>
+              <div class="readout"><dt>Angle of Γ</dt><dd data-out="angle">—</dd></div>
+              <div class="readout"><dt>Return loss</dt><dd><span data-out="rl">—</span><small>dB</small></dd></div>
+              <div class="readout"><dt>S11</dt><dd><span data-out="s11">—</span><small>dB</small></dd></div>
+              <div class="readout"><dt>Mismatch loss</dt><dd><span data-out="ml">—</span><small>dB</small></dd></div>
+              <div class="readout"><dt>Reflected power</dt><dd><span data-out="refl">—</span><small>%</small></dd></div>
+              <div class="readout"><dt>Normalised z = Z<sub>L</sub>/Z<sub>0</sub></dt><dd data-out="z">—</dd></div>
+            </dl>
+            <figure class="tool-figure">
+              <svg class="vs-smith" viewBox="0 0 300 300" role="img" aria-label="Smith chart showing the load's reflection coefficient and its constant-VSWR circle" data-smith></svg>
+              <figcaption>Smith chart normalised to Z<sub>0</sub>. The load sits at Γ; the dashed circle through it is its constant-VSWR circle, which a lossless line rotates the load around.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="article">
+          <h2>How to use it</h2>
+          <p>The first panel converts. Type into any one of the six boxes and the other five follow; the box you typed in is left alone. The second panel starts from a load impedance R + jX and a reference impedance, usually 50 Ω, and works out the complex reflection coefficient and everything that follows from it.</p>
+
+          <h2>The equations</h2>
+          <p>Every quantity here depends only on the magnitude of the reflection coefficient Γ, the ratio of the reflected to the incident voltage wave at the load:</p>
+          <div class="formula">Γ = (Z<sub>L</sub> − Z<sub>0</sub>) / (Z<sub>L</sub> + Z<sub>0</sub>)
+VSWR = (1 + |Γ|) / (1 − |Γ|)          |Γ| = (VSWR − 1) / (VSWR + 1)
+Return loss = −20·log<sub>10</sub>|Γ| dB      S11 = 20·log<sub>10</sub>|Γ| dB
+Reflected power = |Γ|<sup>2</sup>            Mismatch loss = −10·log<sub>10</sub>(1 − |Γ|<sup>2</sup>) dB</div>
+          <p>The angle of Γ matters for matching, because it tells you which way to move the impedance, but VSWR and return loss throw it away. Two very different loads, one capacitive and one inductive, can have the same VSWR.</p>
+          <p><strong>Worked example.</strong> A load of 32 − j18 Ω on a 50 Ω line: Z<sub>L</sub> − Z<sub>0</sub> = −18 − j18 and Z<sub>L</sub> + Z<sub>0</sub> = 82 − j18, so Γ = −0.163 − j0.255, or 0.303 at −122.6°. The VSWR is 1.303/0.697 = 1.87:1, the return loss is 10.36 dB, 9.19% of the power is reflected and the mismatch loss is 0.419 dB. These are the defaults in the second panel.</p>
+
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>VSWR</th><th class="num">Return loss</th><th class="num">|Γ|</th><th class="num">Mismatch loss</th><th class="num">Reflected power</th></tr></thead>
+              <tbody>
+                <tr><td>1.05:1</td><td class="num">32.26 dB</td><td class="num">0.0244</td><td class="num">0.003 dB</td><td class="num">0.0595%</td></tr>
+                <tr><td>1.1:1</td><td class="num">26.44 dB</td><td class="num">0.0476</td><td class="num">0.010 dB</td><td class="num">0.227%</td></tr>
+                <tr><td>1.2:1</td><td class="num">20.83 dB</td><td class="num">0.0909</td><td class="num">0.036 dB</td><td class="num">0.826%</td></tr>
+                <tr><td>1.25:1</td><td class="num">19.08 dB</td><td class="num">0.1111</td><td class="num">0.054 dB</td><td class="num">1.23%</td></tr>
+                <tr><td>1.3:1</td><td class="num">17.69 dB</td><td class="num">0.1304</td><td class="num">0.075 dB</td><td class="num">1.70%</td></tr>
+                <tr><td>1.5:1</td><td class="num">13.98 dB</td><td class="num">0.2000</td><td class="num">0.177 dB</td><td class="num">4.00%</td></tr>
+                <tr><td>1.75:1</td><td class="num">11.29 dB</td><td class="num">0.2727</td><td class="num">0.336 dB</td><td class="num">7.44%</td></tr>
+                <tr><td>2:1</td><td class="num">9.54 dB</td><td class="num">0.3333</td><td class="num">0.512 dB</td><td class="num">11.1%</td></tr>
+                <tr><td>2.5:1</td><td class="num">7.36 dB</td><td class="num">0.4286</td><td class="num">0.881 dB</td><td class="num">18.4%</td></tr>
+                <tr><td>3:1</td><td class="num">6.02 dB</td><td class="num">0.5000</td><td class="num">1.249 dB</td><td class="num">25.0%</td></tr>
+                <tr><td>4:1</td><td class="num">4.44 dB</td><td class="num">0.6000</td><td class="num">1.938 dB</td><td class="num">36.0%</td></tr>
+                <tr><td>5:1</td><td class="num">3.52 dB</td><td class="num">0.6667</td><td class="num">2.553 dB</td><td class="num">44.4%</td></tr>
+                <tr><td>10:1</td><td class="num">1.74 dB</td><td class="num">0.8182</td><td class="num">4.807 dB</td><td class="num">66.9%</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Sign conventions</h2>
+          <p>Return loss is a loss, so it is a positive number of decibels: a good match has a high return loss, such as 20 dB. S11 is a ratio expressed in decibels, so for a passive load it is zero or negative: the same match is S11 = −20 dB. A network analyser plots S11, which is why you will often hear "a return loss of −20 dB". The meaning is clear, but strictly the sign is wrong. This calculator expects return loss as a positive number and shows S11 separately.</p>
+          <p>A perfect match has |Γ| = 0, a VSWR of exactly 1:1 and an infinite return loss. In practice the analyser's calibration and the connectors' repeatability set a floor on how good a match you can measure, so very high return loss figures mean little. Total reflection, from an open, a short or a pure reactance, has |Γ| = 1, an infinite VSWR and a return loss of 0 dB.</p>
+          <p>Mismatch loss assumes the source is matched to Z<sub>0</sub>. If both ends are mismatched, the reflections bounce between them and the power delivered can be higher or lower than the mismatch loss suggests, by up to 20·log<sub>10</sub>(1 ± |Γ<sub>S</sub>|·|Γ<sub>L</sub>|) dB. Two 1.5:1 ends give about +0.34 dB to −0.35 dB.</p>
+
+          <h2>Why a 1.5:1 antenna spec matters</h2>
+          <p>A VSWR of 1.5:1 reflects 4% of the power and costs 0.18 dB. In a link budget that is close to nothing: losing 6 dB halves free-space range, and 0.18 dB changes it by about 2%. Even 2:1 costs only half a decibel. So why do antenna datasheets and RF specifications insist on 1.5:1 or 2:1?</p>
+          <ul>
+            <li><strong>It is a limit across a band.</strong> An antenna that is 1.5:1 at the centre frequency on its evaluation board can be much worse at the band edges, and worse again once it is inside a plastic enclosure, near a battery or in someone's hand. A tight spec leaves room for that.</li>
+            <li><strong>The amplifier sees the mismatch.</strong> Power amplifiers are designed and characterised into a 50 Ω load. A poor match changes the load the transistor sees, which can reduce output power and efficiency, raise harmonics and, at high power, stress the device. Amplifier datasheets often state a load VSWR the part will survive.</li>
+            <li><strong>Filters assume 50 Ω.</strong> A filter, duplexer or matching network designed for 50 Ω terminations ripples and shifts when one end is not 50 Ω.</li>
+            <li><strong>Cable hides a bad match.</strong> The reflected wave crosses the cable twice, so the return loss you measure at the far end of a lossy cable is the antenna's return loss plus twice the cable loss. A 1.5:1 antenna behind 3 dB of cable measures about 1.22:1. Measure at the antenna's own connector, or calibrate out the cable.</li>
+          </ul>
+
+          <h2>Accuracy and limits</h2>
+          <p>The conversions are exact definitions, so the only error is rounding in the display. The reflection coefficient assumes a real reference impedance, as on a lossless line. With a complex reference, such as a conjugate match to an amplifier, use the power-wave reflection coefficient instead; the <a href="/tools/matching-network">matching network designer</a> does. VSWR describes a standing wave on a line. For a component with no line attached, return loss or |Γ| says the same thing more directly.</p>
+
+          <h3>References</h3>
+          <ol class="refs">
+            <li>D. M. Pozar, <i>Microwave Engineering</i>, 4th ed., Wiley, 2012. Section 2.3, the terminated lossless transmission line: reflection coefficient, return loss and standing wave ratio.</li>
+            <li>P. H. Smith, <i>Electronic Applications of the Smith Chart</i>, McGraw-Hill, 1969.</li>
+            <li>K. Kurokawa, "Power Waves and the Scattering Matrix", <i>IEEE Transactions on Microwave Theory and Techniques</i>, vol. 13, no. 2, pp. 194–202, 1965.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container prose-grid">
+        <div class="section-head reveal">
+          <p class="eyebrow">Related</p>
+          <h2>More RF tools.</h2>
+        </div>
+        <div class="link-list reveal">
+          <a href="/tools/matching-network"><b>Impedance matching network designer</b><small>L, Pi and T networks on a Smith chart</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/link-budget"><b>RF link budget calculator</b><small>Path loss, link margin, range and Fresnel zone clearance</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/trace-impedance"><b>PCB trace impedance calculator</b><small>Microstrip, stripline, differential pairs and coplanar waveguide</small><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="container cta-inner reveal">
+        <div class="cta-dial" aria-hidden="true"></div>
+        <h2>Antenna not where it should be?</h2>
+        <p class="lede">We design RF hardware from 868 MHz and 2.4 GHz up to 3.6 GHz, from the matching network to the antenna feed. Tell us what you are building.</p>
+        <a href="/rf-design" class="btn btn-large">RF design services <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/img/Logo96.png" alt="" width="28" height="28"><span>CustomPowerLabs</span></a>
+        <p>Prototype engineering consultancy.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Services">
+        <p class="footer-title">Services</p>
+        <a href="/pcb-design">PCB design</a>
+        <a href="/rf-design">RF &amp; wireless</a>
+        <a href="/power-electronics">Power electronics</a>
+        <a href="/firmware">Firmware &amp; FPGA</a>
+        <a href="/mechanical-design">Mechanical &amp; simulation</a>
+        <a href="/prototyping">Prototype build</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Company">
+        <p class="footer-title">Company</p>
+        <a href="/#work">Work</a>
+        <a href="/tools/">Engineering tools</a>
+        <a href="/#process">Process</a>
+        <a href="/#team">Team</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
+        <span>Hampshire, England</span>
+        <span>Working with clients across the UK</span>
+      </div>
+    </div>
+    <div class="container footer-mark" aria-hidden="true">
+      <svg viewBox="0 0 1200 150"><text x="2" y="118" textLength="1196" lengthAdjust="spacing">CustomPowerLabs</text></svg>
+    </div>
+    <div class="container footer-base">
+      <span>© <span data-year>2026</span> CustomPowerLabs. All rights reserved.</span>
+      <span class="footer-social">
+        <a href="https://twitter.com/CustomPowerLabs" target="_blank" rel="noopener">X</a>
+        <a href="https://www.instagram.com/CustomPowerLabs/" target="_blank" rel="noopener">Instagram</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="/script.js?v=20261124a" defer onerror="document.documentElement.classList.remove('js')"></script>
+  <script src="/tools/tools.js?v=20261124a" defer></script>
+  <script src="/tools/vswr.js?v=20261124a" defer></script>
+</body>
+</html>

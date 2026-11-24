@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CustomPowerLabs | Prototype Engineering Consultancy</title>
-  <meta name="description" content="CustomPowerLabs is a prototype engineering consultancy. We take products from idea to working prototype: mechanical design, simulation, electronics, firmware and build.">
+  <title>CustomPowerLabs | Prototype Engineering and Electronics Design, UK</title>
+  <meta name="description" content="UK prototype engineering consultancy. PCB, RF, power electronics, firmware and mechanical design, taken from idea to working prototype by one team.">
   <meta name="theme-color" content="#0a0b12">
   <link rel="canonical" href="https://custompowerlabs.com/">
 
   <meta property="og:title" content="CustomPowerLabs | Prototype Engineering Consultancy">
-  <meta property="og:description" content="From idea to working prototype. Mechanical design, simulation, electronics and build, under one roof.">
+  <meta property="og:description" content="From idea to working prototype. Electronics, RF, firmware, mechanical design and build, under one roof.">
   <meta property="og:image" content="https://custompowerlabs.com/img/talos-5/og.jpg">
   <meta property="og:url" content="https://custompowerlabs.com/">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CustomPowerLabs">
   <meta name="twitter:card" content="summary_large_image">
 
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -24,13 +25,36 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "CustomPowerLabs",
-    "url": "https://custompowerlabs.com",
-    "logo": "https://custompowerlabs.com/img/Logo.png",
-    "description": "Prototype engineering consultancy.",
-    "email": "info@custompowerlabs.com",
-    "address": { "@type": "PostalAddress", "addressRegion": "Hampshire", "addressCountry": "GB" }
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://custompowerlabs.com/#organization",
+        "name": "CustomPowerLabs",
+        "alternateName": "Custom Power Labs",
+        "url": "https://custompowerlabs.com/",
+        "logo": "https://custompowerlabs.com/img/Logo.png",
+        "image": "https://custompowerlabs.com/img/talos-5/og.jpg",
+        "description": "Prototype engineering consultancy in Hampshire, UK. PCB and electronics design, RF and wireless, power electronics and motor drives, embedded firmware and FPGA, mechanical design and simulation, and prototype build.",
+        "email": "info@custompowerlabs.com",
+        "telephone": "+44 7393 312569",
+        "address": { "@type": "PostalAddress", "addressRegion": "Hampshire", "addressCountry": "GB" },
+        "areaServed": { "@type": "Country", "name": "United Kingdom" },
+        "founder": [
+          { "@type": "Person", "name": "Oliver Saunders-Smith", "jobTitle": "Co-founder, Engineering" },
+          { "@type": "Person", "name": "Joe Grindley", "jobTitle": "Co-founder, Projects and business" }
+        ],
+        "knowsAbout": ["Prototype development", "PCB design", "High-speed PCB design", "RF design", "Power electronics", "Motor control", "Embedded firmware", "FPGA design", "Mechanical design", "Finite element analysis", "Computational fluid dynamics"],
+        "sameAs": ["https://twitter.com/CustomPowerLabs", "https://www.instagram.com/CustomPowerLabs/"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://custompowerlabs.com/#website",
+        "name": "CustomPowerLabs",
+        "alternateName": "Custom Power Labs",
+        "url": "https://custompowerlabs.com/",
+        "publisher": { "@id": "https://custompowerlabs.com/#organization" }
+      }
+    ]
   }
   </script>
 
@@ -38,7 +62,7 @@
 
   <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/styles.css?v=20261123a">
+  <link rel="stylesheet" href="/styles.css?v=20261124a">
   <link rel="preload" as="image" type="image/webp" href="/img/talos-5/hero-blueprint-1500.webp" fetchpriority="high"
         imagesrcset="/img/talos-5/hero-blueprint-900.webp 900w, /img/talos-5/hero-blueprint-1500.webp 1500w" imagesizes="(max-width: 900px) 100vw, 60vw">
   <link rel="preload" as="image" type="image/webp" href="/img/talos-5/hero-render-1500.webp"
@@ -59,7 +83,7 @@
       <nav class="site-nav" id="site-nav">
         <a href="/#services">Services</a>
         <a href="/#work">Work</a>
-        <a href="/#process">Process</a>
+        <a href="/tools/">Tools</a>
         <a href="/#team">Team</a>
         <a href="/contact" class="btn btn-small">Start a project</a>
       </nav>
@@ -75,7 +99,7 @@
         <div class="hero-copy">
           <p class="eyebrow reveal">Prototype engineering consultancy</p>
           <h1 class="display"><span class="line"><span>From idea to</span></span> <span class="line"><span class="accent">working prototype.</span></span></h1>
-          <p class="lede reveal">We design, engineer and build functional prototypes for founders and engineering teams. Mechanical design, simulation, electronics and build, under one roof.</p>
+          <p class="lede reveal">We design, engineer and build functional prototypes for founders and engineering teams. Electronics, RF, firmware, mechanical design, simulation and build, under one roof.</p>
           <div class="hero-actions reveal">
             <a href="/contact" class="btn">Start a project</a>
             <a href="#work" class="btn btn-ghost">See our work</a>
@@ -113,8 +137,8 @@
     <!-- Capabilities ticker (decorative: the same list is spelled out in Services) -->
     <div class="ticker" aria-hidden="true">
       <div class="ticker-track">
-        <span>Mechanical design</span><span>Simulation</span><span>Electronics</span><span>Firmware</span><span>3D printing</span><span>Machining</span><span>Assembly</span>
-        <span>Mechanical design</span><span>Simulation</span><span>Electronics</span><span>Firmware</span><span>3D printing</span><span>Machining</span><span>Assembly</span>
+        <span>PCB design</span><span>RF design</span><span>Power electronics</span><span>Firmware</span><span>FPGA</span><span>Mechanical design</span><span>Simulation</span><span>3D printing</span><span>Assembly</span>
+        <span>PCB design</span><span>RF design</span><span>Power electronics</span><span>Firmware</span><span>FPGA</span><span>Mechanical design</span><span>Simulation</span><span>3D printing</span><span>Assembly</span>
       </div>
     </div>
 
@@ -125,23 +149,62 @@
           <p class="eyebrow">Services</p>
           <h2>Everything it takes to get a product off the page.</h2>
         </div>
-        <div class="card-grid">
-          <article class="card reveal">
+        <div class="card-grid card-grid-services">
+          <a class="card reveal" href="/pcb-design">
             <div class="card-top">
               <span class="card-index mono">01</span>
               <svg class="card-icon" viewBox="0 0 64 64" aria-hidden="true">
-                <circle cx="30" cy="34" r="19" pathLength="1"/>
-                <path d="M30 8v52M4 34h52" pathLength="1"/>
-                <path class="hl" d="M30 34 46 18" pathLength="1"/>
-                <circle class="hl" cx="48" cy="16" r="3" pathLength="1"/>
+                <rect x="17" y="17" width="30" height="30" rx="2" pathLength="1"/>
+                <path d="M25 17V7M32 17V7M39 17V7M25 57V47M32 57V47M39 57V47M17 25H7M17 32H7M17 39H7M57 25H47M57 32H47M57 39H47" pathLength="1"/>
+                <path class="hl" d="M23 35h4l3-8 4 12 3-8h4" pathLength="1"/>
               </svg>
             </div>
-            <h3>Concept &amp; feasibility</h3>
-            <p>We turn a rough idea into a clear specification and find the hard problems early, before they get expensive.</p>
-          </article>
-          <article class="card reveal">
+            <h3>PCB &amp; electronics design</h3>
+            <p>Multilayer boards up to eight layers, with DDR memory, camera and display interfaces, and Ethernet.</p>
+            <span class="link-arrow">PCB design <span aria-hidden="true">→</span></span>
+          </a>
+          <a class="card reveal" href="/rf-design">
             <div class="card-top">
               <span class="card-index mono">02</span>
+              <svg class="card-icon" viewBox="0 0 64 64" aria-hidden="true">
+                <path d="M32 30v27M23 57h18" pathLength="1"/>
+                <circle cx="32" cy="26" r="4" pathLength="1"/>
+                <path d="M22.1 16.1A14 14 0 0 0 22.1 35.9M41.9 16.1A14 14 0 0 1 41.9 35.9" pathLength="1"/>
+                <path class="hl" d="M15 9A24 24 0 0 0 15 43M49 9A24 24 0 0 1 49 43" pathLength="1"/>
+              </svg>
+            </div>
+            <h3>RF &amp; wireless</h3>
+            <p>Radio hardware from 868 MHz to 3.6 GHz, matched and laid out so the real range matches the link budget.</p>
+            <span class="link-arrow">RF design <span aria-hidden="true">→</span></span>
+          </a>
+          <a class="card reveal" href="/power-electronics">
+            <div class="card-top">
+              <span class="card-index mono">03</span>
+              <svg class="card-icon" viewBox="0 0 64 64" aria-hidden="true">
+                <circle cx="32" cy="32" r="25" pathLength="1"/>
+                <path class="hl" d="M35 12 22 35h10l-3 17 13-24H32z" pathLength="1"/>
+              </svg>
+            </div>
+            <h3>Power electronics</h3>
+            <p>AC/DC, DC/DC and DC/AC conversion, and three-phase motor drives with field-oriented control.</p>
+            <span class="link-arrow">Power electronics <span aria-hidden="true">→</span></span>
+          </a>
+          <a class="card reveal" href="/firmware">
+            <div class="card-top">
+              <span class="card-index mono">04</span>
+              <svg class="card-icon" viewBox="0 0 64 64" aria-hidden="true">
+                <rect x="7" y="11" width="50" height="42" rx="3" pathLength="1"/>
+                <path d="M7 20h50M35 28l-6 18" pathLength="1"/>
+                <path class="hl" d="M24 29l-8 8 8 8M40 29l8 8-8 8" pathLength="1"/>
+              </svg>
+            </div>
+            <h3>Firmware &amp; FPGA</h3>
+            <p>Embedded C++, C and Rust, and VHDL and Verilog, written alongside the hardware they run on.</p>
+            <span class="link-arrow">Firmware <span aria-hidden="true">→</span></span>
+          </a>
+          <a class="card reveal" href="/mechanical-design">
+            <div class="card-top">
+              <span class="card-index mono">05</span>
               <svg class="card-icon" viewBox="0 0 64 64" aria-hidden="true">
                 <path d="M32 7 53 19v25L32 57 11 44V19z" pathLength="1"/>
                 <path d="M11 19 32 31l21-12" pathLength="1"/>
@@ -149,24 +212,13 @@
                 <path class="hl" d="M21.500 25 42.500 13M42.500 37.500V25" pathLength="1"/>
               </svg>
             </div>
-            <h3>CAD &amp; simulation</h3>
-            <p>Mechanical design with motion, fit and structural checks done digitally, so the first physical build is close to right.</p>
-          </article>
-          <article class="card reveal">
+            <h3>Mechanical &amp; simulation</h3>
+            <p>CAD backed by structural, CFD and electromagnetic simulation, so the first build is close to right.</p>
+            <span class="link-arrow">Mechanical design <span aria-hidden="true">→</span></span>
+          </a>
+          <a class="card reveal" href="/prototyping">
             <div class="card-top">
-              <span class="card-index mono">03</span>
-              <svg class="card-icon" viewBox="0 0 64 64" aria-hidden="true">
-                <rect x="17" y="17" width="30" height="30" rx="2" pathLength="1"/>
-                <path d="M25 17V7M32 17V7M39 17V7M25 57V47M32 57V47M39 57V47M17 25H7M17 32H7M17 39H7M57 25H47M57 32H47M57 39H47" pathLength="1"/>
-                <path class="hl" d="M23 35h4l3-8 4 12 3-8h4" pathLength="1"/>
-              </svg>
-            </div>
-            <h3>Electronics &amp; firmware</h3>
-            <p>Custom PCBs, power systems and embedded control, designed alongside the mechanics rather than bolted on later.</p>
-          </article>
-          <article class="card reveal">
-            <div class="card-top">
-              <span class="card-index mono">04</span>
+              <span class="card-index mono">06</span>
               <svg class="card-icon" viewBox="0 0 64 64" aria-hidden="true">
                 <path d="M25 5h14v19l-4 5h-6l-4-5z" pathLength="1"/>
                 <path d="M32 29v9" pathLength="1"/>
@@ -175,8 +227,9 @@
               </svg>
             </div>
             <h3>Prototype build</h3>
-            <p>3D printing, machining and assembly into a working unit you can test, demonstrate and take to investors.</p>
-          </article>
+            <p>Concept, 3D printing, machining and assembly into a working unit you can test, demonstrate and take to investors.</p>
+            <span class="link-arrow">Prototype development <span aria-hidden="true">→</span></span>
+          </a>
         </div>
       </div>
     </section>
@@ -265,6 +318,22 @@
       </div>
     </section>
 
+    <!-- Tools -->
+    <section class="section" id="tools">
+      <div class="container prose-grid">
+        <div class="section-head reveal">
+          <p class="eyebrow">Free tools</p>
+          <h2>Engineering calculators we use ourselves.</h2>
+        </div>
+        <div class="link-list reveal">
+          <a href="/tools/link-budget"><b>RF link budget calculator</b><small>Path loss, link margin, range and Fresnel clearance</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/trace-impedance"><b>PCB trace impedance calculator</b><small>Microstrip, stripline, differential pairs and coplanar waveguide</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/matching-network"><b>Impedance matching network designer</b><small>L, Pi and T networks on a Smith chart</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/"><b>All tools</b><small>VSWR and return loss, buck converters, LDO thermal design</small><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
     <!-- Team -->
     <section class="section" id="team">
       <div class="container">
@@ -321,9 +390,19 @@
         <a class="brand" href="/"><img src="/img/Logo96.png" alt="" width="28" height="28"><span>CustomPowerLabs</span></a>
         <p>Prototype engineering consultancy.</p>
       </div>
-      <nav class="footer-nav" aria-label="Footer">
-        <a href="/#services">Services</a>
+      <nav class="footer-nav" aria-label="Services">
+        <p class="footer-title">Services</p>
+        <a href="/pcb-design">PCB design</a>
+        <a href="/rf-design">RF &amp; wireless</a>
+        <a href="/power-electronics">Power electronics</a>
+        <a href="/firmware">Firmware &amp; FPGA</a>
+        <a href="/mechanical-design">Mechanical &amp; simulation</a>
+        <a href="/prototyping">Prototype build</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Company">
+        <p class="footer-title">Company</p>
         <a href="/#work">Work</a>
+        <a href="/tools/">Engineering tools</a>
         <a href="/#process">Process</a>
         <a href="/#team">Team</a>
         <a href="/contact">Contact</a>
@@ -332,6 +411,7 @@
       <div class="footer-contact">
         <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
         <span>Hampshire, England</span>
+        <span>Working with clients across the UK</span>
       </div>
     </div>
     <div class="container footer-mark" aria-hidden="true">
@@ -346,6 +426,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=20261123a" defer onerror="document.documentElement.classList.remove('js')"></script>
+  <script src="/script.js?v=20261124a" defer onerror="document.documentElement.classList.remove('js')"></script>
 </body>
 </html>

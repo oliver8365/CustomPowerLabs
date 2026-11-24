@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PCB Trace Impedance Calculator: Microstrip, Stripline, CPWG | CustomPowerLabs</title>
+  <meta name="description" content="Free PCB trace impedance calculator for microstrip, stripline, differential pairs and grounded coplanar waveguide, with a field solver and width synthesis.">
+  <meta name="theme-color" content="#0a0b12">
+  <link rel="canonical" href="https://custompowerlabs.com/tools/trace-impedance">
+
+  <meta property="og:title" content="PCB trace impedance calculator">
+  <meta property="og:description" content="Free PCB trace impedance calculator for microstrip, stripline, differential pairs and grounded coplanar waveguide, with a field solver and width synthesis.">
+  <meta property="og:image" content="https://custompowerlabs.com/img/talos-5/og.jpg">
+  <meta property="og:url" content="https://custompowerlabs.com/tools/trace-impedance">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://custompowerlabs.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tools",
+            "item": "https://custompowerlabs.com/tools/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "PCB trace impedance",
+            "item": "https://custompowerlabs.com/tools/trace-impedance"
+          }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "name": "PCB trace impedance calculator",
+        "url": "https://custompowerlabs.com/tools/trace-impedance",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CustomPowerLabs",
+          "url": "https://custompowerlabs.com"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=20261124a">
+  <style>
+    /* Trace impedance tool only: every rule is scoped under .ti- classes. */
+    .ti-tool .field[hidden], .ti-tool .readout[hidden], .ti-tool .ti-hide[hidden] { display: none; }
+    .ti-tool .tool-group .field { align-content: start; }
+    .ti-tool .tool-note:empty { display: none; }
+    .ti-tool .ti-copper { margin-top: 2px; }
+    .ti-tool .ti-copper button { padding: 5px 10px; font-size: 0.75rem; }
+    .ti-solve { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 20px; padding: 0 18px 16px; border: 1px solid var(--line); border-radius: var(--r-sm); }
+    .ti-solve .readouts { flex: 1 1 200px; }
+    .ti-solve .readout { border-top: 0; padding-bottom: 0; }
+    .ti-fig .ti-diel { fill: rgba(var(--accent-rgb), 0.08); stroke: var(--line-strong); stroke-width: 1; }
+    .ti-fig .ti-cu { fill: #d39058; }
+    .ti-fig .ti-gnd { fill: #9c714c; }
+    .ti-fig .ti-via { stroke: #9c714c; stroke-width: 2; stroke-dasharray: 3 3; }
+    .ti-fig .ti-dim { stroke: var(--text-3); stroke-width: 1; fill: none; }
+  </style>
+</head>
+<body class="page-tool">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CustomPowerLabs home">
+        <img src="/img/Logo96.png" alt="" width="28" height="28">
+        <span>CustomPowerLabs</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="/#services">Services</a>
+        <a href="/#work">Work</a>
+        <a href="/tools/" aria-current="page">Tools</a>
+        <a href="/#team">Team</a>
+        <a href="/contact" class="btn btn-small">Start a project</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="crumbs reveal"><li><a href="/tools/">Tools</a></li><li>PCB</li></ol>
+        <h1 class="display display-sm reveal">PCB trace impedance calculator.</h1>
+        <p class="lede reveal">Impedance of microstrip, stripline, differential pairs and grounded coplanar waveguide from your stackup, with the trace width solved for your target.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="tool ti-tool" data-tool="trace-impedance">
+          <form class="tool-inputs" novalidate>
+            <fieldset>
+              <legend>Structure</legend>
+              <div class="seg">
+                <label><input type="radio" name="k" value="ms" checked><span>Microstrip</span></label>
+                <label><input type="radio" name="k" value="sl"><span>Stripline</span></label>
+                <label><input type="radio" name="k" value="dms"><span>Diff. microstrip</span></label>
+                <label><input type="radio" name="k" value="dsl"><span>Diff. stripline</span></label>
+                <label><input type="radio" name="k" value="cpwg"><span>CPWG</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Units</legend>
+              <div class="seg">
+                <label><input type="radio" name="units" value="mm" checked><span>mm</span></label>
+                <label><input type="radio" name="units" value="mil"><span>mil (thou)</span></label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Geometry</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="ti-w">Trace width, W</label>
+                  <div class="unit-input"><input id="ti-w" name="w" type="text" inputmode="decimal" value="0.35" data-gt="0" autocomplete="off"><span data-ti-unit>mm</span></div>
+                </div>
+                <div class="field">
+                  <label for="ti-t">Copper thickness, T</label>
+                  <div class="unit-input"><input id="ti-t" name="t" type="text" inputmode="decimal" value="0.035" data-min="0" autocomplete="off"><span data-ti-unit>mm</span></div>
+                  <div class="presets ti-copper" role="group" aria-label="Copper weight">
+                    <button type="button" data-ti-oz="0.018" title="18 µm">0.5 oz</button>
+                    <button type="button" data-ti-oz="0.035" title="35 µm">1 oz</button>
+                    <button type="button" data-ti-oz="0.07" title="70 µm">2 oz</button>
+                  </div>
+                </div>
+                <div class="field" data-ti-for="ms dms cpwg">
+                  <label for="ti-h">Dielectric height, H</label>
+                  <div class="unit-input"><input id="ti-h" name="h" type="text" inputmode="decimal" value="0.2" data-gt="0" autocomplete="off"><span data-ti-unit>mm</span></div>
+                </div>
+                <div class="field" data-ti-for="sl dsl" hidden>
+                  <label for="ti-h1">Dielectric below, H1</label>
+                  <div class="unit-input"><input id="ti-h1" name="h1" type="text" inputmode="decimal" value="0.2" data-gt="0" autocomplete="off"><span data-ti-unit>mm</span></div>
+                </div>
+                <div class="field" data-ti-for="sl dsl" hidden>
+                  <label for="ti-h2">Dielectric above, H2</label>
+                  <div class="unit-input"><input id="ti-h2" name="h2" type="text" inputmode="decimal" value="0.2" data-gt="0" autocomplete="off"><span data-ti-unit>mm</span></div>
+                </div>
+                <div class="field" data-ti-for="dms dsl" hidden>
+                  <label for="ti-s">Spacing between traces, S</label>
+                  <div class="unit-input"><input id="ti-s" name="s" type="text" inputmode="decimal" value="0.15" data-gt="0" autocomplete="off"><span data-ti-unit>mm</span></div>
+                </div>
+                <div class="field" data-ti-for="cpwg" hidden>
+                  <label for="ti-g">Gap to ground, G</label>
+                  <div class="unit-input"><input id="ti-g" name="g" type="text" inputmode="decimal" value="0.15" data-gt="0" autocomplete="off"><span data-ti-unit>mm</span></div>
+                </div>
+                <div class="field">
+                  <label for="ti-er">Dielectric constant, Dk (εr)</label>
+                  <input id="ti-er" name="er" type="text" inputmode="decimal" value="4.3" data-min="1" data-max="15" autocomplete="off">
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Solve for a target</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="ti-target" data-out="targetLabel">Target Z0</label>
+                  <div class="unit-input"><input id="ti-target" name="target" type="text" inputmode="decimal" value="50" data-gt="0" data-max="1000" autocomplete="off"><span>Ω</span></div>
+                </div>
+                <div class="field ti-hide" data-ti-for="dms dsl cpwg" hidden>
+                  <span class="tool-label" id="ti-solve-label">Adjust</span>
+                  <div class="seg" role="radiogroup" aria-labelledby="ti-solve-label">
+                    <label><input type="radio" name="solve" value="w" checked><span>Width</span></label>
+                    <label><input type="radio" name="solve" value="x"><span data-out="solveX">Spacing</span></label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="tool-actions">
+              <button type="button" class="btn btn-ghost btn-small" data-tool-share>Copy link to these values</button>
+              <button type="button" class="btn btn-ghost btn-small" data-tool-reset>Reset</button>
+            </div>
+          </form>
+
+          <div class="tool-results">
+            <noscript><p class="tool-nojs">This calculator needs JavaScript. The equations it uses are written out below.</p></noscript>
+            <dl class="readouts">
+              <div class="readout readout-main"><dt data-out="mainLabel">Characteristic impedance, Z0</dt><dd><span data-out="main">—</span><small>Ω</small></dd></div>
+            </dl>
+            <p class="tool-note" data-out="verdict" aria-live="polite"></p>
+            <p class="tool-warn" data-ti-warn hidden></p>
+            <dl class="readouts">
+              <div class="readout" data-ti-show="diff" hidden><dt>Odd mode, Zodd</dt><dd><span data-out="zo">—</span><small>Ω</small></dd></div>
+              <div class="readout" data-ti-show="diff" hidden><dt>Even mode, Zeven</dt><dd><span data-out="ze">—</span><small>Ω</small></dd></div>
+              <div class="readout" data-ti-show="diff" hidden><dt>Common mode, Zeven/2</dt><dd><span data-out="zcm">—</span><small>Ω</small></dd></div>
+              <div class="readout" data-ti-show="diff" hidden><dt>One trace alone, Z0</dt><dd><span data-out="single">—</span><small>Ω</small></dd></div>
+              <div class="readout" data-ti-show="diff" hidden><dt>Coupling coefficient</dt><dd data-out="kc">—</dd></div>
+              <div class="readout"><dt data-out="eeffLabel">Effective permittivity</dt><dd data-out="eeff">—</dd></div>
+              <div class="readout" data-ti-show="diff" hidden><dt>Effective permittivity, even</dt><dd data-out="eE">—</dd></div>
+              <div class="readout"><dt data-out="delayLabel">Propagation delay</dt><dd><span data-out="dmm">—</span><small>ps/mm</small></dd></div>
+              <div class="readout"><dt data-out="delayLabel2">Propagation delay</dt><dd><span data-out="din">—</span><small>ps/inch</small></dd></div>
+              <div class="readout"><dt>Velocity</dt><dd><span data-out="vel">—</span><small>% of c</small></dd></div>
+              <div class="readout" data-ti-show="single"><dt>Capacitance</dt><dd><span data-out="cap">—</span><small data-out="capUnit">pF/mm</small></dd></div>
+              <div class="readout" data-ti-show="single"><dt>Inductance</dt><dd><span data-out="ind">—</span><small data-out="indUnit">nH/mm</small></dd></div>
+            </dl>
+
+            <div class="ti-solve">
+              <dl class="readouts">
+                <div class="readout"><dt data-out="solveLabel">Width for 50 Ω</dt><dd><span data-out="solve">—</span><small data-out="solveUnit">mm</small></dd></div>
+              </dl>
+              <button type="button" class="btn btn-ghost btn-small" data-ti-apply>Use this width</button>
+            </div>
+            <p class="tool-note" data-out="solveNote" aria-live="polite"></p>
+
+            <figure class="tool-figure ti-fig">
+              <svg viewBox="0 30 640 206" role="img" aria-label="Cross-section of the selected trace structure, labelled with its dimensions" data-ti-figure></svg>
+              <figcaption>Cross-section, drawn to scale unless a dimension is too small or too large to show.</figcaption>
+            </figure>
+            <p class="tool-note" data-out="check"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="article">
+          <h2>How to use it</h2>
+          <p>Pick the structure, then enter the dimensions from your fabricator's stackup. Microstrip and CPWG traces sit on an outer layer over one reference plane, with air above. Stripline sits between two planes. H1 and H2 can differ, so it also covers offset stripline in an asymmetric stackup. The copper buttons set ½, 1 or 2 oz copper (18, 35 or 70 µm). Switching between mm and mil converts every dimension.</p>
+          <p>To size a trace, set the target impedance and choose what to adjust. The calculator finds the width, the pair spacing or the CPWG gap that gives the target with everything else held. "Use this width" copies the answer into the form.</p>
+
+          <h2>How it calculates</h2>
+          <p>All five structures are solved the same way: as a static (quasi-TEM) field problem in the cross-section, using the method of moments. The copper surfaces are cut into short segments, each with an unknown charge, and the charges are found that put every conductor at its own potential. Green's functions for a grounded dielectric slab, and for a dielectric between two planes, include the dielectric and the planes exactly, so only the copper is meshed. One solve with the dielectric and one in air give the capacitances C and C<sub>a</sub> per unit length. Then:</p>
+          <div class="formula">Z<sub>0</sub> = 1 / (c·√(C·C<sub>a</sub>))     ε<sub>eff</sub> = C / C<sub>a</sub>     t<sub>pd</sub> = √ε<sub>eff</sub> / c
+Z<sub>diff</sub> = 2·Z<sub>odd</sub>     Z<sub>common</sub> = Z<sub>even</sub> / 2</div>
+          <p>For a pair, the odd mode drives the two traces in antiphase and gives Z<sub>odd</sub>. The even mode drives them in phase and gives Z<sub>even</sub>. Coupling pulls Z<sub>odd</sub> below the impedance of one trace on its own, so a 100 Ω pair needs narrower traces than two separate 50 Ω lines.</p>
+          <p>Under the results, the page shows the classic closed-form answer for the same inputs. For microstrip that is Hammerstad and Jensen's model, with their effective permittivity and thickness correction:</p>
+          <div class="formula">Z<sub>0</sub> = (η<sub>0</sub> / (2π·√ε<sub>eff</sub>))·ln( f(u)/u + √(1 + 4/u<sup>2</sup>) ),     u = W/H
+f(u) = 6 + (2π − 6)·exp(−(30.666/u)<sup>0.7528</sup>)</div>
+          <p>For stripline it is Cohn's exact conformal-mapping result, with Wheeler's equivalent width for the copper thickness:</p>
+          <div class="formula">Z<sub>0</sub> = (η<sub>0</sub> / (4·√ε<sub>r</sub>))·K(k) / K(k′),     k = sech(πW / 2b),  k′ = tanh(πW / 2b)</div>
+          <p>Here b is the plane spacing and K is the complete elliptic integral of the first kind, which the page evaluates with the arithmetic-geometric mean. Pairs use Kirschning and Jansen's equations for microstrip and Cohn's for stripline. CPWG uses the conformal-mapping result for conductor-backed coplanar waveguide.</p>
+
+          <h3>Worked example</h3>
+          <p>The default is a 0.35 mm trace on 0.2 mm of FR-4 with a Dk of 4.3 and 35 µm copper. The field solution gives Z<sub>0</sub> = 50.7 Ω and ε<sub>eff</sub> = 3.12. Hammerstad and Jensen agree within 0.05 Ω. The delay is √3.12 × 3.336 ps/mm = 5.89 ps/mm, or 150 ps/inch. Copper thickness matters here: with zero thickness the same trace would be 53.3 Ω. Solving for 50 Ω gives a width of 0.360 mm.</p>
+
+          <div class="table-wrap">
+            <table>
+              <caption class="tool-note">Width for 50 Ω on an outer layer: 35 µm copper, Dk 4.3, no solder mask.</caption>
+              <thead><tr><th>Dielectric height H</th><th class="num">Microstrip W</th><th class="num">ε<sub>eff</sub></th><th class="num">Delay</th><th class="num">CPWG W, 0.15 mm gap</th></tr></thead>
+              <tbody>
+                <tr><td class="num">0.1 mm (3.9 mil)</td><td class="num">0.170 mm (6.7 mil)</td><td class="num">3.04</td><td class="num">5.81 ps/mm</td><td class="num">0.156 mm</td></tr>
+                <tr><td class="num">0.2 mm (7.9 mil)</td><td class="num">0.360 mm (14.2 mil)</td><td class="num">3.13</td><td class="num">5.90 ps/mm</td><td class="num">0.290 mm</td></tr>
+                <tr><td class="num">0.36 mm (14.2 mil)</td><td class="num">0.667 mm (26.2 mil)</td><td class="num">3.18</td><td class="num">5.95 ps/mm</td><td class="num">0.445 mm</td></tr>
+                <tr><td class="num">0.5 mm (19.7 mil)</td><td class="num">0.937 mm (36.9 mil)</td><td class="num">3.20</td><td class="num">5.97 ps/mm</td><td class="num">0.540 mm</td></tr>
+                <tr><td class="num">0.8 mm (31.5 mil)</td><td class="num">1.52 mm (59.7 mil)</td><td class="num">3.22</td><td class="num">5.99 ps/mm</td><td class="num">0.673 mm</td></tr>
+                <tr><td class="num">1.0 mm (39.4 mil)</td><td class="num">1.91 mm (75.0 mil)</td><td class="num">3.23</td><td class="num">5.99 ps/mm</td><td class="num">0.729 mm</td></tr>
+                <tr><td class="num">1.6 mm (63 mil)</td><td class="num">3.07 mm (121 mil)</td><td class="num">3.24</td><td class="num">6.01 ps/mm</td><td class="num">0.819 mm</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>On a 1.6 mm two-layer board a 50 Ω microstrip is about 3 mm wide, which is why RF feeds on thick boards are often CPWG: the coplanar grounds let a much narrower trace reach 50 Ω.</p>
+
+          <div class="table-wrap">
+            <table>
+              <caption class="tool-note">Trace width for differential pairs: 35 µm copper, Dk 4.3. Stripline rows have equal dielectric above and below.</caption>
+              <thead><tr><th>Structure</th><th class="num">H, S</th><th class="num">85 Ω</th><th class="num">90 Ω</th><th class="num">100 Ω</th></tr></thead>
+              <tbody>
+                <tr><td>Microstrip</td><td class="num">0.1, 0.15 mm</td><td class="num">0.181 mm</td><td class="num">0.161 mm</td><td class="num">0.128 mm</td></tr>
+                <tr><td>Microstrip</td><td class="num">0.2, 0.15 mm</td><td class="num">0.316 mm</td><td class="num">0.279 mm</td><td class="num">0.216 mm</td></tr>
+                <tr><td>Stripline</td><td class="num">0.15, 0.2 mm</td><td class="num">0.122 mm</td><td class="num">0.105 mm</td><td class="num">0.077 mm</td></tr>
+                <tr><td>Stripline</td><td class="num">0.2, 0.2 mm</td><td class="num">0.158 mm</td><td class="num">0.135 mm</td><td class="num">0.099 mm</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Common targets</h2>
+          <ul>
+            <li><strong>50 Ω single-ended:</strong> RF lines and most general controlled-impedance nets.</li>
+            <li><strong>90 Ω differential:</strong> USB 2.0, which allows ±15%.</li>
+            <li><strong>100 Ω differential:</strong> Ethernet, LVDS and MIPI D-PHY.</li>
+            <li><strong>85 Ω differential:</strong> common in PCI Express designs.</li>
+            <li><strong>40 to 50 Ω single-ended:</strong> DDR3 and DDR4, depending on the memory controller. Follow the vendor's layout guide.</li>
+          </ul>
+
+          <h2>Practical notes</h2>
+          <ul>
+            <li><strong>The fabricator's stackup has the final word.</strong> Pressed prepreg thickness depends on how much copper it has to fill around, and Dk depends on the resin content. Ask for the fab's stackup before you fix widths. For nets that matter, order controlled impedance: the fab adjusts the widths to hit your target and measures test coupons, usually to ±10% unless you pay for tighter.</li>
+            <li><strong>Dk is not one number.</strong> It falls as frequency rises, it differs between cores and prepregs with different resin content, and it varies across the glass weave, since E-glass has a Dk around 6 and epoxy resin nearer 3. Use the value the fab quotes near your frequency. In the worked example, Dk 4.0 gives 52.4 Ω and Dk 4.6 gives 49.3 Ω.</li>
+            <li><strong>Solder mask lowers microstrip impedance.</strong> We checked the worked example with a separate finite-difference field solution: 20 µm of mask at Dk 3.5 took 1.4 Ω off the 50 Ω line, and 30 µm at Dk 4.0 took 2.1 Ω. On a 100 Ω pair with 0.15 mm spacing the drop was 6 to 9 Ω, because the mask fills the gap where the odd-mode field is strongest. This calculator models bare copper.</li>
+            <li><strong>Etched traces are trapezoids</strong>, narrower on top. With the top 35 µm narrower than the base, the 50 Ω example rose by 0.7 Ω in the same check. A rectangle at the mean width overstates that, because most of the field sits under the trace.</li>
+            <li><strong>Outer layers are plated</strong> during through-hole plating, so ½ oz base copper finishes thicker. Ask the fab for the finished thickness.</li>
+          </ul>
+
+          <h2>Accuracy and limits</h2>
+          <ul>
+            <li>The results are static, the low-frequency limit. They leave out dispersion (the microstrip ε<sub>eff</sub> creeps up with frequency), conductor and dielectric loss, and surface roughness. On thin PCB dielectrics the static value stays close well into the gigahertz range, but check critical lines with a full-wave solver at high frequencies.</li>
+            <li>Against reference results, the field solver matches Cohn's exact stripline values within 0.1%, Hammerstad and Jensen within 0.3% for traces no thicker than they are wide, and an independent finite-difference solution within 0.3% for thick-copper pairs and CPWG.</li>
+            <li>With zero thickness the closed forms agree with the field solver within about 1%, except the CPWG formula once the gap is wider than about H. With PCB copper, the classic thickness corrections for pairs and CPWG can be 3 to 6% out, since they were developed for metal much thinner than the gaps. That is why the page leads with the field solution.</li>
+            <li>Planes are assumed solid and wide. A split or slot in the reference plane changes the impedance completely. CPWG grounds are modelled as wide and tied to the plane below, which needs a row of vias close to the gap.</li>
+            <li>Each dielectric is one uniform Dk. If the core and prepreg around a stripline have different Dk, the result for a weighted average is an approximation.</li>
+          </ul>
+
+          <h3>References</h3>
+          <ol class="refs">
+            <li>E. Hammerstad and Ø. Jensen, "Accurate Models for Microstrip Computer-Aided Design", <i>IEEE MTT-S International Microwave Symposium Digest</i>, 1980, pp. 407–409.</li>
+            <li>S. B. Cohn, "Characteristic Impedance of the Shielded-Strip Transmission Line", <i>IRE Transactions on Microwave Theory and Techniques</i>, vol. 2, no. 2, 1954.</li>
+            <li>S. B. Cohn, "Shielded Coupled-Strip Transmission Line", <i>IRE Transactions on Microwave Theory and Techniques</i>, vol. 3, no. 5, 1955.</li>
+            <li>H. A. Wheeler, "Transmission-Line Properties of a Strip Line Between Parallel Planes", <i>IEEE Transactions on Microwave Theory and Techniques</i>, vol. 26, no. 11, 1978.</li>
+            <li>M. Kirschning and R. H. Jansen, "Accurate Wide-Range Design Equations for the Frequency-Dependent Characteristic of Parallel Coupled Microstrip Lines", <i>IEEE Transactions on Microwave Theory and Techniques</i>, vol. 32, no. 1, pp. 83–90, 1984.</li>
+            <li>R. H. Jansen, "High-Speed Computation of Single and Coupled Microstrip Parameters Including Dispersion, High-Order Modes, Loss and Finite Strip Thickness", <i>IEEE Transactions on Microwave Theory and Techniques</i>, vol. 26, no. 2, 1978.</li>
+            <li>G. Ghione and C. U. Naldi, "Coplanar Waveguides for MMIC Applications: Effect of Upper Shielding, Conductor Backing, Finite-Extent Ground Planes, and Line-to-Line Coupling", <i>IEEE Transactions on Microwave Theory and Techniques</i>, vol. 35, no. 3, 1987.</li>
+            <li>R. N. Simons, <i>Coplanar Waveguide Circuits, Components, and Systems</i>, Wiley, 2001.</li>
+            <li>B. C. Wadell, <i>Transmission Line Design Handbook</i>, Artech House, 1991.</li>
+            <li>K. C. Gupta, R. Garg, I. Bahl and P. Bhartia, <i>Microstrip Lines and Slotlines</i>, 2nd ed., Artech House, 1996.</li>
+            <li>R. F. Harrington, <i>Field Computation by Moment Methods</i>, Macmillan, 1968.</li>
+            <li>W. T. Weeks, "Calculation of Coefficients of Capacitance of Multiconductor Transmission Lines in the Presence of a Dielectric Interface", <i>IEEE Transactions on Microwave Theory and Techniques</i>, vol. 18, no. 1, 1970.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container prose-grid">
+        <div class="section-head reveal">
+          <p class="eyebrow">Related</p>
+          <h2>More RF tools.</h2>
+        </div>
+        <div class="link-list reveal">
+          <a href="/tools/matching-network"><b>Impedance matching network designer</b><small>L, Pi and T networks on a Smith chart</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/vswr"><b>VSWR and return loss converter</b><small>VSWR, return loss, reflection coefficient and mismatch loss</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/link-budget"><b>RF link budget calculator</b><small>Path loss, link margin, range and Fresnel zone clearance</small><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="container cta-inner reveal">
+        <div class="cta-dial" aria-hidden="true"></div>
+        <h2>Need a controlled-impedance board?</h2>
+        <p class="lede">We design PCBs up to 8 layers, with DDR3 and DDR4, MIPI and Ethernet, and RF hardware from 868 MHz to 3.6 GHz. Send us your stackup.</p>
+        <a href="/pcb-design" class="btn btn-large">PCB design services <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/img/Logo96.png" alt="" width="28" height="28"><span>CustomPowerLabs</span></a>
+        <p>Prototype engineering consultancy.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Services">
+        <p class="footer-title">Services</p>
+        <a href="/pcb-design">PCB design</a>
+        <a href="/rf-design">RF &amp; wireless</a>
+        <a href="/power-electronics">Power electronics</a>
+        <a href="/firmware">Firmware &amp; FPGA</a>
+        <a href="/mechanical-design">Mechanical &amp; simulation</a>
+        <a href="/prototyping">Prototype build</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Company">
+        <p class="footer-title">Company</p>
+        <a href="/#work">Work</a>
+        <a href="/tools/">Engineering tools</a>
+        <a href="/#process">Process</a>
+        <a href="/#team">Team</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
+        <span>Hampshire, England</span>
+        <span>Working with clients across the UK</span>
+      </div>
+    </div>
+    <div class="container footer-mark" aria-hidden="true">
+      <svg viewBox="0 0 1200 150"><text x="2" y="118" textLength="1196" lengthAdjust="spacing">CustomPowerLabs</text></svg>
+    </div>
+    <div class="container footer-base">
+      <span>© <span data-year>2026</span> CustomPowerLabs. All rights reserved.</span>
+      <span class="footer-social">
+        <a href="https://twitter.com/CustomPowerLabs" target="_blank" rel="noopener">X</a>
+        <a href="https://www.instagram.com/CustomPowerLabs/" target="_blank" rel="noopener">Instagram</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="/script.js?v=20261124a" defer onerror="document.documentElement.classList.remove('js')"></script>
+  <script src="/tools/tools.js?v=20261124a" defer></script>
+  <script src="/tools/trace-impedance.js?v=20261124a" defer></script>
+</body>
+</html>

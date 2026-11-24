@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buck Converter Calculator: Inductor, Capacitors and Ripple | CustomPowerLabs</title>
+  <meta name="description" content="Free buck converter calculator. Size the inductor and the output and input capacitors for your ripple targets, and check peak current, DCM and minimum on-time.">
+  <meta name="theme-color" content="#0a0b12">
+  <link rel="canonical" href="https://custompowerlabs.com/tools/buck-converter">
+
+  <meta property="og:title" content="Buck converter calculator">
+  <meta property="og:description" content="Free buck converter calculator. Size the inductor and the output and input capacitors for your ripple targets, and check peak current, DCM and minimum on-time.">
+  <meta property="og:image" content="https://custompowerlabs.com/img/talos-5/og.jpg">
+  <meta property="og:url" content="https://custompowerlabs.com/tools/buck-converter">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://custompowerlabs.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tools",
+            "item": "https://custompowerlabs.com/tools/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Buck converter",
+            "item": "https://custompowerlabs.com/tools/buck-converter"
+          }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "name": "Buck converter calculator",
+        "url": "https://custompowerlabs.com/tools/buck-converter",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CustomPowerLabs",
+          "url": "https://custompowerlabs.com"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=20261124a">
+  <style>
+    .buck-on { fill: rgba(var(--accent-rgb), 0.07); }
+    .buck-avg { fill: none; stroke: var(--accent-soft); stroke-width: 1.25; stroke-dasharray: 7 4; }
+  </style>
+</head>
+<body class="page-tool">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CustomPowerLabs home">
+        <img src="/img/Logo96.png" alt="" width="28" height="28">
+        <span>CustomPowerLabs</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="/#services">Services</a>
+        <a href="/#work">Work</a>
+        <a href="/tools/" aria-current="page">Tools</a>
+        <a href="/#team">Team</a>
+        <a href="/contact" class="btn btn-small">Start a project</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="crumbs reveal"><li><a href="/tools/">Tools</a></li><li>Power</li></ol>
+        <h1 class="display display-sm reveal">Buck converter calculator.</h1>
+        <p class="lede reveal">Size the inductor and the output and input capacitors of a buck converter from your input range, load and ripple targets. Change any value and the results update.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="tool" data-tool="buck-converter">
+          <form class="tool-inputs" novalidate>
+            <div>
+              <p class="tool-label" id="presets-label">Start from</p>
+              <div class="presets" role="group" aria-labelledby="presets-label">
+                <button type="button" data-preset="p12">12 V to 3.3 V, 3 A</button>
+                <button type="button" data-preset="p24">24 V to 5 V, 2 A</button>
+                <button type="button" data-preset="core">5 V to 1.0 V, 6 A at 2.2 MHz</button>
+              </div>
+            </div>
+
+            <fieldset>
+              <legend>Input and output</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="vinmin">Input voltage, minimum</label>
+                  <div class="unit-input"><input id="vinmin" name="vinmin" type="text" inputmode="decimal" value="10.8" data-gt="0" autocomplete="off"><span>V</span></div>
+                </div>
+                <div class="field">
+                  <label for="vinmax">Input voltage, maximum</label>
+                  <div class="unit-input"><input id="vinmax" name="vinmax" type="text" inputmode="decimal" value="13.2" data-gt="0" autocomplete="off"><span>V</span></div>
+                </div>
+                <div class="field">
+                  <label for="vout">Output voltage</label>
+                  <div class="unit-input"><input id="vout" name="vout" type="text" inputmode="decimal" value="3.3" data-gt="0" autocomplete="off"><span>V</span></div>
+                </div>
+                <div class="field">
+                  <label for="iout">Maximum output current</label>
+                  <div class="unit-input">
+                    <input id="iout" name="iout" type="text" inputmode="decimal" value="3" data-gt="0" autocomplete="off">
+                    <select name="iout_u" aria-label="Output current unit"><option value="1" selected>A</option><option value="1e-3">mA</option></select>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Switching</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="fs">Switching frequency</label>
+                  <div class="unit-input">
+                    <input id="fs" name="fs" type="text" inputmode="decimal" value="500" data-gt="0" autocomplete="off">
+                    <select name="fs_u" aria-label="Switching frequency unit"><option value="1e3" selected>kHz</option><option value="1e6">MHz</option></select>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="kr">Inductor ripple, of full load</label>
+                  <div class="unit-input"><input id="kr" name="kr" type="text" inputmode="decimal" value="30" data-gt="0" data-max="200" autocomplete="off"><span>%</span></div>
+                </div>
+                <div class="field">
+                  <label for="eff">Estimated efficiency</label>
+                  <div class="unit-input"><input id="eff" name="eff" type="text" inputmode="decimal" value="90" data-gt="0" data-max="100" autocomplete="off"><span>%</span></div>
+                </div>
+                <div class="field">
+                  <label for="tonmin">Minimum on-time (optional)</label>
+                  <div class="unit-input"><input id="tonmin" name="tonmin" type="text" inputmode="decimal" value="100" data-min="0" data-optional autocomplete="off"><span>ns</span></div>
+                  <input type="hidden" name="tonmin_u" value="1e-9">
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Capacitors</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="dvout">Output ripple wanted, peak to peak</label>
+                  <div class="unit-input"><input id="dvout" name="dvout" type="text" inputmode="decimal" value="30" data-gt="0" autocomplete="off"><span>mV</span></div>
+                  <input type="hidden" name="dvout_u" value="1e-3">
+                </div>
+                <div class="field">
+                  <label for="esr">Output capacitor ESR, total</label>
+                  <div class="unit-input"><input id="esr" name="esr" type="text" inputmode="decimal" value="5" data-min="0" autocomplete="off"><span>mΩ</span></div>
+                  <input type="hidden" name="esr_u" value="1e-3">
+                </div>
+                <div class="field field-full">
+                  <label for="dvin">Input ripple allowed, peak to peak</label>
+                  <div class="unit-input"><input id="dvin" name="dvin" type="text" inputmode="decimal" value="100" data-gt="0" autocomplete="off"><span>mV</span></div>
+                  <input type="hidden" name="dvin_u" value="1e-3">
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Show the waveform at</legend>
+              <div class="seg">
+                <label><input type="radio" name="wave" value="max" checked><span>Maximum input</span></label>
+                <label><input type="radio" name="wave" value="min"><span>Minimum input</span></label>
+              </div>
+            </fieldset>
+
+            <div class="tool-actions">
+              <button type="button" class="btn btn-ghost btn-small" data-tool-share>Copy link to these values</button>
+              <button type="button" class="btn btn-ghost btn-small" data-tool-reset>Reset</button>
+            </div>
+          </form>
+
+          <div class="tool-results">
+            <noscript><p class="tool-nojs">This calculator needs JavaScript. The equations it uses are written out below.</p></noscript>
+            <dl class="readouts">
+              <div class="readout readout-main"><dt>Inductor, standard value</dt><dd><span data-out="L">—</span><small data-out="Lunit">µH</small></dd></div>
+            </dl>
+            <p class="tool-note" data-out="verdict" aria-live="polite"></p>
+            <p class="tool-warn" data-warn hidden aria-live="polite"></p>
+            <dl class="readouts">
+              <div class="readout"><dt>Duty cycle, max to min input</dt><dd><span data-out="dmin">—</span> to <span data-out="dmax">—</span></dd></div>
+              <div class="readout"><dt>Inductance needed</dt><dd data-out="Lreq">—</dd></div>
+              <div class="readout"><dt>Ripple current, peak to peak</dt><dd><span data-out="dI">—</span><small data-out="kActual"></small></dd></div>
+              <div class="readout"><dt>Peak inductor current</dt><dd data-out="peak">—</dd></div>
+              <div class="readout"><dt>Valley current</dt><dd data-out="valley">—</dd></div>
+              <div class="readout"><dt>RMS inductor current</dt><dd data-out="rms">—</dd></div>
+              <div class="readout"><dt>Saturation rating, at least</dt><dd data-out="isat">—</dd></div>
+              <div class="readout"><dt>On-time at maximum input</dt><dd data-out="ton">—</dd></div>
+              <div class="readout"><dt>Highest frequency for that minimum</dt><dd data-out="fsMax">—</dd></div>
+            </dl>
+            <figure class="tool-figure">
+              <svg viewBox="0 0 640 260" role="img" aria-label="Inductor current against time over three switching periods, with the average, peak and valley marked" data-chart></svg>
+              <figcaption>Inductor current over three switching periods with the standard inductor. Shaded strips are the switch on-times. The average is the load current.</figcaption>
+            </figure>
+            <div>
+              <p class="tool-label">Output capacitor</p>
+              <dl class="readouts">
+                <div class="readout"><dt>Capacitance needed</dt><dd data-out="cout">—</dd></div>
+                <div class="readout"><dt>Ripple from ESR</dt><dd data-out="dvEsr">—</dd></div>
+                <div class="readout"><dt>Ripple left for capacitance</dt><dd data-out="dvCap">—</dd></div>
+                <div class="readout"><dt>Capacitance if ESR were zero</dt><dd data-out="coutIdeal">—</dd></div>
+                <div class="readout"><dt>Highest ESR for the target</dt><dd data-out="esrMax">—</dd></div>
+                <div class="readout"><dt>RMS ripple current</dt><dd data-out="coutRms">—</dd></div>
+              </dl>
+            </div>
+            <div>
+              <p class="tool-label">Input capacitor and light load</p>
+              <dl class="readouts">
+                <div class="readout"><dt>RMS ripple current, worst case</dt><dd data-out="cinRms">—</dd></div>
+                <div class="readout"><dt>Capacitance needed</dt><dd data-out="cin">—</dd></div>
+                <div class="readout"><dt>Worst case at duty cycle</dt><dd data-out="cinD">—</dd></div>
+                <div class="readout"><dt>Input current at minimum input</dt><dd data-out="iin">—</dd></div>
+                <div class="readout"><dt>Input power at full load</dt><dd data-out="pin">—</dd></div>
+                <div class="readout"><dt>Discontinuous below</dt><dd data-out="iDcm">—</dd></div>
+              </dl>
+            </div>
+            <p class="tool-note">All results assume continuous conduction at full load, use the standard inductor value shown above, and ignore inductance tolerance and capacitor derating. Allow for those before you buy parts.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="article">
+          <h2>How to use it</h2>
+          <p>Enter the input range the converter has to work over, not just the nominal value. A 12 V rail with ±10% tolerance is 10.8 to 13.2 V, and a 24 V industrial supply may need 18 to 32 V. Set the switching frequency from your controller's datasheet, pick a ripple ratio, and enter the efficiency you expect. The calculator sizes the inductor for that ripple at the highest input, rounds it to the nearest E12 value, and works out every other figure with the inductor you would actually fit.</p>
+
+          <h2>The equations</h2>
+          <p>These are the continuous-conduction equations from TI's application report SLVA477 and the input capacitor equations from TI's SLTA055. Efficiency enters through the duty cycle: a converter that loses 10% has to stay on longer to deliver the same output.</p>
+          <div class="formula">D = V<sub>OUT</sub> / (V<sub>IN</sub> · η)
+ΔI<sub>L</sub> = (V<sub>IN</sub> − V<sub>OUT</sub>) · D / (f<sub>s</sub> · L)
+L = (V<sub>IN(max)</sub> − V<sub>OUT</sub>) · D<sub>min</sub> / (f<sub>s</sub> · ΔI<sub>L</sub>)
+I<sub>peak</sub> = I<sub>OUT</sub> + ΔI<sub>L</sub> / 2        I<sub>rms</sub> = √(I<sub>OUT</sub><sup>2</sup> + ΔI<sub>L</sub><sup>2</sup> / 12)
+ΔV<sub>OUT</sub> = ΔI<sub>L</sub> · ESR + ΔI<sub>L</sub> / (8 · f<sub>s</sub> · C<sub>OUT</sub>)
+I<sub>CIN(rms)</sub> = √(D · (I<sub>OUT</sub><sup>2</sup> + ΔI<sub>L</sub><sup>2</sup> / 12) − (D · I<sub>OUT</sub>)<sup>2</sup>)  ≈  I<sub>OUT</sub> · √(D · (1 − D))
+C<sub>IN</sub> = I<sub>OUT</sub> · D · (1 − D) / (f<sub>s</sub> · ΔV<sub>IN</sub>)
+I<sub>OUT(DCM)</sub> = ΔI<sub>L</sub> / 2        t<sub>on</sub> = D<sub>min</sub> / f<sub>s</sub></div>
+          <p>Ripple current rises with input voltage, so the inductor is sized at the highest input and the output capacitor, peak current and DCM boundary are all worked out there too. The input capacitor is the opposite case: its RMS current is largest when the duty cycle is nearest 50%, so the calculator searches the whole input range for it.</p>
+
+          <p><strong>Worked example.</strong> The default values: 10.8 to 13.2 V in, 3.3 V at 3 A, 500 kHz, 30% ripple and 90% efficiency. The duty cycle runs from 3.3 / (13.2 × 0.9) = 27.8% to 34.0%. A 30% ripple is 0.9 A, so L = (13.2 − 3.3) × 0.278 / (500 kHz × 0.9 A) = 6.11 µH. The nearest E12 value is 5.6 µH, which gives 0.982 A of ripple (33%). The peak current is 3 + 0.491 = 3.49 A and the RMS current 3.01 A. With 5 mΩ of ESR, 4.9 mV of the 30 mV ripple budget goes on ESR, leaving 25.1 mV for capacitance: C = 0.982 / (8 × 500 kHz × 25.1 mV) = 9.79 µF. The input capacitor carries 1.43 A RMS at the lowest input, and needs 13.5 µF for 100 mV of ripple. The on-time at 13.2 V is 556 ns, well clear of a 100 ns minimum.</p>
+
+          <h2>Inductance for common conversions</h2>
+          <p>Inductance for 30% ripple at the nominal input, assuming 100% efficiency. The last column is the input capacitor's RMS current at that duty cycle.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Conversion</th><th class="num">Load</th><th class="num">Duty</th><th class="num">L at 500 kHz</th><th class="num">L at 1 MHz</th><th class="num">L at 2 MHz</th><th class="num">On-time at 2 MHz</th><th class="num">C<sub>IN</sub> RMS</th></tr></thead>
+              <tbody>
+                <tr><td>12 V to 5 V</td><td class="num">2 A</td><td class="num">42%</td><td class="num">9.7 µH</td><td class="num">4.9 µH</td><td class="num">2.4 µH</td><td class="num">208 ns</td><td class="num">0.99 A</td></tr>
+                <tr><td>12 V to 3.3 V</td><td class="num">3 A</td><td class="num">27%</td><td class="num">5.3 µH</td><td class="num">2.7 µH</td><td class="num">1.3 µH</td><td class="num">137 ns</td><td class="num">1.34 A</td></tr>
+                <tr><td>24 V to 5 V</td><td class="num">2 A</td><td class="num">21%</td><td class="num">13 µH</td><td class="num">6.6 µH</td><td class="num">3.3 µH</td><td class="num">104 ns</td><td class="num">0.81 A</td></tr>
+                <tr><td>24 V to 12 V</td><td class="num">3 A</td><td class="num">50%</td><td class="num">13 µH</td><td class="num">6.7 µH</td><td class="num">3.3 µH</td><td class="num">250 ns</td><td class="num">1.50 A</td></tr>
+                <tr><td>48 V to 12 V</td><td class="num">5 A</td><td class="num">25%</td><td class="num">12 µH</td><td class="num">6.0 µH</td><td class="num">3.0 µH</td><td class="num">125 ns</td><td class="num">2.17 A</td></tr>
+                <tr><td>5 V to 3.3 V</td><td class="num">2 A</td><td class="num">66%</td><td class="num">3.7 µH</td><td class="num">1.9 µH</td><td class="num">935 nH</td><td class="num">330 ns</td><td class="num">0.95 A</td></tr>
+                <tr><td>5 V to 1.8 V</td><td class="num">3 A</td><td class="num">36%</td><td class="num">2.6 µH</td><td class="num">1.3 µH</td><td class="num">640 nH</td><td class="num">180 ns</td><td class="num">1.44 A</td></tr>
+                <tr><td>5 V to 1.0 V</td><td class="num">6 A</td><td class="num">20%</td><td class="num">889 nH</td><td class="num">444 nH</td><td class="num">222 nH</td><td class="num">100 ns</td><td class="num">2.40 A</td></tr>
+                <tr><td>3.3 V to 1.2 V</td><td class="num">2 A</td><td class="num">36%</td><td class="num">2.5 µH</td><td class="num">1.3 µH</td><td class="num">636 nH</td><td class="num">182 ns</td><td class="num">0.96 A</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Choosing the ripple ratio</h2>
+          <p>A ripple of 20 to 40% of full-load current is the usual compromise. Less ripple needs a larger, slower inductor that limits how fast the output can respond to a load step. More ripple means smaller parts, but higher peak current, more output ripple and more core loss, and the converter goes discontinuous at a higher load. If your controller's datasheet recommends a ripple ratio for its compensation, use that.</p>
+
+          <h2>Practical design notes</h2>
+          <ul>
+            <li><strong>Inductor ratings.</strong> The RMS figure sets the heating, so compare it with the inductor's rated current. Saturation is set by the peak. The calculator suggests 1.3 times the peak as a rule of thumb, which covers ±20% inductance tolerance and some load transient. If the controller has a fixed current limit, choose a saturation rating above that limit so a short circuit cannot saturate the core.</li>
+            <li><strong>Ceramic output capacitors lose capacitance with DC bias.</strong> A 22 µF, 6.3 V part in a small case can give well under half its rating at 3.3 V. Check the manufacturer's bias curve and size against the effective value.</li>
+            <li><strong>Load transients usually set the output capacitance.</strong> The ripple target is a minimum. A fast load step needs enough capacitance to hold the output until the control loop catches up, and that is often several times more.</li>
+            <li><strong>Input capacitor placement matters more than value.</strong> The input capacitor, high-side switch and low-side switch form the loop with the fastest current edges. Keep it tight, with ceramics right at the switch pins, or the ringing on the switch node becomes an EMC problem.</li>
+            <li><strong>Minimum on-time limits the step-down ratio.</strong> At high input, high frequency and low output, the on-time can fall below what the controller can make. It will then skip pulses or regulate badly. Lower the switching frequency or use a two-stage conversion.</li>
+          </ul>
+
+          <h2>Accuracy and limits</h2>
+          <p>The equations are first-order. They treat the inductor voltage as V<sub>IN</sub> − V<sub>OUT</sub> during the on-time and fold every loss into the efficiency figure, so they are typically within a few per cent of a working converter in continuous conduction. Adding the ESR and capacitive ripple directly is conservative, because the two peak at different times. Equivalent series inductance is not included: with electrolytic capacitors, or long traces, it adds spikes at each switching edge that the formula does not predict. Below the discontinuous-mode current the CCM equations no longer apply. The calculator does not cover loop compensation, switching losses or thermal design.</p>
+
+          <h3>References</h3>
+          <ol class="refs">
+            <li>B. Hauke, <i>Basic Calculation of a Buck Converter's Power Stage</i>, Texas Instruments application report SLVA477.</li>
+            <li>J. Arrigo, <i>Input and Output Capacitor Selection</i>, Texas Instruments application report SLTA055.</li>
+            <li>R. W. Erickson and D. Maksimović, <i>Fundamentals of Power Electronics</i>, Springer. Small-ripple analysis and the discontinuous conduction mode.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container prose-grid">
+        <div class="section-head reveal">
+          <p class="eyebrow">Related</p>
+          <h2>More engineering tools.</h2>
+        </div>
+        <div class="link-list reveal">
+          <a href="/tools/ldo-thermal"><b>LDO power and thermal calculator</b><small>Dissipation, junction temperature and maximum load current</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/trace-impedance"><b>PCB trace impedance calculator</b><small>Microstrip, stripline, differential pairs and coplanar waveguide</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/link-budget"><b>RF link budget calculator</b><small>Path loss, received power, link margin and range</small><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="container cta-inner reveal">
+        <div class="cta-dial" aria-hidden="true"></div>
+        <h2>Need a power stage that holds up?</h2>
+        <p class="lede">We design AC/DC, DC/DC and DC/AC power conversion, up to three-phase motor drives with field-oriented control. Tell us what you need to power.</p>
+        <a href="/power-electronics" class="btn btn-large">Power electronics services <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/img/Logo96.png" alt="" width="28" height="28"><span>CustomPowerLabs</span></a>
+        <p>Prototype engineering consultancy.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Services">
+        <p class="footer-title">Services</p>
+        <a href="/pcb-design">PCB design</a>
+        <a href="/rf-design">RF &amp; wireless</a>
+        <a href="/power-electronics">Power electronics</a>
+        <a href="/firmware">Firmware &amp; FPGA</a>
+        <a href="/mechanical-design">Mechanical &amp; simulation</a>
+        <a href="/prototyping">Prototype build</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Company">
+        <p class="footer-title">Company</p>
+        <a href="/#work">Work</a>
+        <a href="/tools/">Engineering tools</a>
+        <a href="/#process">Process</a>
+        <a href="/#team">Team</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
+        <span>Hampshire, England</span>
+        <span>Working with clients across the UK</span>
+      </div>
+    </div>
+    <div class="container footer-mark" aria-hidden="true">
+      <svg viewBox="0 0 1200 150"><text x="2" y="118" textLength="1196" lengthAdjust="spacing">CustomPowerLabs</text></svg>
+    </div>
+    <div class="container footer-base">
+      <span>© <span data-year>2026</span> CustomPowerLabs. All rights reserved.</span>
+      <span class="footer-social">
+        <a href="https://twitter.com/CustomPowerLabs" target="_blank" rel="noopener">X</a>
+        <a href="https://www.instagram.com/CustomPowerLabs/" target="_blank" rel="noopener">Instagram</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="/script.js?v=20261124a" defer onerror="document.documentElement.classList.remove('js')"></script>
+  <script src="/tools/tools.js?v=20261124a" defer></script>
+  <script src="/tools/buck-converter.js?v=20261124a" defer></script>
+</body>
+</html>

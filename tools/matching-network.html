@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impedance Matching Network Calculator: L, Pi and T Networks | CustomPowerLabs</title>
+  <meta name="description" content="Free impedance matching calculator. Design L, Pi and T matching networks between complex impedances, with E24 values, bandwidth and a Smith chart.">
+  <meta name="theme-color" content="#0a0b12">
+  <link rel="canonical" href="https://custompowerlabs.com/tools/matching-network">
+
+  <meta property="og:title" content="Impedance matching network calculator">
+  <meta property="og:description" content="Free impedance matching calculator. Design L, Pi and T matching networks between complex impedances, with E24 values, bandwidth and a Smith chart.">
+  <meta property="og:image" content="https://custompowerlabs.com/img/talos-5/og.jpg">
+  <meta property="og:url" content="https://custompowerlabs.com/tools/matching-network">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://custompowerlabs.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tools",
+            "item": "https://custompowerlabs.com/tools/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Impedance matching network",
+            "item": "https://custompowerlabs.com/tools/matching-network"
+          }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "name": "Impedance matching network calculator",
+        "url": "https://custompowerlabs.com/tools/matching-network",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CustomPowerLabs",
+          "url": "https://custompowerlabs.com"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=20261124a">
+  <style>
+    .mn-q[hidden] { display: none; }
+    .mn-solutions { display: grid; gap: 8px; }
+    .mn-sol { display: grid; gap: 8px; width: 100%; padding: 12px 14px; border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: none; color: var(--text-2); font: inherit; text-align: left; cursor: pointer; transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease); }
+    .mn-sol:hover { border-color: var(--accent); }
+    .mn-sol[aria-pressed="true"] { border-color: rgba(var(--accent-rgb), 0.6); background: rgba(var(--accent-rgb), 0.08); color: var(--text); }
+    .mn-sol-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; }
+    .mn-sol-head b { color: var(--text); font-weight: 500; }
+    .mn-sol-head small { color: var(--text-3); font: 0.75rem/1.6 var(--font-mono); }
+    .mn-parts { display: grid; gap: 4px; font-size: 0.875rem; }
+    .mn-parts > span { display: grid; grid-template-columns: minmax(5.5em, auto) 1fr auto; gap: 10px; }
+    .mn-num { font-family: var(--font-mono); font-size: 0.8125rem; font-variant-numeric: tabular-nums; }
+    .mn-e24 { color: var(--text-3); }
+    .mn-gap { margin-top: 10px; }
+    .readout dd.mn-small { font-size: 1rem; line-height: 1.4; }
+    .mn-smith svg { display: block; max-width: 420px; margin-inline: auto; }
+    .mn-schem .chart-text, .mn-schem .chart-text-hi { font-size: 13px; }
+    .mn-wire { fill: none; stroke: var(--text-2); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .mn-node { fill: var(--text-2); }
+    .mn-stop { fill: var(--bg); stroke: var(--accent); stroke-width: 1.5; }
+    .mn-match { fill: none; stroke: var(--accent-soft); stroke-width: 2; }
+    .mn-caption { caption-side: bottom; margin-top: 10px; text-align: left; }
+  </style>
+</head>
+<body class="page-tool">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CustomPowerLabs home">
+        <img src="/img/Logo96.png" alt="" width="28" height="28">
+        <span>CustomPowerLabs</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="/#services">Services</a>
+        <a href="/#work">Work</a>
+        <a href="/tools/" aria-current="page">Tools</a>
+        <a href="/#team">Team</a>
+        <a href="/contact" class="btn btn-small">Start a project</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="crumbs reveal"><li><a href="/tools/">Tools</a></li><li>RF</li></ol>
+        <h1 class="display display-sm reveal">Impedance matching network calculator.</h1>
+        <p class="lede reveal">Design an L, Pi or T network of inductors and capacitors that matches a load to a source, with every solution drawn on a Smith chart.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="tool" data-tool="matching-network">
+          <form class="tool-inputs" novalidate>
+            <div>
+              <p class="tool-label" id="presets-label">Start from</p>
+              <div class="presets" role="group" aria-labelledby="presets-label">
+                <button type="button" data-preset="complex">2.44 GHz, complex load</button>
+                <button type="button" data-preset="pa">868 MHz, 50 to 12.5 Ω</button>
+                <button type="button" data-preset="pozar">Pozar Example 5.1</button>
+              </div>
+            </div>
+
+            <fieldset>
+              <legend>Frequency</legend>
+              <div class="tool-group">
+                <div class="field field-full">
+                  <label for="f">Design frequency</label>
+                  <div class="unit-input">
+                    <input id="f" name="f" type="text" inputmode="decimal" value="2440" data-gt="0" autocomplete="off">
+                    <select name="f_u" aria-label="Frequency unit"><option value="1e3">kHz</option><option value="1e6" selected>MHz</option><option value="1e9">GHz</option></select>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Source impedance</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="rs">Resistance R</label>
+                  <div class="unit-input"><input id="rs" name="rs" type="text" inputmode="decimal" value="50" data-gt="0" autocomplete="off"><span>Ω</span></div>
+                </div>
+                <div class="field">
+                  <label for="xs">Reactance jX</label>
+                  <div class="unit-input"><input id="xs" name="xs" type="text" inputmode="decimal" value="0" autocomplete="off"><span>Ω</span></div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Load impedance</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="rl">Resistance R</label>
+                  <div class="unit-input"><input id="rl" name="rl" type="text" inputmode="decimal" value="15" data-gt="0" autocomplete="off"><span>Ω</span></div>
+                </div>
+                <div class="field">
+                  <label for="xl">Reactance jX</label>
+                  <div class="unit-input"><input id="xl" name="xl" type="text" inputmode="decimal" value="-25" autocomplete="off"><span>Ω</span></div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Network</legend>
+              <div class="tool-group">
+                <div class="field field-full">
+                  <div class="seg" role="radiogroup" aria-label="Topology">
+                    <label><input type="radio" name="topo" value="L" checked><span>L-network</span></label>
+                    <label><input type="radio" name="topo" value="pi"><span>Pi</span></label>
+                    <label><input type="radio" name="topo" value="t"><span>T</span></label>
+                  </div>
+                </div>
+                <div class="field field-full mn-q" data-q-field hidden>
+                  <label for="q">Loaded Q, of the higher-Q section</label>
+                  <div class="unit-input"><input id="q" name="q" type="text" inputmode="decimal" value="3" data-gt="0" autocomplete="off" disabled><span>Q</span></div>
+                </div>
+              </div>
+              <input type="hidden" name="sol" value="0">
+            </fieldset>
+
+            <div class="tool-actions">
+              <button type="button" class="btn btn-ghost btn-small" data-tool-share>Copy link to these values</button>
+              <button type="button" class="btn btn-ghost btn-small" data-tool-reset>Reset</button>
+            </div>
+          </form>
+
+          <div class="tool-results">
+            <noscript><p class="tool-nojs">This calculator needs JavaScript. The equations it uses are written out below.</p></noscript>
+            <div>
+              <p class="tool-label">Solutions, source to load</p>
+              <div class="mn-solutions" data-solutions></div>
+              <p class="tool-note mn-gap" data-out="note" aria-live="polite"></p>
+            </div>
+            <p class="tool-warn" data-warn hidden></p>
+            <dl class="readouts">
+              <div class="readout"><dt>Network Q</dt><dd data-out="q">—</dd></div>
+              <div class="readout"><dt>3 dB bandwidth</dt><dd data-out="bw">—</dd></div>
+              <div class="readout"><dt>3 dB band</dt><dd class="mn-small" data-out="edges">—</dd></div>
+              <div class="readout"><dt>Return loss, E24 parts</dt><dd><span data-out="rlE24">—</span><small>dB</small></dd></div>
+              <div class="readout"><dt>VSWR, E24 parts</dt><dd data-out="vswrE24">—</dd></div>
+              <div class="readout"><dt>Z<sub>in</sub>, E24 parts</dt><dd class="mn-small" data-out="zin">—</dd></div>
+            </dl>
+            <figure class="tool-figure mn-schem">
+              <svg viewBox="0 0 560 190" role="img" aria-label="Schematic of the selected matching network between the source and the load, with exact and nearest E24 component values" data-schematic></svg>
+              <figcaption>The selected network. Exact values above or beside each part, nearest E24 values below them.</figcaption>
+            </figure>
+            <figure class="tool-figure mn-smith">
+              <svg viewBox="0 0 400 400" role="img" aria-label="Smith chart showing the load, the path each component takes along circles of constant resistance or constant conductance, and the match point" data-smith></svg>
+              <figcaption>Smith chart normalised to the source resistance R<sub>S</sub>. Series parts move the impedance along circles of constant resistance; shunt parts move it along circles of constant conductance. The dashed circle is unit conductance. The match point is the conjugate of the source impedance.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="article">
+          <h2>How to use it</h2>
+          <p>Enter the design frequency, the source impedance and the load impedance as resistance plus reactance. A negative reactance is capacitive, a positive one inductive. Pick a topology. The calculator lists every network of ideal parts that gives a perfect match at that frequency, from the source end to the load end, and draws the one you select.</p>
+          <p>For each part it gives the exact value and the nearest E24 value. It then rebuilds the network with the E24 values and works out the return loss you would actually get, so you can see whether rounding matters. A low-Q match barely notices. A high-Q one can fall below 10 dB of return loss on E24 rounding alone.</p>
+          <p>Matched here means the impedance looking into the network from the source is the complex conjugate of the source impedance, Z<sub>in</sub> = Z<sub>S</sub>*. That is the condition for maximum power transfer. For a 50 Ω source it simply means Z<sub>in</sub> = 50 Ω.</p>
+
+          <h2>How an L-network matches</h2>
+          <p>An L-network is one series part and one shunt part. The shunt part goes across the end with the higher resistance. Across the load, its susceptance B is chosen so that the real part of 1/(Y<sub>L</sub> + jB) equals the source resistance; the series reactance X then cancels the reactance that is left. Pozar gives the closed form for a real source Z<sub>0</sub> and a load R<sub>L</sub> + jX<sub>L</sub> with R<sub>L</sub> &gt; Z<sub>0</sub>:</p>
+          <div class="formula">B = [X<sub>L</sub> ± √(R<sub>L</sub>/Z<sub>0</sub>)·√(R<sub>L</sub><sup>2</sup> + X<sub>L</sub><sup>2</sup> − Z<sub>0</sub>R<sub>L</sub>)] / (R<sub>L</sub><sup>2</sup> + X<sub>L</sub><sup>2</sup>)
+X = 1/B + X<sub>L</sub>Z<sub>0</sub>/R<sub>L</sub> − Z<sub>0</sub>/(B·R<sub>L</sub>)
+Q = √(R<sub>high</sub>/R<sub>low</sub> − 1)     (real terminations)</div>
+          <p>The ± gives two solutions, usually a low-pass form (series L, shunt C) and a high-pass form (series C, shunt L). With a complex load, both orientations of the L can work, so you may see four. The calculator solves the general case, with complex impedances at both ends, and the Q it reports is the Q of the shunt node including the load's own reactance.</p>
+          <p><strong>Worked example.</strong> Pozar's Example 5.1 matches 200 − j100 Ω to a 100 Ω line at 500 MHz. The two solutions are B = 2.90 mS with X = 122.5 Ω, and B = −6.90 mS with X = −122.5 Ω. As parts, that is a 0.923 pF shunt capacitor with a 39.0 nH series inductor, or a 46.1 nH shunt inductor with a 2.60 pF series capacitor. The textbook prints 38.8 nH and 2.61 pF because it works from the normalised reactance rounded to 1.22. With E24 parts (0.91 pF and 39 nH) the low-pass form still gives 46.1 dB of return loss; the high-pass form with 47 nH and 2.7 pF gives 30.5 dB. Press "Pozar Example 5.1" to load it.</p>
+
+          <div class="table-wrap">
+            <table>
+              <caption class="tool-note mn-caption">Low-pass L-networks from a 50 Ω source to a resistive load. Below 50 Ω the capacitor sits across the source; above 50 Ω it sits across the load.</caption>
+              <thead><tr><th>Load</th><th class="num">Q</th><th class="num">868 MHz: C</th><th class="num">868 MHz: L</th><th class="num">2.44 GHz: C</th><th class="num">2.44 GHz: L</th></tr></thead>
+              <tbody>
+                <tr><td>5 Ω</td><td class="num">3.00</td><td class="num">11.0 pF</td><td class="num">2.75 nH</td><td class="num">3.91 pF</td><td class="num">0.978 nH</td></tr>
+                <tr><td>10 Ω</td><td class="num">2.00</td><td class="num">7.33 pF</td><td class="num">3.67 nH</td><td class="num">2.61 pF</td><td class="num">1.30 nH</td></tr>
+                <tr><td>12.5 Ω</td><td class="num">1.73</td><td class="num">6.35 pF</td><td class="num">3.97 nH</td><td class="num">2.26 pF</td><td class="num">1.41 nH</td></tr>
+                <tr><td>25 Ω</td><td class="num">1.00</td><td class="num">3.67 pF</td><td class="num">4.58 nH</td><td class="num">1.30 pF</td><td class="num">1.63 nH</td></tr>
+                <tr><td>100 Ω</td><td class="num">1.00</td><td class="num">1.83 pF</td><td class="num">9.17 nH</td><td class="num">0.652 pF</td><td class="num">3.26 nH</td></tr>
+                <tr><td>200 Ω</td><td class="num">1.73</td><td class="num">1.59 pF</td><td class="num">15.9 nH</td><td class="num">0.565 pF</td><td class="num">5.65 nH</td></tr>
+                <tr><td>300 Ω</td><td class="num">2.24</td><td class="num">1.37 pF</td><td class="num">20.5 nH</td><td class="num">0.486 pF</td><td class="num">7.29 nH</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Pi and T networks, and why Q is an input</h2>
+          <p>An L-network has no freedom: the two impedances fix its Q. A Pi or T network adds a third part, which lets you choose the Q. Both are two L-networks back to back through a virtual resistance R<sub>V</sub> in the middle. For a Pi, R<sub>V</sub> is lower than both ends; for a T it is higher. Following Bowick, the loaded Q is the Q of the higher-Q section:</p>
+          <div class="formula">Pi:  R<sub>V</sub> = R<sub>high</sub> / (Q<sup>2</sup> + 1)
+T:   R<sub>V</sub> = R<sub>low</sub> · (Q<sup>2</sup> + 1)
+Q<sub>min</sub> = √(R<sub>high</sub>/R<sub>low</sub> − 1)</div>
+          <p>Below Q<sub>min</sub>, R<sub>V</sub> would have to sit between the two ends, which neither network can do, so the calculator says so. At exactly Q<sub>min</sub>, one part vanishes and the network becomes an L. For complex terminations the Pi uses the parallel-equivalent resistance of each end, 1/Re{1/Z}, and the T uses the series resistance. Each L section has two sign choices, so there are up to four solutions.</p>
+          <p>Choose a higher Q when you want more filtering of harmonics or a narrower band, and a lower Q when you want bandwidth and less sensitivity to part tolerance. A Pi with shunt capacitors at both ends is the usual output network for a power amplifier, because the capacitors also absorb the transistor's output capacitance and the harmonics see a low impedance to ground.</p>
+
+          <h2>Bandwidth</h2>
+          <p>Ludwig and Bretchko show that an L-network's loaded Q is about half its nodal Q, so for a high-Q match the 3 dB bandwidth is roughly 2f/Q. The calculator does not rely on that rule. It sweeps the network with ideal parts and finds where the power reaching the load falls to half. To do that it has to guess how the source and load change with frequency, so it treats their reactance at the design frequency as a fixed series inductor or capacitor. A real antenna or transistor will differ, so treat the bandwidth as a guide. If the mismatch without the network costs less than 3 dB, the response may never fall by 3 dB on one side, and the band is shown as open-ended.</p>
+
+          <h2>Practical design notes</h2>
+          <ul>
+            <li><strong>Small values are hard to build.</strong> Below about 1 nH or 0.5 pF, the pads, vias and tracks are comparable to the part. Lay out the footprints first and include their parasitics, or use a printed stub instead.</li>
+            <li><strong>Check self-resonance.</strong> A chip inductor is only an inductor well below its self-resonant frequency, and its Q at the design frequency sets the loss of the match. Look up both in the datasheet at your frequency.</li>
+            <li><strong>E24 is not what you can buy.</strong> RF capacitors below 10 pF usually come in finer steps, such as 0.1 pF, while chip inductors follow their own series. Use the E24 return loss as a guide to how sensitive the match is.</li>
+            <li><strong>High-pass forms block DC</strong> with their series capacitor, and low-pass forms help suppress harmonics. That often decides between two equally good solutions.</li>
+            <li><strong>Leave room to tune.</strong> Fit a pad for a third part (a Pi footprint) even if you plan an L, and finish the match on a network analyser.</li>
+          </ul>
+
+          <h2>Accuracy and limits</h2>
+          <p>The solutions are exact for ideal, lossless parts at one frequency. The tests behind this page check that every one gives Z<sub>S</sub>* to within one part in a million. Real parts add series resistance, parasitic capacitance and inductance, and PCB pads add more. A match on paper is the starting point, and a measurement finishes it. The return loss uses the power-wave reflection coefficient Γ = (Z<sub>in</sub> − Z<sub>S</sub>*)/(Z<sub>in</sub> + Z<sub>S</sub>), which reduces to the usual definition for a real source.</p>
+
+          <h3>References</h3>
+          <ol class="refs">
+            <li>D. M. Pozar, <i>Microwave Engineering</i>, 4th ed., Wiley, 2012. Section 5.1, matching with lumped elements (L networks), and Example 5.1.</li>
+            <li>C. Bowick, <i>RF Circuit Design</i>, 2nd ed., Newnes, 2008. Chapter 4, impedance matching: L, Pi and T networks and their Q.</li>
+            <li>R. Ludwig and P. Bretchko, <i>RF Circuit Design: Theory and Applications</i>, Prentice Hall, 2000. Chapter 8, matching networks and their nodal and loaded Q.</li>
+            <li>K. Kurokawa, "Power Waves and the Scattering Matrix", <i>IEEE Transactions on Microwave Theory and Techniques</i>, vol. 13, no. 2, pp. 194–202, 1965.</li>
+            <li>P. H. Smith, "Transmission Line Calculator", <i>Electronics</i>, vol. 12, January 1939.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container prose-grid">
+        <div class="section-head reveal">
+          <p class="eyebrow">Related</p>
+          <h2>More RF tools.</h2>
+        </div>
+        <div class="link-list reveal">
+          <a href="/tools/vswr"><b>VSWR and return loss converter</b><small>VSWR, return loss, reflection coefficient and mismatch loss</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/trace-impedance"><b>PCB trace impedance calculator</b><small>Microstrip, stripline, differential pairs and coplanar waveguide</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/link-budget"><b>RF link budget calculator</b><small>Path loss, link margin, range and Fresnel zone clearance</small><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="container cta-inner reveal">
+        <div class="cta-dial" aria-hidden="true"></div>
+        <h2>Need a match that holds up on the bench?</h2>
+        <p class="lede">We design RF hardware from 868 MHz and 2.4 GHz up to 3.6 GHz, including the matching networks and antenna feeds. Tell us what you are building.</p>
+        <a href="/rf-design" class="btn btn-large">RF design services <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/img/Logo96.png" alt="" width="28" height="28"><span>CustomPowerLabs</span></a>
+        <p>Prototype engineering consultancy.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Services">
+        <p class="footer-title">Services</p>
+        <a href="/pcb-design">PCB design</a>
+        <a href="/rf-design">RF &amp; wireless</a>
+        <a href="/power-electronics">Power electronics</a>
+        <a href="/firmware">Firmware &amp; FPGA</a>
+        <a href="/mechanical-design">Mechanical &amp; simulation</a>
+        <a href="/prototyping">Prototype build</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Company">
+        <p class="footer-title">Company</p>
+        <a href="/#work">Work</a>
+        <a href="/tools/">Engineering tools</a>
+        <a href="/#process">Process</a>
+        <a href="/#team">Team</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
+        <span>Hampshire, England</span>
+        <span>Working with clients across the UK</span>
+      </div>
+    </div>
+    <div class="container footer-mark" aria-hidden="true">
+      <svg viewBox="0 0 1200 150"><text x="2" y="118" textLength="1196" lengthAdjust="spacing">CustomPowerLabs</text></svg>
+    </div>
+    <div class="container footer-base">
+      <span>© <span data-year>2026</span> CustomPowerLabs. All rights reserved.</span>
+      <span class="footer-social">
+        <a href="https://twitter.com/CustomPowerLabs" target="_blank" rel="noopener">X</a>
+        <a href="https://www.instagram.com/CustomPowerLabs/" target="_blank" rel="noopener">Instagram</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="/script.js?v=20261124a" defer onerror="document.documentElement.classList.remove('js')"></script>
+  <script src="/tools/tools.js?v=20261124a" defer></script>
+  <script src="/tools/matching-network.js?v=20261124a" defer></script>
+</body>
+</html>

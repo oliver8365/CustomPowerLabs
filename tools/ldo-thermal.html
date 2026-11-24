@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LDO Power and Thermal Calculator: Junction Temperature | CustomPowerLabs</title>
+  <meta name="description" content="Free LDO thermal calculator. Work out regulator power dissipation, junction temperature, efficiency, dropout headroom and the maximum safe load current.">
+  <meta name="theme-color" content="#0a0b12">
+  <link rel="canonical" href="https://custompowerlabs.com/tools/ldo-thermal">
+
+  <meta property="og:title" content="LDO power and thermal calculator">
+  <meta property="og:description" content="Free LDO thermal calculator. Work out regulator power dissipation, junction temperature, efficiency, dropout headroom and the maximum safe load current.">
+  <meta property="og:image" content="https://custompowerlabs.com/img/talos-5/og.jpg">
+  <meta property="og:url" content="https://custompowerlabs.com/tools/ldo-thermal">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://custompowerlabs.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tools",
+            "item": "https://custompowerlabs.com/tools/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "LDO power and thermal",
+            "item": "https://custompowerlabs.com/tools/ldo-thermal"
+          }
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "name": "LDO power and thermal calculator",
+        "url": "https://custompowerlabs.com/tools/ldo-thermal",
+        "applicationCategory": "EngineeringApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "GBP"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CustomPowerLabs",
+          "url": "https://custompowerlabs.com"
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script>document.documentElement.classList.add('js');</script>
+
+  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-tight.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/styles.css?v=20261124a">
+  <style>
+    .ldo-dot-bad { fill: var(--error); stroke: var(--bg); stroke-width: 2; }
+    .ldo-halo { paint-order: stroke; stroke: var(--bg); stroke-width: 4px; stroke-linejoin: round; }
+  </style>
+</head>
+<body class="page-tool">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="CustomPowerLabs home">
+        <img src="/img/Logo96.png" alt="" width="28" height="28">
+        <span>CustomPowerLabs</span>
+      </a>
+      <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="/#services">Services</a>
+        <a href="/#work">Work</a>
+        <a href="/tools/" aria-current="page">Tools</a>
+        <a href="/#team">Team</a>
+        <a href="/contact" class="btn btn-small">Start a project</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="container">
+        <ol class="crumbs reveal"><li><a href="/tools/">Tools</a></li><li>Power</li></ol>
+        <h1 class="display display-sm reveal">LDO power and thermal calculator.</h1>
+        <p class="lede reveal">Power dissipation, junction temperature and the safe load current for a linear regulator. Change any value and the results update.</p>
+      </div>
+    </section>
+
+    <section class="section section-tight">
+      <div class="container">
+        <div class="tool" data-tool="ldo-thermal">
+          <form class="tool-inputs" novalidate>
+            <div>
+              <p class="tool-label" id="presets-label">Start from</p>
+              <div class="presets" role="group" aria-labelledby="presets-label">
+                <button type="button" data-preset="sot23">5 V to 3.3 V, SOT-23-5</button>
+                <button type="button" data-preset="sot223">12 V to 5 V, SOT-223</button>
+                <button type="button" data-preset="dfn">3.3 V to 1.8 V, 2×2 mm DFN</button>
+              </div>
+            </div>
+
+            <fieldset>
+              <legend>Electrical</legend>
+              <div class="tool-group">
+                <div class="field">
+                  <label for="vin">Input voltage</label>
+                  <div class="unit-input"><input id="vin" name="vin" type="text" inputmode="decimal" value="5" data-gt="0" autocomplete="off"><span>V</span></div>
+                </div>
+                <div class="field">
+                  <label for="vout">Output voltage</label>
+                  <div class="unit-input"><input id="vout" name="vout" type="text" inputmode="decimal" value="3.3" data-gt="0" autocomplete="off"><span>V</span></div>
+                </div>
+                <div class="field">
+                  <label for="iload">Load current</label>
+                  <div class="unit-input">
+                    <input id="iload" name="iload" type="text" inputmode="decimal" value="250" data-min="0" autocomplete="off">
+                    <select name="iload_u" aria-label="Load current unit"><option value="1e-3" selected>mA</option><option value="1">A</option></select>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="ignd">Ground current</label>
+                  <div class="unit-input">
+                    <input id="ignd" name="ignd" type="text" inputmode="decimal" value="0.5" data-min="0" autocomplete="off">
+                    <select name="ignd_u" aria-label="Ground current unit"><option value="1e-6">µA</option><option value="1e-3" selected>mA</option></select>
+                  </div>
+                </div>
+                <div class="field field-full">
+                  <label for="vdo">Dropout voltage at this load</label>
+                  <div class="unit-input">
+                    <input id="vdo" name="vdo" type="text" inputmode="decimal" value="250" data-min="0" autocomplete="off">
+                    <select name="vdo_u" aria-label="Dropout voltage unit"><option value="1e-3" selected>mV</option><option value="1">V</option></select>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Thermal</legend>
+              <div class="tool-group">
+                <div class="field field-full">
+                  <label for="theta">Thermal resistance, junction to ambient (θ<sub>JA</sub>)</label>
+                  <div class="unit-input"><input id="theta" name="theta" type="text" inputmode="decimal" value="180" data-gt="0" autocomplete="off"><span>°C/W</span></div>
+                </div>
+                <div class="field">
+                  <label for="ta">Ambient temperature</label>
+                  <div class="unit-input"><input id="ta" name="ta" type="text" inputmode="decimal" value="40" data-min="-273" autocomplete="off"><span>°C</span></div>
+                </div>
+                <div class="field">
+                  <label for="tjmax">Maximum junction temperature</label>
+                  <div class="unit-input"><input id="tjmax" name="tjmax" type="text" inputmode="decimal" value="125" data-min="-273" autocomplete="off"><span>°C</span></div>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="tool-actions">
+              <button type="button" class="btn btn-ghost btn-small" data-tool-share>Copy link to these values</button>
+              <button type="button" class="btn btn-ghost btn-small" data-tool-reset>Reset</button>
+            </div>
+          </form>
+
+          <div class="tool-results">
+            <noscript><p class="tool-nojs">This calculator needs JavaScript. The equations it uses are written out below.</p></noscript>
+            <dl class="readouts">
+              <div class="readout readout-main"><dt>Junction temperature</dt><dd><span data-out="tj">—</span><small>°C</small></dd></div>
+            </dl>
+            <p class="tool-note" data-out="verdict" aria-live="polite"></p>
+            <p class="tool-warn" data-warn hidden aria-live="polite"></p>
+            <dl class="readouts">
+              <div class="readout"><dt>Power dissipated</dt><dd data-out="pd">—</dd></div>
+              <div class="readout"><dt>Efficiency</dt><dd data-out="eff">—</dd></div>
+              <div class="readout"><dt>Input to output headroom</dt><dd data-out="headroom">—</dd></div>
+              <div class="readout"><dt>Headroom beyond dropout</dt><dd data-out="spare">—</dd></div>
+              <div class="readout"><dt>Lowest input that regulates</dt><dd data-out="vinMin">—</dd></div>
+              <div class="readout"><dt>Most dissipation allowed</dt><dd data-out="pmax">—</dd></div>
+              <div class="readout"><dt>Maximum load current</dt><dd data-out="imax">—</dd></div>
+              <div class="readout"><dt>Maximum ambient</dt><dd data-out="tamax">—</dd></div>
+              <div class="readout"><dt>Highest θ<sub>JA</sub> allowed</dt><dd data-out="thetaMax">—</dd></div>
+            </dl>
+            <figure class="tool-figure">
+              <svg viewBox="0 0 640 280" role="img" aria-label="Junction temperature against load current, with the maximum junction temperature marked" data-chart></svg>
+              <figcaption>Junction temperature against load current at this input voltage and ambient. It rises in a straight line, at (V<sub>IN</sub> − V<sub>OUT</sub>)·θ<sub>JA</sub> per amp.</figcaption>
+            </figure>
+            <p class="tool-note">Steady state, still air, with θ<sub>JA</sub> treated as a constant. Your board's real θ<sub>JA</sub> can differ a lot from the datasheet figure: see the notes below.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="article">
+          <h2>How to use it</h2>
+          <p>Enter the highest input voltage the regulator will see, the load current, and the ground current from the datasheet at that load. Take the dropout voltage at the same current and at your hottest temperature, since it rises with both. For the thermal resistance, start with the datasheet θ<sub>JA</sub> and then read the section below on why your board may be better or worse. Set the ambient to the air temperature inside the enclosure, not the room.</p>
+
+          <h2>The equations</h2>
+          <p>A linear regulator drops the difference between input and output across its pass transistor, at the full load current. The ground current, which runs the regulator itself, flows from the input to ground and adds a little more. All of it becomes heat.</p>
+          <div class="formula">P<sub>D</sub> = (V<sub>IN</sub> − V<sub>OUT</sub>) · I<sub>LOAD</sub> + V<sub>IN</sub> · I<sub>GND</sub>
+T<sub>J</sub> = T<sub>A</sub> + θ<sub>JA</sub> · P<sub>D</sub>
+η = V<sub>OUT</sub> · I<sub>LOAD</sub> / (V<sub>IN</sub> · (I<sub>LOAD</sub> + I<sub>GND</sub>))
+I<sub>LOAD(max)</sub> = ((T<sub>J(max)</sub> − T<sub>A</sub>) / θ<sub>JA</sub> − V<sub>IN</sub> · I<sub>GND</sub>) / (V<sub>IN</sub> − V<sub>OUT</sub>)
+T<sub>A(max)</sub> = T<sub>J(max)</sub> − θ<sub>JA</sub> · P<sub>D</sub>        θ<sub>JA(max)</sub> = (T<sub>J(max)</sub> − T<sub>A</sub>) / P<sub>D</sub>
+V<sub>IN(min)</sub> = V<sub>OUT</sub> + V<sub>DO</sub></div>
+          <p>Efficiency can never be better than V<sub>OUT</sub> / V<sub>IN</sub>. Dropping 12 V to 3.3 V wastes at least 72% of the input power, whatever the regulator.</p>
+
+          <p><strong>Worked example.</strong> The default values: 5 V to 3.3 V at 250 mA, with 0.5 mA of ground current, in a SOT-23-5 package with θ<sub>JA</sub> = 180 °C/W at 40 °C ambient. P<sub>D</sub> = 1.7 × 0.25 + 5 × 0.0005 = 0.4275 W. T<sub>J</sub> = 40 + 180 × 0.4275 = 117.0 °C, which is 8 °C inside a 125 °C limit. The 85 °C of allowed rise lets the package shed 85 / 180 = 0.472 W, so the most load current it can take is (0.472 − 0.0025) / 1.7 = 276 mA. At 250 mA the ambient must stay below about 48 °C. Efficiency is 65.9%.</p>
+
+          <h2>Rough θ<sub>JA</sub> by package</h2>
+          <p>These ranges are only a guide to the order of magnitude, for parts on a JEDEC high-conductivity test board in still air. The same package varies widely between manufacturers and die sizes. Use the figure from your part's datasheet.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Package</th><th class="num">θ<sub>JA</sub>, rough range</th><th class="num">Power for an 85 °C rise</th></tr></thead>
+              <tbody>
+                <tr><td>SC-70-5</td><td class="num">250 to 350 °C/W</td><td class="num">0.24 to 0.34 W</td></tr>
+                <tr><td>SOT-23-5</td><td class="num">180 to 250 °C/W</td><td class="num">0.34 to 0.47 W</td></tr>
+                <tr><td>SOIC-8, no exposed pad</td><td class="num">100 to 160 °C/W</td><td class="num">0.53 to 0.85 W</td></tr>
+                <tr><td>2×2 mm DFN with exposed pad</td><td class="num">60 to 100 °C/W</td><td class="num">0.85 to 1.4 W</td></tr>
+                <tr><td>SOT-223</td><td class="num">50 to 100 °C/W</td><td class="num">0.85 to 1.7 W</td></tr>
+                <tr><td>TO-252 (DPAK)</td><td class="num">30 to 60 °C/W</td><td class="num">1.4 to 2.8 W</td></tr>
+                <tr><td>TO-263 (D²PAK)</td><td class="num">25 to 45 °C/W</td><td class="num">1.9 to 3.4 W</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Why the datasheet θ<sub>JA</sub> is not your board's</h2>
+          <p>θ<sub>JA</sub> is not a property of the package alone. It is measured with the part mounted on a standard test board, defined in the JEDEC JESD51 series, in still air. JESD51-7 describes a high effective thermal conductivity board with two internal copper planes, and JESD51-3 a low-conductivity single-layer board. Most heat leaves through the pins and exposed pad into the copper, so the board does much of the work.</p>
+          <p>Your board can be better or worse than the test board:</p>
+          <ul>
+            <li><strong>Copper area.</strong> A wide copper pour on the pins and pad that carry heat, ideally the ground and output nets, spreads heat out. A small part with only thin traces can be far worse than the datasheet figure.</li>
+            <li><strong>Thermal vias.</strong> For exposed-pad packages, an array of vias under the pad into an internal or bottom-side plane is often the biggest single improvement. Follow the land pattern in the datasheet.</li>
+            <li><strong>Neighbours and enclosure.</strong> Other hot parts nearby, a sealed box, or a board mounted flat against a surface all raise the effective ambient.</li>
+          </ul>
+          <p>Many datasheets give a curve of θ<sub>JA</sub> against copper area. When the margin is thin, measure: run the board at full load in its enclosure and check the case temperature.</p>
+
+          <h2>When to use θ<sub>JC</sub> or Ψ<sub>JT</sub> instead</h2>
+          <p>θ<sub>JC</sub> is the resistance from junction to the case surface when nearly all the heat is forced out through that surface, as with a heatsink clamped to a TO-220 tab. Use it to add a heatsink's resistance in series. It does not predict T<sub>J</sub> for a part on a board without a heatsink, because in that case most heat does not take that path.</p>
+          <p>Ψ<sub>JT</sub> is a characterisation parameter, not a thermal resistance. It links the junction to the top of the package under normal mounting, where only a little of the heat leaves through the top. That makes it the right number for checking a real board: measure the top of the package with a thermocouple or thermal camera, then T<sub>J</sub> ≈ T<sub>TOP</sub> + Ψ<sub>JT</sub> · P<sub>D</sub>. Ψ<sub>JT</sub> is usually small, so the case temperature is close to the junction temperature.</p>
+
+          <h2>When to switch to a buck converter</h2>
+          <p>An LDO is the right choice when the voltage drop is small, the current is modest, or the rail needs low noise, such as an RF synthesiser, an ADC reference or a sensor supply. Consider a switching regulator when:</p>
+          <ul>
+            <li>The dissipation needs a bigger package or more copper than the board can give.</li>
+            <li>The input is more than about twice the output at more than a few hundred milliamps.</li>
+            <li>The product runs from a battery and the wasted power shortens its life.</li>
+          </ul>
+          <p>A common compromise is a buck converter to get close to the output voltage, followed by an LDO with a few hundred millivolts of headroom to clean up the switching ripple. Use our <a href="/tools/buck-converter">buck converter calculator</a> to size one.</p>
+
+          <h2>Accuracy and limits</h2>
+          <p>The equations are exact for steady state, but the answer is only as good as θ<sub>JA</sub>, which can be out by a factor of two between a test board and a real one. Ground current is treated as constant. In practice it rises with load, and in some regulators it rises sharply near dropout. Dropout voltage rises with temperature. Short load pulses heat the junction less than this predicts because the package has thermal mass. Thermal shutdown protects most regulators, but it is a fault condition, not an operating point.</p>
+
+          <h3>References</h3>
+          <ol class="refs">
+            <li>Texas Instruments, <i>Technical Review of Low Dropout Voltage Regulator Operation and Performance</i>, application report SLVA118.</li>
+            <li>Texas Instruments, <i>Semiconductor and IC Package Thermal Metrics</i>, application report SPRA953.</li>
+            <li>JEDEC JESD51-2, <i>Integrated Circuits Thermal Test Method Environmental Conditions: Natural Convection (Still Air)</i>.</li>
+            <li>JEDEC JESD51-7, <i>High Effective Thermal Conductivity Test Board for Leaded Surface Mount Packages</i>.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container prose-grid">
+        <div class="section-head reveal">
+          <p class="eyebrow">Related</p>
+          <h2>More engineering tools.</h2>
+        </div>
+        <div class="link-list reveal">
+          <a href="/tools/buck-converter"><b>Buck converter calculator</b><small>Inductor, capacitors, ripple and minimum on-time</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/trace-impedance"><b>PCB trace impedance calculator</b><small>Microstrip, stripline, differential pairs and coplanar waveguide</small><span aria-hidden="true">→</span></a>
+          <a href="/tools/link-budget"><b>RF link budget calculator</b><small>Path loss, received power, link margin and range</small><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="container cta-inner reveal">
+        <div class="cta-dial" aria-hidden="true"></div>
+        <h2>Running out of thermal margin?</h2>
+        <p class="lede">We design AC/DC, DC/DC and DC/AC power conversion, up to three-phase motor drives with field-oriented control. Tell us what you need to power.</p>
+        <a href="/power-electronics" class="btn btn-large">Power electronics services <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="/"><img src="/img/Logo96.png" alt="" width="28" height="28"><span>CustomPowerLabs</span></a>
+        <p>Prototype engineering consultancy.</p>
+      </div>
+      <nav class="footer-nav" aria-label="Services">
+        <p class="footer-title">Services</p>
+        <a href="/pcb-design">PCB design</a>
+        <a href="/rf-design">RF &amp; wireless</a>
+        <a href="/power-electronics">Power electronics</a>
+        <a href="/firmware">Firmware &amp; FPGA</a>
+        <a href="/mechanical-design">Mechanical &amp; simulation</a>
+        <a href="/prototyping">Prototype build</a>
+      </nav>
+      <nav class="footer-nav" aria-label="Company">
+        <p class="footer-title">Company</p>
+        <a href="/#work">Work</a>
+        <a href="/tools/">Engineering tools</a>
+        <a href="/#process">Process</a>
+        <a href="/#team">Team</a>
+        <a href="/contact">Contact</a>
+        <a href="/privacy">Privacy</a>
+      </nav>
+      <div class="footer-contact">
+        <a href="mailto:info@custompowerlabs.com">info@custompowerlabs.com</a>
+        <span>Hampshire, England</span>
+        <span>Working with clients across the UK</span>
+      </div>
+    </div>
+    <div class="container footer-mark" aria-hidden="true">
+      <svg viewBox="0 0 1200 150"><text x="2" y="118" textLength="1196" lengthAdjust="spacing">CustomPowerLabs</text></svg>
+    </div>
+    <div class="container footer-base">
+      <span>© <span data-year>2026</span> CustomPowerLabs. All rights reserved.</span>
+      <span class="footer-social">
+        <a href="https://twitter.com/CustomPowerLabs" target="_blank" rel="noopener">X</a>
+        <a href="https://www.instagram.com/CustomPowerLabs/" target="_blank" rel="noopener">Instagram</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="/script.js?v=20261124a" defer onerror="document.documentElement.classList.remove('js')"></script>
+  <script src="/tools/tools.js?v=20261124a" defer></script>
+  <script src="/tools/ldo-thermal.js?v=20261124a" defer></script>
+</body>
+</html>
